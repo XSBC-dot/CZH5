@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>脑卒中知识互动测试</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0077B6',
+                        secondary: '#48CAE4',
+                        accent: '#023E8A',
+                        light: '#E0F2FE',
+                        dark: '#023E8A',
+                        warning: '#FB8500',
+                        danger: '#D00000',
+                        success: '#06D6A0',
+                        neutral: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1E293B',
+                            900: '#0F172A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .btn-primary {
+                @apply bg-primary text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:bg-accent transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-secondary/30 active:scale-[0.98];
+            }
+            .btn-secondary {
+                @apply bg-white text-primary font-semibold py-3 px-6 rounded-xl shadow-md border-2 border-primary hover:bg-light transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-secondary/30 active:scale-[0.98];
+            }
+            .card {
+                @apply bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-lg border border-neutral-100;
+            }
+            .input-field {
+                @apply w-full px-4 py-3 text-lg border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200;
+            }
+            .radio-label {
+                @apply flex items-center p-4 border border-neutral-200 rounded-xl cursor-pointer transition-all duration-200 hover:bg-light hover:border-primary/30;
+            }
+            .radio-label.active {
+                @apply bg-light border-primary shadow-sm;
+            }
+            .step-indicator {
+                @apply w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-bold transition-all duration-300;
+            }
+            .step-indicator.active {
+                @apply bg-primary text-white;
+            }
+            .step-indicator.completed {
+                @apply bg-success text-white;
+            }
+            .page-content {
+                @apply pb-20; /* 添加底部内边距，避免被导航栏遮挡 */
+            }
+            .bottom-actions {
+                @apply mb-20; /* 添加底部外边距，避免被导航栏遮挡 */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 加载动画 -->
+    <div id="loading" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/10 z-50">
+        <div class="flex flex-col items-center">
+            <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 text-lg text-primary font-semibold">正在加载健康测试...</p>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div id="app" class="max-w-md mx-auto min-h-screen bg-neutral-50 shadow-xl overflow-hidden">
+        <!-- 页面容器 -->
+        <div id="pages" class="relative">
+            <!-- 引导页 -->
+            <div id="intro-page" class="page active min-h-screen flex flex-col">
+                <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/b76c5e540ea4466cb1d884feea879d9e~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202604071821017B57216C8DC782B8300A&rrcfp=f06b921b&x-expires=1778149294&x-signature=VgFNusulwJTvBdMj7JIEOCgel%2BI%3D" 
+                         alt="脑卒中知识互动测试" 
+                         class="w-64 h-64 object-contain mb-8 animate-pulse-slow">
+                    <h1 class="text-[clamp(2rem,5vw,2.5rem)] font-bold text-neutral-800 mb-4">2026脑卒中防控新指南</h1>
+                    <p class="text-[clamp(1rem,3vw,1.25rem)] text-neutral-600 mb-8 max-w-xs text-center">智能筛查·精准干预·全程管理·新技术赋能</p>
+                    <div class="bg-primary/10 rounded-xl p-4 mb-6 w-full max-w-xs">
+                        <p class="text-primary font-medium text-center">2026年主题：<span class="font-bold">早识别·早干预·早康复</span></p>
+                    </div></p>
+                    <div class="w-full max-w-xs">
+                        <button id="start-btn" class="btn-primary w-full mb-4">
+                            <i class="fa fa-play-circle mr-2"></i>开始测试
+                        </button>
+                        <button id="about-btn" class="btn-secondary w-full">
+                            <i class="fa fa-info-circle mr-2"></i>了解更多
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-light py-4 px-6 text-center border-t border-neutral-100">
+                    <p class="text-sm text-neutral-500">本测试仅供参考，不能替代专业医疗诊断</p>
+                </div>
+            </div>
+
+            <!-- 关于页面 -->
+            <div id="about-page" class="page hidden min-h-screen flex flex-col">
+                <header class="bg-gradient-to-r from-primary to-secondary text-white p-4 flex items-center shadow-sm">
+                    <button class="back-btn mr-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold">关于脑卒中</h2>
+                </header>
+                <div class="flex-1 overflow-y-auto p-6 page-content">
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">2026年脑卒中新认知</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                <i class="fa fa-lightbulb-o text-primary text-xl"></i>
+                            </div>
+                            <p class="text-neutral-800 font-medium">脑卒中不再是"老年病"</p>
+                        </div>
+                        <p class="text-neutral-700 mb-4">最新数据显示，我国脑卒中发病年龄正以每10年约3岁的速度提前，40岁以下人群发病率已占总数的10%。</p>
+                        <p class="text-neutral-700 mb-4">脑卒中分为缺血性（占70%-80%）和出血性两大类，具有高发病率、高死亡率、高致残率和高复发率的特点。</p>
+                        <div class="bg-neutral-50 rounded-lg p-3 border-l-4 border-warning">
+                            <p class="text-neutral-700 text-sm"><i class="fa fa-info-circle text-warning mr-2"></i>2026年新观点：脑卒中是可防可控的慢性疾病，早期干预可显著降低发病风险。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">脑卒中的危害</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>可能导致永久性残疾</li>
+                            <li>影响语言、运动和认知功能</li>
+                            <li>增加心脏病发作风险</li>
+                            <li>可能导致死亡</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">FAST原则</h3>
+                        <p class="text-gray-700 mb-4">FAST是识别脑卒中症状的简单方法：</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col items-center p-3 bg-light rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mb-2">F</div>
+                                <p class="text-center font-semibold">面部下垂</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 bg-light rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mb-2">A</div>
+                                <p class="text-center font-semibold">手臂无力</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 bg-light rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mb-2">S</div>
+                                <p class="text-center font-semibold">言语障碍</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 bg-light rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mb-2">T</div>
+                                <p class="text-center font-semibold">及时就医</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">2026脑卒中防控新技术</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
+                                    <i class="fa fa-heartbeat text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-neutral-800">智能血压管理</h4>
+                                    <p class="text-neutral-700 text-sm">远程智能血压监测+AI分析预警，实现高血压精准管理</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
+                                    <i class="fa fa-brain text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-neutral-800">脑小血管病变早期筛查</h4>
+                                    <p class="text-neutral-700 text-sm">基于AI的视网膜图像分析技术，早期发现脑小血管病变风险</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
+                                    <i class="fa fa-robot text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-neutral-800">AI辅助诊断系统</h4>
+                                    <p class="text-neutral-700 text-sm">AI算法+多模态影像融合，提高超早期脑梗死诊断准确率</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
+                                    <i class="fa fa-wifi text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-neutral-800">5G远程卒中救治</h4>
+                                    <p class="text-neutral-700 text-sm">5G网络+远程机器人技术，突破地域限制，实现优质医疗资源下沉</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="text-xl font-bold text-primary mb-4">2026精准预防新策略</h3>
+                        <div class="space-y-3">
+                            <div class="bg-light rounded-lg p-3">
+                                <h4 class="font-bold text-neutral-800 mb-1">个体化风险评估</h4>
+                                <p class="text-neutral-700 text-sm">结合基因组学、蛋白组学等多组学数据，实现脑卒中风险精准分层</p>
+                            </div>
+                            <div class="bg-light rounded-lg p-3">
+                                <h4 class="font-bold text-neutral-800 mb-1">精准生活方式干预</h4>
+                                <p class="text-neutral-700 text-sm">基于数字孪生技术，为个体定制最优生活方式干预方案</p>
+                            </div>
+                            <div class="bg-light rounded-lg p-3">
+                                <h4 class="font-bold text-neutral-800 mb-1">全程健康管理</h4>
+                                <p class="text-neutral-700 text-sm">从预防-治疗-康复-随访的闭环管理模式，降低复发风险</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 风险评估问卷页面 -->
+            <div id="risk-assessment-page" class="page hidden min-h-screen flex flex-col">
+                <header class="bg-primary text-white p-4 flex items-center">
+                    <button class="back-btn mr-4">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold">脑卒中风险自测</h2>
+                </header>
+                
+                <!-- 进度指示器 -->
+                <div class="flex justify-between items-center px-6 py-4 bg-light">
+                    <div class="flex flex-col items-center">
+                        <div class="step-indicator active" data-step="1">1</div>
+                        <span class="text-xs mt-1">基本信息</span>
+                    </div>
+                    <div class="flex-1 h-1 mx-2 bg-gray-300">
+                        <div class="h-full bg-primary" style="width: 0%;" id="progress-bar"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="step-indicator" data-step="2">2</div>
+                        <span class="text-xs mt-1">健康状况</span>
+                    </div>
+                    <div class="flex-1 h-1 mx-2 bg-gray-300">
+                        <div class="h-full bg-primary" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="step-indicator" data-step="3">3</div>
+                        <span class="text-xs mt-1">生活习惯</span>
+                    </div>
+                    <div class="flex-1 h-1 mx-2 bg-gray-300">
+                        <div class="h-full bg-primary" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="step-indicator" data-step="4">4</div>
+                        <span class="text-xs mt-1">结果</span>
+                    </div>
+                </div>
+                
+                <div class="flex-1 overflow-y-auto p-6 page-content">
+                    <!-- 问卷步骤容器 -->
+                    <div id="questionnaire-container">
+                        <!-- 步骤1：基本信息 -->
+                        <div class="question-step active" data-step="1">
+                            <h3 class="text-xl font-bold text-gray-800 mb-6">基本信息</h3>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">年龄</label>
+                                <select id="age" class="input-field">
+                                    <option value="">请选择</option>
+                                    <option value="1">40岁以下</option>
+                                    <option value="2">40-49岁</option>
+                                    <option value="3">50-59岁</option>
+                                    <option value="4">60-69岁</option>
+                                    <option value="5">70岁以上</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">性别</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="gender" value="male" class="mr-3">
+                                        <span>男</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="gender" value="female" class="mr-3">
+                                        <span>女</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">身高 (cm)</label>
+                                <input type="number" id="height" class="input-field" placeholder="请输入身高">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">体重 (kg)</label>
+                                <input type="number" id="weight" class="input-field" placeholder="请输入体重">
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤2：健康状况 -->
+                        <div class="question-step hidden" data-step="2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-6">健康状况</h3>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您是否有高血压？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="hypertension" value="yes" class="mr-3">
+                                        <span>是</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="hypertension" value="no" class="mr-3">
+                                        <span>否</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您是否有糖尿病？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="diabetes" value="yes" class="mr-3">
+                                        <span>是</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="diabetes" value="no" class="mr-3">
+                                        <span>否</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您是否有心脏病？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="heart_disease" value="yes" class="mr-3">
+                                        <span>是</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="heart_disease" value="no" class="mr-3">
+                                        <span>否</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您的直系亲属（父母、兄弟姐妹）是否有脑卒中病史？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="family_history" value="yes" class="mr-3">
+                                        <span>是</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="family_history" value="no" class="mr-3">
+                                        <span>否</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤3：生活习惯 -->
+                        <div class="question-step hidden" data-step="3">
+                            <h3 class="text-xl font-bold text-gray-800 mb-6">生活习惯</h3>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您是否吸烟？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="smoking" value="yes" class="mr-3">
+                                        <span>是</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="smoking" value="no" class="mr-3">
+                                        <span>否</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您是否饮酒？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="drinking" value="often" class="mr-3">
+                                        <span>经常</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="drinking" value="sometimes" class="mr-3">
+                                        <span>偶尔</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="drinking" value="never" class="mr-3">
+                                        <span>从不</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您的运动情况？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="exercise" value="regular" class="mr-3">
+                                        <span>规律运动</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="exercise" value="sometimes" class="mr-3">
+                                        <span>偶尔运动</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="exercise" value="never" class="mr-3">
+                                        <span>几乎不运动</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-medium mb-2">您的饮食口味？</label>
+                                <div class="flex space-x-4">
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="diet" value="salty" class="mr-3">
+                                        <span>偏咸</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="diet" value="normal" class="mr-3">
+                                        <span>适中</span>
+                                    </label>
+                                    <label class="radio-label flex-1">
+                                        <input type="radio" name="diet" value="light" class="mr-3">
+                                        <span>清淡</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤4：评估结果 -->
+                        <div class="question-step hidden" data-step="4">
+                            <div class="text-center mb-8">
+                                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/7db17e84f2ae4107b8eb3bcf2ae14e6c~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202604071821017B57216C8DC782B8300A&rrcfp=f06b921b&x-expires=1778149304&x-signature=imvpzgNPhpl3W0SlUtXlekHMoEQ%3D" 
+                                     alt="脑卒中风险评估结果" 
+                                     class="w-64 h-64 object-contain mx-auto mb-4">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">脑卒中风险评估结果</h3>
+                                <div class="inline-block px-6 py-2 rounded-full text-white text-xl font-bold mb-4" id="risk-level-badge">
+                                    低风险
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-6">
+                                <h4 class="text-lg font-bold text-primary mb-4">风险因素分析</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-gray-700">高血压</span>
+                                            <span class="text-gray-700 font-medium" id="hypertension-score">低</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" id="hypertension-bar" style="width: 20%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-gray-700">糖尿病</span>
+                                            <span class="text-gray-700 font-medium" id="diabetes-score">低</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" id="diabetes-bar" style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-gray-700">心脏健康</span>
+                                            <span class="text-gray-700 font-medium" id="heart-score">中</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" id="heart-bar" style="width: 50%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-gray-700">生活方式</span>
+                                            <span class="text-gray-700 font-medium" id="lifestyle-score">中</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" id="lifestyle-bar" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-6">
+                                <h4 class="text-lg font-bold text-primary mb-4">健康建议</h4>
+                                <ul class="list-disc pl-5 text-gray-700 space-y-2" id="health-recommendations">
+                                    <li>保持规律运动，每周至少150分钟中等强度有氧运动</li>
+                                    <li>均衡饮食，多摄入蔬菜水果，减少盐分和油脂摄入</li>
+                                    <li>定期监测血压、血糖和血脂水平</li>
+                                    <li>保持健康体重，控制腰围</li>
+                                    <li>戒烟限酒，避免过度劳累和情绪激动</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card">
+                                <h4 class="text-lg font-bold text-danger mb-4">重要提醒</h4>
+                                <p class="text-gray-700">本测试结果仅供参考，不能替代专业医疗诊断。如果您有任何健康 concerns，请及时咨询医生。</p>
+                                <p class="text-gray-700 mt-4 font-medium">记住FAST原则，及时识别脑卒中症状，把握黄金救治时间！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 bg-light bottom-actions">
+                    <div class="flex space-x-4">
+                        <button id="prev-btn" class="btn-secondary flex-1" disabled>
+                            <i class="fa fa-arrow-left mr-2"></i>上一步
+                        </button>
+                        <button id="next-btn" class="btn-primary flex-1">
+                            下一步<i class="fa fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 症状识别互动页面 -->
+            <div id="symptom-recognition-page" class="page hidden min-h-screen flex flex-col">
+                <header class="bg-primary text-white p-4 flex items-center">
+                    <button class="back-btn mr-4">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold">脑卒中症状识别</h2>
+                </header>
+                
+                <div class="flex-1 overflow-y-auto p-6 page-content">
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">2026智能症状识别测试</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                                <i class="fa fa-microchip text-primary"></i>
+                            </div>
+                            <p class="text-neutral-800 font-medium">基于真实案例的AI辅助识别训练</p>
+                        </div>
+                        <p class="text-neutral-700 mb-4">以下是临床常见的脑卒中发作场景，请根据2026年新版FAST-ED原则判断是否为脑卒中症状。</p>
+                        <div class="bg-primary/5 rounded-lg p-3 border-l-4 border-primary">
+                            <p class="text-neutral-700 text-sm"><i class="fa fa-lightbulb-o text-primary mr-2"></i>提示：2026年研究表明，约30%的脑卒中患者仅表现为非典型症状，容易被忽视！</p>
+                        </div>
+                    </div>
+                    
+                    <div id="symptom-test-container">
+                        <!-- 测试题目将通过JavaScript动态生成 -->
+                    </div>
+                    
+                    <div id="symptom-result" class="hidden">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">测试结果</h3>
+                            <p class="text-xl text-gray-700">您答对了 <span id="correct-count">0</span> 题，共 <span id="total-count">5</span> 题</p>
+                        </div>
+                        
+                        <div class="card mb-6">
+                            <h4 class="text-lg font-bold text-primary mb-4">脑卒中主要症状</h4>
+                            <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/926199776058671135~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1791109272&x-signature=cQtJFmokwfQCZNYSNSVqK1V8YHY%3D" 
+                                 alt="脑卒中症状" 
+                                 class="w-full h-auto rounded-lg mb-4">
+                            <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                                <li><span class="font-medium">面部下垂</span>：一侧面部麻木或口角歪斜</li>
+                                <li><span class="font-medium">手臂无力</span>：一侧手臂无力或无法抬举</li>
+                                <li><span class="font-medium">言语障碍</span>：说话含糊不清或无法理解他人语言</li>
+                                <li><span class="font-medium">视力问题</span>：单眼或双眼视力模糊</li>
+                                <li><span class="font-medium">平衡障碍</span>：走路不稳，失去平衡</li>
+                                <li><span class="font-medium">剧烈头痛</span>：突然发生的剧烈头痛</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h4 class="text-lg font-bold text-danger mb-4">重要提醒</h4>
+                            <p class="text-gray-700">如果您或身边的人出现上述症状，即使症状轻微或短暂，也应立即拨打急救电话120！</p>
+                            <p class="text-gray-700 mt-4 font-medium">时间就是大脑，早一分钟就医，多一分康复希望！</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 bg-light bottom-actions">
+                    <button id="start-symptom-test" class="btn-primary w-full">
+                        <i class="fa fa-play-circle mr-2"></i>开始测试
+                    </button>
+                    <button id="restart-symptom-test" class="btn-primary w-full hidden">
+                        <i class="fa fa-refresh mr-2"></i>重新测试
+                    </button>
+                </div>
+            </div>
+
+            <!-- FAST原则科普页面 -->
+            <div id="fast-principle-page" class="page hidden min-h-screen flex flex-col">
+                <header class="bg-primary text-white p-4 flex items-center">
+                    <button class="back-btn mr-4">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold">FAST原则科普</h2>
+                </header>
+                
+                <div class="flex-1 overflow-y-auto p-6 page-content">
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">什么是FAST原则？</h3>
+                        <p class="text-gray-700 mb-4">FAST是国际通用的脑卒中早期症状识别方法，通过四个简单步骤，可以快速识别脑卒中症状，把握黄金救治时间。</p>
+                        <img src="https://p26-doubao-search-sign.byteimg.com/pgc-image/01750b1d07e84bc4adc29cc4d004624f~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1791109272&x-signature=jabERDxMDn%2FFDBC%2FZCDUB57B2II%3D" 
+                             alt="FAST原则" 
+                             class="w-full h-auto rounded-lg mb-4">
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- F - Face面部下垂 -->
+                        <div class="card">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mr-4 flex-shrink-0">F</div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 mb-2">Face 面部下垂</h4>
+                                    <p class="text-gray-700 mb-3">请患者微笑，观察是否有一侧面部下垂或口角歪斜。</p>
+                                    <div class="bg-light p-3 rounded-lg">
+                                        <p class="text-gray-700"><i class="fa fa-info-circle text-primary mr-2"></i>提示：脑卒中导致的面部不对称通常是突然出现的，与既往存在的面部不对称不同。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- A - Arm手臂无力 -->
+                        <div class="card">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mr-4 flex-shrink-0">A</div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 mb-2">Arm 手臂无力</h4>
+                                    <p class="text-gray-700 mb-3">请患者双手平举，观察是否有一侧手臂下落或无法抬起。</p>
+                                    <div class="bg-light p-3 rounded-lg">
+                                        <p class="text-gray-700"><i class="fa fa-info-circle text-primary mr-2"></i>提示：让患者闭上眼睛，双手平举10秒钟，这样可以更明显地观察到一侧手臂的下落。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- S - Speech言语障碍 -->
+                        <div class="card">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold mr-4 flex-shrink-0">S</div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 mb-2">Speech 言语障碍</h4>
+                                    <p class="text-gray-700 mb-3">请患者重复一句话，观察是否有言语含糊、不清或无法理解。</p>
+                                    <div class="bg-light p-3 rounded-lg">
+                                        <p class="text-gray-700"><i class="fa fa-info-circle text-primary mr-2"></i>提示：可以让患者说"我现在在医院"或"今天天气很好"这样的简单句子。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- T - Time及时就医 -->
+                        <div class="card">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-danger text-white flex items-center justify-center text-2xl font-bold mr-4 flex-shrink-0">T</div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-gray-800 mb-2">Time 及时就医</h4>
+                                    <p class="text-gray-700 mb-3">如果发现上述任何症状，立即拨打急救电话120，争取黄金救治时间。</p>
+                                    <div class="bg-danger bg-opacity-10 p-3 rounded-lg">
+                                        <p class="text-gray-700"><i class="fa fa-exclamation-circle text-danger mr-2"></i>重要提示：脑卒中救治的黄金时间窗是发病后4.5小时内，越早治疗，预后越好！</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-6">
+                        <h4 class="text-lg font-bold text-primary mb-4">FAST原则动画演示</h4>
+                        <div class="relative w-full h-80 bg-gray-100 rounded-lg overflow-hidden">
+                            <div id="fast-animation" class="w-full h-full">
+                                <!-- 动画内容将通过JavaScript动态生成 -->
+                                <div class="flex flex-col items-center justify-center h-full">
+                                    <div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div>
+                                    <p class="text-lg text-gray-700">点击下方按钮开始动画演示</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-center">
+                            <button id="play-fast-animation" class="btn-primary">
+                                <i class="fa fa-play mr-2"></i>播放动画
+                            </button>
+                            <button id="pause-fast-animation" class="btn-secondary ml-4 hidden">
+                                <i class="fa fa-pause mr-2"></i>暂停
+                            </button>
+                            <button id="reset-fast-animation" class="btn-secondary ml-4 hidden">
+                                <i class="fa fa-refresh mr-2"></i>重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 急救指导页面 -->
+            <div id="first-aid-page" class="page hidden min-h-screen flex flex-col">
+                <header class="bg-primary text-white p-4 flex items-center">
+                    <button class="back-btn mr-4">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold">脑卒中急救指导</h2>
+                </header>
+                
+                <div class="flex-1 overflow-y-auto p-6 page-content">
+                    <div class="card mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-4">2026智能急救指导系统</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                                <i class="fa fa-robot text-primary"></i>
+                            </div>
+                            <p class="text-neutral-800 font-medium">AI+5G远程指导·分秒必争</p>
+                        </div>
+                        <p class="text-neutral-700 mb-4">2026年最新研究显示：正确的现场急救可提高30%的救治成功率！</p>
+                        <div class="bg-danger/10 rounded-lg p-3">
+                            <p class="text-neutral-700"><i class="fa fa-exclamation-circle text-danger mr-2"></i>时间就是大脑！每延误1分钟，将有190万个脑细胞死亡</p>
+                        </div>
+                    </div>
+                    
+                    <div id="first-aid-scenario" class="card mb-6">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-bold text-neutral-800 mb-2">2026真实场景模拟</h4>
+                            <div class="bg-light p-4 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                                        <i class="fa fa-clock-o text-primary"></i>
+                                    </div>
+                                    <p class="text-neutral-800 font-medium">发病时间：早晨7:30（起床后）</p>
+                                </div>
+                                <p class="text-neutral-700 mb-3">您正在家中，突然发现家人出现以下症状：</p>
+                                <ul class="list-disc pl-5 text-neutral-700 space-y-1 mb-3">
+                                    <li>一侧面部下垂，口角歪斜</li>
+                                    <li>右侧手臂无力，无法抬举</li>
+                                    <li>说话含糊不清，无法正常交流</li>
+                                    <li>抱怨看东西模糊（新增症状）</li>
+                                </ul>
+                                <div class="bg-primary/5 rounded-lg p-3 mb-3">
+                                    <p class="text-neutral-700 text-sm"><i class="fa fa-info-circle text-primary mr-2"></i>智能提示：根据2026年FAST-ED标准，已识别4项脑卒中典型症状，属于<span class="font-bold text-danger">高危情况</span>！</p>
+                                </div>
+                                <p class="text-neutral-700 font-medium">您应该怎么做？</p>
+                            </div>
+                        </div>
+                        
+                        <div id="first-aid-steps">
+                            <!-- 急救步骤将通过JavaScript动态生成 -->
+                        </div>
+                        
+                        <div id="first-aid-result" class="hidden">
+                            <div class="text-center py-4">
+                                <div class="w-20 h-20 rounded-full bg-success text-white flex items-center justify-center text-4xl mx-auto mb-4">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-success mb-2">急救演练完成！</h4>
+                                <p class="text-gray-700">您的得分：<span id="first-aid-score">0</span>/100</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5 class="font-bold text-gray-800 mb-2">急救要点回顾：</h5>
+                                <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                                    <li>立即识别脑卒中症状（FAST原则）</li>
+                                    <li>立即拨打急救电话120</li>
+                                    <li>保持患者安静，避免活动</li>
+                                    <li>让患者侧卧，防止呕吐物窒息</li>
+                                    <li>记录发病时间，告知急救人员</li>
+                                    <li>不要给患者喂药或进食</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-6">
+                        <h4 class="text-lg font-bold text-primary mb-4">2026脑卒中急救新流程</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-3">1</div>
+                                <div class="flex-1">
+                                    <p class="text-neutral-800 font-medium">立即拨打120</p>
+                                    <p class="text-neutral-600 text-sm">清晰说明："我家人可能突发脑卒中，需要紧急救援"</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-3">2</div>
+                                <div class="flex-1">
+                                    <p class="text-neutral-800 font-medium">记录发病时间</p>
+                                    <p class="text-neutral-600 text-sm">精确到分钟，这对医生制定治疗方案至关重要</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-3">3</div>
+                                <div class="flex-1">
+                                    <p class="text-neutral-800 font-medium">保持患者安静，取侧卧位</p>
+                                    <p class="text-neutral-600 text-sm">防止误吸，保持呼吸道通畅</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-3">4</div>
+                                <div class="flex-1">
+                                    <p class="text-neutral-800 font-medium">启动AI远程指导</p>
+                                    <p class="text-neutral-600 text-sm">2026新功能：通过120APP连接AI急救指导系统</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold mr-3">5</div>
+                                <div class="flex-1">
+                                    <p class="text-neutral-800 font-medium">准备好患者病历和用药情况</p>
+                                    <p class="text-neutral-600 text-sm">包括既往病史、过敏史、当前服用药物等</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 class="text-lg font-bold text-primary mb-4">2026脑卒中救治新技术</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-light rounded-lg p-3">
+                                <div class="flex items-center mb-2">
+                                    <i class="fa fa-bolt text-warning mr-2"></i>
+                                    <h5 class="font-bold text-neutral-800">超时间窗溶栓</h5>
+                                </div>
+                                <p class="text-neutral-600 text-xs">基于多模态影像评估，部分患者溶栓时间窗可延长至24小时</p>
+                            </div>
+                            <div class="bg-light rounded-lg p-3">
+                                <div class="flex items-center mb-2">
+                                    <i class="fa fa-cogs text-primary mr-2"></i>
+                                    <h5 class="font-bold text-neutral-800">机械取栓</h5>
+                                </div>
+                                <p class="text-neutral-600 text-xs">新型取栓装置+AI辅助导航，提高大血管闭塞再通率</p>
+                            </div>
+                            <div class="bg-light rounded-lg p-3">
+                                <div class="flex items-center mb-2">
+                                    <i class="fa fa-heartbeat text-danger mr-2"></i>
+                                    <h5 class="font-bold text-neutral-800">ECMO支持</h5>
+                                </div>
+                                <p class="text-neutral-600 text-xs">重症脑卒中患者可通过ECMO提供心肺支持，为治疗赢得时间</p>
+                            </div>
+                            <div class="bg-light rounded-lg p-3">
+                                <div class="flex items-center mb-2">
+                                    <i class="fa fa-microscope text-success mr-2"></i>
+                                    <h5 class="font-bold text-neutral-800">神经修复</h5>
+                                </div>
+                                <p class="text-neutral-600 text-xs">干细胞技术+神经调控，促进神经功能恢复</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6 bg-light bottom-actions">
+                    <button id="start-first-aid" class="btn-primary w-full">
+                        <i class="fa fa-play-circle mr-2"></i>开始急救演练
+                    </button>
+                    <button id="restart-first-aid" class="btn-primary w-full hidden">
+                        <i class="fa fa-refresh mr-2"></i>重新演练
+                    </button>
+                </div>
+            </div>
+
+            <!-- 导航菜单 -->
+            <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-10 max-w-md mx-auto">
+                <div class="flex justify-around">
+                    <button class="nav-btn flex flex-col items-center py-3 px-4 active" data-target="risk-assessment-page">
+                        <i class="fa fa-heartbeat text-xl mb-1"></i>
+                        <span class="text-xs">风险评估</span>
+                    </button>
+                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="symptom-recognition-page">
+                        <i class="fa fa-stethoscope text-xl mb-1"></i>
+                        <span class="text-xs">症状识别</span>
+                    </button>
+                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="fast-principle-page">
+                        <i class="fa fa-book text-xl mb-1"></i>
+                        <span class="text-xs">FAST原则</span>
+                    </button>
+                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="first-aid-page">
+                        <i class="fa fa-ambulance text-xl mb-1"></i>
+                        <span class="text-xs">急救指导</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 隐藏加载动画
+            setTimeout(function() {
+                document.getElementById('loading').classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(function() {
+                    document.getElementById('loading').classList.add('hidden');
+                }, 300);
+            }, 1000);
+            
+            // 初始化页面导航
+            initNavigation();
+            
+            // 初始化风险评估问卷
+            initRiskAssessment();
+            
+            // 初始化症状识别测试
+            initSymptomRecognition();
+            
+            // 初始化FAST原则动画
+            initFastAnimation();
+            
+            // 初始化急救指导
+            initFirstAid();
+        });
+        
+        // 页面导航功能
+        function initNavigation() {
+            // 开始测试按钮
+            document.getElementById('start-btn').addEventListener('click', function() {
+                showPage('risk-assessment-page');
+            });
+            
+            // 了解更多按钮
+            document.getElementById('about-btn').addEventListener('click', function() {
+                showPage('about-page');
+            });
+            
+            // 返回按钮
+            document.querySelectorAll('.back-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const currentPage = document.querySelector('.page.active');
+                    if (currentPage.id === 'about-page') {
+                        showPage('intro-page');
+                    } else {
+                        showPage('intro-page');
+                    }
+                });
+            });
+            
+            // 底部导航按钮
+            document.querySelectorAll('.nav-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const targetPage = this.getAttribute('data-target');
+                    showPage(targetPage);
+                    
+                    // 更新导航按钮状态
+                    document.querySelectorAll('.nav-btn').forEach(function(navBtn) {
+                        navBtn.classList.remove('active');
+                        navBtn.classList.remove('text-primary');
+                    });
+                    this.classList.add('active');
+                    this.classList.add('text-primary');
+                });
+            });
+        }
+        
+        // 显示指定页面
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(function(page) {
+                page.classList.add('hidden');
+                page.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('active');
+                
+                // 如果是风险评估页面，显示第一步
+                if (pageId === 'risk-assessment-page') {
+                    showQuestionStep(1);
+                }
+            }
+        }
+        
+        // 风险评估问卷功能
+        function initRiskAssessment() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentStep = 1;
+            const totalSteps = 4;
+            
+            // 上一步按钮
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showQuestionStep(currentStep);
+                }
+            });
+            
+            // 下一步按钮
+            nextBtn.addEventListener('click', function() {
+                // 验证当前步骤
+                if (validateStep(currentStep)) {
+                    if (currentStep < totalSteps) {
+                        currentStep++;
+                        showQuestionStep(currentStep);
+                    } else {
+                        // 计算评估结果
+                        calculateRiskResult();
+                    }
+                }
+            });
+            
+            // 单选按钮样式切换
+            document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    const name = this.getAttribute('name');
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(function(r) {
+                        const label = r.closest('label');
+                        if (r.checked) {
+                            label.classList.add('active');
+                        } else {
+                            label.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // 显示指定步骤
+            window.showQuestionStep = function(step) {
+                document.querySelectorAll('.question-step').forEach(function(stepEl) {
+                    stepEl.classList.add('hidden');
+                    stepEl.classList.remove('active');
+                });
+                
+                const targetStep = document.querySelector(`.question-step[data-step="${step}"]`);
+                if (targetStep) {
+                    targetStep.classList.remove('hidden');
+                    targetStep.classList.add('active');
+                }
+                
+                // 更新步骤指示器
+                document.querySelectorAll('.step-indicator').forEach(function(indicator) {
+                    const indicatorStep = parseInt(indicator.getAttribute('data-step'));
+                    
+                    if (indicatorStep < step) {
+                        indicator.classList.remove('active');
+                        indicator.classList.add('completed');
+                    } else if (indicatorStep === step) {
+                        indicator.classList.add('active');
+                        indicator.classList.remove('completed');
+                    } else {
+                        indicator.classList.remove('active', 'completed');
+                    }
+                });
+                
+                // 更新进度条
+                const progressPercentage = ((step - 1) / (totalSteps - 1)) * 100;
+                document.getElementById('progress-bar').style.width = progressPercentage + '%';
+                
+                // 更新按钮状态
+                prevBtn.disabled = step === 1;
+                prevBtn.classList.toggle('opacity-50', step === 1);
+                
+                if (step === totalSteps) {
+                    nextBtn.textContent = '完成评估';
+                    nextBtn.innerHTML = '完成评估';
+                } else {
+                    nextBtn.innerHTML = '下一步<i class="fa fa-arrow-right ml-2"></i>';
+                }
+            };
+            
+            // 验证当前步骤
+            function validateStep(step) {
+                let isValid = true;
+                const currentStepEl = document.querySelector(`.question-step[data-step="${step}"]`);
+                
+                if (step === 1) {
+                    // 验证基本信息
+                    const age = document.getElementById('age').value;
+                    const gender = document.querySelector('input[name="gender"]:checked');
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+                    
+                    if (!age) {
+                        showError('请选择年龄');
+                        isValid = false;
+                    } else if (!gender) {
+                        showError('请选择性别');
+                        isValid = false;
+                    } else if (!height) {
+                        showError('请输入身高');
+                        isValid = false;
+                    } else if (!weight) {
+                        showError('请输入体重');
+                        isValid = false;
+                    }
+                } else if (step === 2 || step === 3) {
+                    // 验证健康状况和生活习惯
+                    const radios = currentStepEl.querySelectorAll('input[type="radio"]');
+                    const radioGroups = {};
+                    
+                    radios.forEach(function(radio) {
+                        const name = radio.getAttribute('name');
+                        if (!radioGroups[name]) {
+                            radioGroups[name] = [];
+                        }
+                        radioGroups[name].push(radio);
+                    });
+                    
+                    for (const group in radioGroups) {
+                        const isChecked = radioGroups[group].some(function(radio) {
+                            return radio.checked;
+                        });
+                        
+                        if (!isChecked) {
+                            showError('请完成所有问题');
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // 显示错误提示
+            function showError(message) {
+                alert(message);
+            }
+            
+            // 计算评估结果
+            function calculateRiskResult() {
+                // 获取各项指标
+                const age = parseInt(document.getElementById('age').value);
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const height = parseInt(document.getElementById('height').value);
+                const weight = parseInt(document.getElementById('weight').value);
+                const bmi = weight / Math.pow(height / 100, 2);
+                
+                const hypertension = document.querySelector('input[name="hypertension"]:checked').value;
+                const diabetes = document.querySelector('input[name="diabetes"]:checked').value;
+                const heartDisease = document.querySelector('input[name="heart_disease"]:checked').value;
+                const familyHistory = document.querySelector('input[name="family_history"]:checked').value;
+                
+                const smoking = document.querySelector('input[name="smoking"]:checked').value;
+                const drinking = document.querySelector('input[name="drinking"]:checked').value;
+                const exercise = document.querySelector('input[name="exercise"]:checked').value;
+                const diet = document.querySelector('input[name="diet"]:checked').value;
+                
+                // 计算各项得分
+                let totalScore = 0;
+                
+                // 年龄得分
+                let ageScore = 0;
+                if (age === 1) ageScore = 0;
+                else if (age === 2) ageScore = 1;
+                else if (age === 3) ageScore = 2;
+                else if (age === 4) ageScore = 3;
+                else if (age === 5) ageScore = 4;
+                
+                // 性别得分
+                const genderScore = gender === 'male' ? 1 : 0;
+                
+                // BMI得分
+                let bmiScore = 0;
+                if (bmi < 24) bmiScore = 0;
+                else if (bmi < 28) bmiScore = 1;
+                else bmiScore = 2;
+                
+                // 疾病史得分
+                const hypertensionScore = hypertension === 'yes' ? 2 : 0;
+                const diabetesScore = diabetes === 'yes' ? 2 : 0;
+                const heartDiseaseScore = heartDisease === 'yes' ? 2 : 0;
+                const familyHistoryScore = familyHistory === 'yes' ? 1 : 0;
+                
+                // 生活习惯得分
+                const smokingScore = smoking === 'yes' ? 2 : 0;
+                
+                let drinkingScore = 0;
+                if (drinking === 'often') drinkingScore = 2;
+                else if (drinking === 'sometimes') drinkingScore = 1;
+                
+                let exerciseScore = 0;
+                if (exercise === 'regular') exerciseScore = 0;
+                else if (exercise === 'sometimes') exerciseScore = 1;
+                else if (exercise === 'never') exerciseScore = 2;
+                
+                let dietScore = 0;
+                if (diet === 'salty') dietScore = 2;
+                else if (diet === 'normal') dietScore = 1;
+                else if (diet === 'light') dietScore = 0;
+                
+                // 计算总分
+                totalScore = ageScore + genderScore + bmiScore + hypertensionScore + diabetesScore + 
+                             heartDiseaseScore + familyHistoryScore + smokingScore + drinkingScore + 
+                             exerciseScore + dietScore;
+                
+                // 确定风险等级
+                let riskLevel = '';
+                let riskClass = '';
+                
+                if (totalScore <= 3) {
+                    riskLevel = '低风险';
+                    riskClass = 'bg-success';
+                } else if (totalScore <= 6) {
+                    riskLevel = '中低风险';
+                    riskClass = 'bg-secondary';
+                } else if (totalScore <= 9) {
+                    riskLevel = '中风险';
+                    riskClass = 'bg-warning';
+                } else if (totalScore <= 12) {
+                    riskLevel = '中高风险';
+                    riskClass = 'bg-orange-500';
+                } else {
+                    riskLevel = '高风险';
+                    riskClass = 'bg-danger';
+                }
+                
+                // 更新风险等级显示
+                const riskBadge = document.getElementById('risk-level-badge');
+                riskBadge.textContent = riskLevel;
+                riskBadge.className = `inline-block px-6 py-2 rounded-full text-white text-xl font-bold mb-4 ${riskClass}`;
+                
+                // 更新各项指标条
+                updateRiskBar('hypertension', hypertensionScore, 2);
+                updateRiskBar('diabetes', diabetesScore, 2);
+                updateRiskBar('heart', heartDiseaseScore + familyHistoryScore, 3);
+                updateRiskBar('lifestyle', smokingScore + drinkingScore + exerciseScore + dietScore, 8);
+                
+                // 更新健康建议
+                updateHealthRecommendations(riskLevel, {
+                    hypertension: hypertension === 'yes',
+                    diabetes: diabetes === 'yes',
+                    heartDisease: heartDisease === 'yes',
+                    smoking: smoking === 'yes',
+                    drinking: drinking !== 'never',
+                    exercise: exercise !== 'regular',
+                    diet: diet === 'salty'
+                });
+            }
+            
+            // 更新风险条
+            function updateRiskBar(id, score, maxScore) {
+                const percentage = (score / maxScore) * 100;
+                const bar = document.getElementById(`${id}-bar`);
+                const scoreText = document.getElementById(`${id}-score`);
+                
+                bar.style.width = percentage + '%';
+                
+                if (percentage < 30) {
+                    scoreText.textContent = '低';
+                    bar.className = 'bg-success h-2 rounded-full';
+                } else if (percentage < 60) {
+                    scoreText.textContent = '中';
+                    bar.className = 'bg-warning h-2 rounded-full';
+                } else {
+                    scoreText.textContent = '高';
+                    bar.className = 'bg-danger h-2 rounded-full';
+                }
+            }
+            
+            // 更新健康建议
+            function updateHealthRecommendations(riskLevel, factors) {
+                const recommendations = document.getElementById('health-recommendations');
+                let recommendationsHTML = '';
+                
+                // 基础建议
+                recommendationsHTML += '<li>保持规律运动，每周至少150分钟中等强度有氧运动</li>';
+                recommendationsHTML += '<li>均衡饮食，多摄入蔬菜水果，减少盐分和油脂摄入</li>';
+                recommendationsHTML += '<li>定期监测血压、血糖和血脂水平</li>';
+                
+                // 根据风险因素添加特定建议
+                if (factors.hypertension) {
+                    recommendationsHTML += '<li>严格控制血压，遵医嘱服药，定期监测血压变化</li>';
+                }
+                
+                if (factors.diabetes) {
+                    recommendationsHTML += '<li>控制血糖水平，合理饮食，定期监测血糖</li>';
+                }
+                
+                if (factors.heartDisease) {
+                    recommendationsHTML += '<li>关注心脏健康，定期进行心电图检查</li>';
+                }
+                
+                if (factors.smoking) {
+                    recommendationsHTML += '<li>立即戒烟，避免接触二手烟</li>';
+                }
+                
+                if (factors.drinking) {
+                    recommendationsHTML += '<li>限制饮酒量，男性每日不超过两杯，女性不超过一杯</li>';
+                }
+                
+                if (factors.exercise) {
+                    recommendationsHTML += '<li>增加日常活动量，循序渐进地开始运动计划</li>';
+                }
+                
+                if (factors.diet) {
+                    recommendationsHTML += '<li>减少盐分摄入，每日食盐摄入量不超过5克</li>';
+                }
+                
+                // 根据风险等级添加额外建议
+                if (riskLevel === '高风险' || riskLevel === '中高风险') {
+                    recommendationsHTML += '<li>建议尽快就医，进行专业评估和干预</li>';
+                    recommendationsHTML += '<li>学习脑卒中急救知识，准备家庭急救方案</li>';
+                }
+                
+                recommendations.innerHTML = recommendationsHTML;
+            }
+        }
+        
+        // 症状识别测试功能
+        function initSymptomRecognition() {
+            const startTestBtn = document.getElementById('start-symptom-test');
+            const restartTestBtn = document.getElementById('restart-symptom-test');
+            const testContainer = document.getElementById('symptom-test-container');
+            const resultContainer = document.getElementById('symptom-result');
+            
+            // 测试题目
+            const questions = [
+                {
+                    id: 1,
+                    scenario: '王阿姨，65岁，今天早上起床后发现右侧面部有些麻木，口角轻微歪斜，但她认为只是没睡好，休息一下就会好。',
+                    isStroke: true,
+                    explanation: '面部麻木和口角歪斜是脑卒中的典型症状，尤其是单侧面部症状，应立即就医。'
+                },
+                {
+                    id: 2,
+                    scenario: '张先生，50岁，有高血压病史，今天在公园散步时突然感到左侧手臂无力，无法握住手中的水杯，但症状在几分钟后消失了。',
+                    isStroke: true,
+                    explanation: '短暂性脑缺血发作(TIA)也称为"小中风"，症状可能短暂消失，但这是脑卒中的重要预警信号，需要立即就医。'
+                },
+                {
+                    id: 3,
+                    scenario: '李奶奶，70岁，今天中午吃饭时突然说不出话，家人无法理解她想表达的意思，但她的意识清楚，也没有肢体无力。',
+                    isStroke: true,
+                    explanation: '言语障碍是脑卒中的典型症状之一，即使没有肢体无力，也应立即就医。'
+                },
+                {
+                    id: 4,
+                    scenario: '赵先生，45岁，今天下午在办公室突然感到剧烈头痛，伴有恶心呕吐，但没有其他不适。他认为可能是工作压力大导致的偏头痛。',
+                    isStroke: true,
+                    explanation: '突然发生的剧烈头痛，尤其是"一生中最严重的头痛"，可能是蛛网膜下腔出血（一种脑卒中）的症状，需要立即就医。'
+                },
+                {
+                    id: 5,
+                    scenario: '刘女士，35岁，最近两天感到颈部疼痛，转动脖子时有些困难，她认为是睡觉姿势不好导致的落枕。',
+                    isStroke: false,
+                    explanation: '单纯的颈部疼痛和活动受限，没有其他神经系统症状，通常不是脑卒中的表现。'
+                },
+                {
+                    id: 6,
+                    scenario: '陈爷爷，75岁，今天下午突然出现视物模糊，看东西有重影，但没有其他不适。',
+                    isStroke: true,
+                    explanation: '突然出现的视力问题，尤其是复视（看东西有重影），可能是脑卒中的症状，应立即就医。'
+                },
+                {
+                    id: 7,
+                    scenario: '吴女士，40岁，今天早上起床后感到头晕，站立时有些不稳，但休息半小时后症状明显好转。',
+                    isStroke: false,
+                    explanation: '单纯的头晕，尤其是与体位变化相关的短暂头晕，通常不是脑卒中的典型症状。但如果头晕持续不缓解或伴有其他神经系统症状，应及时就医。'
+                }
+            ];
+            
+            let currentQuestionIndex = 0;
+            let correctAnswers = 0;
+            
+            // 开始测试
+            startTestBtn.addEventListener('click', function() {
+                startTest();
+            });
+            
+            // 重新测试
+            restartTestBtn.addEventListener('click', function() {
+                startTest();
+            });
+            
+            function startTest() {
+                currentQuestionIndex = 0;
+                correctAnswers = 0;
+                
+                testContainer.innerHTML = '';
+                resultContainer.classList.add('hidden');
+                
+                showQuestion(currentQuestionIndex);
+                
+                startTestBtn.classList.add('hidden');
+                restartTestBtn.classList.remove('hidden');
+            }
+            
+            function showQuestion(index) {
+                if (index >= questions.length) {
+                    showResult();
+                    return;
+                }
+                
+                const question = questions[index];
+                
+                const questionHTML = `
+                    <div class="card mb-6">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">问题 ${index + 1}/${questions.length}</h4>
+                            <p class="text-gray-700 mb-4">${question.scenario}</p>
+                            <p class="text-gray-700 font-medium mb-4">这是脑卒中症状吗？</p>
+                            
+                            <div class="flex space-x-4">
+                                <button class="answer-btn flex-1 py-3 px-4 rounded-lg border-2 ${question.isStroke ? 'border-success' : 'border-gray-300'}" data-question="${index}" data-answer="true">
+                                    <span class="text-xl font-bold ${question.isStroke ? 'text-success' : 'text-gray-700'}">是</span>
+                                </button>
+                                <button class="answer-btn flex-1 py-3 px-4 rounded-lg border-2 ${!question.isStroke ? 'border-success' : 'border-gray-300'}" data-question="${index}" data-answer="false">
+                                    <span class="text-xl font-bold ${!question.isStroke ? 'text-success' : 'text-gray-700'}">否</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="answer-explanation hidden bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-gray-800 mb-2">答案解析：</h5>
+                            <p class="text-gray-700">${question.explanation}</p>
+                            <button class="next-question-btn mt-4 px-4 py-2 bg-primary text-white rounded-lg">下一题</button>
+                        </div>
+                    </div>
+                `;
+                
+                testContainer.innerHTML = questionHTML;
+                
+                // 添加答案按钮事件
+                document.querySelectorAll('.answer-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const questionIndex = parseInt(this.getAttribute('data-question'));
+                        const answer = this.getAttribute('data-answer') === 'true';
+                        const isCorrect = answer === questions[questionIndex].isStroke;
+                        
+                        // 禁用所有答案按钮
+                        document.querySelectorAll('.answer-btn').forEach(function(b) {
+                            b.disabled = true;
+                            b.classList.add('opacity-70');
+                        });
+                        
+                        // 显示正确答案
+                        if (isCorrect) {
+                            correctAnswers++;
+                            this.classList.add('bg-success', 'bg-opacity-10');
+                        } else {
+                            this.classList.add('bg-danger', 'bg-opacity-10');
+                            
+                            // 显示正确答案
+                            const correctBtn = document.querySelector(`.answer-btn[data-answer="${questions[questionIndex].isStroke}"]`);
+                            correctBtn.classList.add('bg-success', 'bg-opacity-10');
+                        }
+                        
+                        // 显示解析
+                        const explanation = document.querySelector('.answer-explanation');
+                        explanation.classList.remove('hidden');
+                        
+                        // 添加下一题按钮事件
+                        document.querySelector('.next-question-btn').addEventListener('click', function() {
+                            currentQuestionIndex++;
+                            showQuestion(currentQuestionIndex);
+                        });
+                    });
+                });
+            }
+            
+            function showResult() {
+                testContainer.innerHTML = '';
+                resultContainer.classList.remove('hidden');
+                
+                document.getElementById('correct-count').textContent = correctAnswers;
+                document.getElementById('total-count').textContent = questions.length;
+                
+                startTestBtn.classList.remove('hidden');
+                restartTestBtn.classList.add('hidden');
+            }
+        }
+        
+        // FAST原则动画功能
+        function initFastAnimation() {
+            const playBtn = document.getElementById('play-fast-animation');
+            const pauseBtn = document.getElementById('pause-fast-animation');
+            const resetBtn = document.getElementById('reset-fast-animation');
+            const animationContainer = document.getElementById('fast-animation');
+            
+            let animationInterval;
+            let currentStep = 0;
+            let isPaused = false;
+            
+            playBtn.addEventListener('click', function() {
+                playFastAnimation();
+                playBtn.classList.add('hidden');
+                pauseBtn.classList.remove('hidden');
+                resetBtn.classList.remove('hidden');
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                if (isPaused) {
+                    // 继续动画
+                    isPaused = false;
+                    pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
+                    continueAnimation();
+                } else {
+                    // 暂停动画
+                    isPaused = true;
+                    pauseBtn.innerHTML = '<i class="fa fa-play mr-2"></i>继续';
+                    clearInterval(animationInterval);
+                }
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                resetAnimation();
+            });
+            
+            function playFastAnimation() {
+                resetAnimation();
+                currentStep = 0;
+                showStep(currentStep);
+                continueAnimation();
+            }
+            
+            function continueAnimation() {
+                animationInterval = setInterval(function() {
+                    if (!isPaused) {
+                        currentStep++;
+                        if (currentStep >= 4) {
+                            clearInterval(animationInterval);
+                            showCompletion();
+                        } else {
+                            showStep(currentStep);
+                        }
+                    }
+                }, 5000); // 每个步骤显示5秒
+            }
+            
+            function resetAnimation() {
+                clearInterval(animationInterval);
+                isPaused = false;
+                pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div>
+                        <p class="text-lg text-gray-700">点击下方按钮开始动画演示</p>
+                    </div>
+                `;
+            }
+            
+            function showCompletion() {
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <div class="w-24 h-24 rounded-full bg-success text-white flex items-center justify-center text-4xl font-bold mb-4">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <p class="text-lg text-gray-700 mb-4">FAST原则演示完成</p>
+                        <p class="text-gray-600 text-center px-4 mb-4">记住FAST原则，及时识别脑卒中症状，把握黄金救治时间！</p>
+                    </div>
+                `;
+            }
+            
+            function showStep(step) {
+                switch(step) {
+                    case 0:
+                        showFaceAnimation();
+                        break;
+                    case 1:
+                        showArmAnimation();
+                        break;
+                    case 2:
+                        showSpeechAnimation();
+                        break;
+                    case 3:
+                        showTimeAnimation();
+                        break;
+                }
+            }
+            
+            function showFaceAnimation() {
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full px-4">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mr-4">F</div>
+                            <h4 class="text-xl font-bold text-gray-800">Face 面部下垂</h4>
+                        </div>
+                        
+                        <div class="relative w-48 h-48 mb-6">
+                            <!-- 脸部轮廓 -->
+                            <div class="absolute inset-0 border-4 border-gray-800 rounded-full"></div>
+                            
+                            <!-- 眼睛 -->
+                            <div class="absolute left-1/4 top-1/3 w-6 h-6 bg-gray-800 rounded-full"></div>
+                            <div class="absolute right-1/4 top-1/3 w-6 h-6 bg-gray-800 rounded-full"></div>
+                            
+                            <!-- 正常嘴巴 -->
+                            <div id="normal-mouth" class="absolute left-1/2 bottom-1/4 transform -translate-x-1/2 w-16 h-4 bg-gray-800 rounded-full"></div>
+                            
+                            <!-- 歪斜嘴巴 -->
+                            <div id="droopy-mouth" class="absolute left-1/2 bottom-1/4 transform -translate-x-1/2 w-16 h-4 bg-gray-800 rounded-full hidden"></div>
+                            
+                            <!-- 脸部下垂指示箭头 -->
+                            <div id="face-arrow" class="absolute right-1/4 bottom-1/3 w-12 h-2 bg-red-500 transform rotate-45 hidden">
+                                <div class="absolute right-0 w-0 h-0 border-t-4 border-t-transparent border-l-8 border-l-red-500 border-b-4 border-b-transparent"></div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 text-center mb-4">请患者微笑，观察是否有一侧面部下垂或口角歪斜</p>
+                        
+                        <div class="w-full max-w-xs">
+                            <div class="w-full bg-gray-300 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1 text-xs text-gray-600">
+                                <span>1/4</span>
+                                <span>25%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加面部下垂动画
+                setTimeout(function() {
+                    document.getElementById('normal-mouth').classList.add('hidden');
+                    document.getElementById('droopy-mouth').classList.remove('hidden');
+                    document.getElementById('droopy-mouth').style.transform = 'translate(-50%, 0) rotate(-10deg)';
+                    document.getElementById('face-arrow').classList.remove('hidden');
+                    
+                    // 添加脉动效果
+                    document.getElementById('face-arrow').classList.add('animate-pulse');
+                }, 1000);
+            }
+            
+            function showArmAnimation() {
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full px-4">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mr-4">A</div>
+                            <h4 class="text-xl font-bold text-gray-800">Arm 手臂无力</h4>
+                        </div>
+                        
+                        <div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+                            <!-- 身体轮廓 -->
+                            <div class="absolute w-20 h-32 border-4 border-gray-800 rounded-lg"></div>
+                            
+                            <!-- 头部 -->
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-4 border-gray-800 rounded-full"></div>
+                            
+                            <!-- 左臂 -->
+                            <div id="left-arm" class="absolute left-0 top-1/4 w-16 h-4 bg-gray-800 transform -translate-x-1/2 rotate-45"></div>
+                            
+                            <!-- 右臂 -->
+                            <div id="right-arm" class="absolute right-0 top-1/4 w-16 h-4 bg-gray-800 transform translate-x-1/2 rotate-135"></div>
+                            
+                            <!-- 右臂下垂动画容器 -->
+                            <div id="arm-animation" class="absolute right-0 top-1/4 w-16 h-4 hidden">
+                                <div class="w-full h-full bg-gray-800 transform translate-x-1/2"></div>
+                            </div>
+                            
+                            <!-- 手臂无力指示箭头 -->
+                            <div id="arm-arrow" class="absolute right-0 top-1/3 w-12 h-2 bg-red-500 hidden">
+                                <div class="absolute bottom-0 w-0 h-0 border-l-4 border-l-transparent border-t-8 border-t-red-500 border-r-4 border-r-transparent"></div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 text-center mb-4">请患者双手平举，观察是否有一侧手臂下落或无法抬起</p>
+                        
+                        <div class="w-full max-w-xs">
+                            <div class="w-full bg-gray-300 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 50%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1 text-xs text-gray-600">
+                                <span>2/4</span>
+                                <span>50%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加手臂下垂动画
+                setTimeout(function() {
+                    document.getElementById('right-arm').classList.add('hidden');
+                    document.getElementById('arm-animation').classList.remove('hidden');
+                    
+                    // 创建手臂下垂动画
+                    const armElement = document.getElementById('arm-animation').querySelector('div');
+                    let angle = 135;
+                    const armInterval = setInterval(function() {
+                        angle += 1;
+                        armElement.style.transform = `translateX(50%) rotate(${angle}deg)`;
+                        
+                        if (angle >= 180) {
+                            clearInterval(armInterval);
+                            document.getElementById('arm-arrow').classList.remove('hidden');
+                            document.getElementById('arm-arrow').classList.add('animate-pulse');
+                        }
+                    }, 50);
+                }, 1000);
+            }
+            
+            function showSpeechAnimation() {
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full px-4">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mr-4">S</div>
+                            <h4 class="text-xl font-bold text-gray-800">Speech 言语障碍</h4>
+                        </div>
+                        
+                        <div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+                            <!-- 头部 -->
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-20 border-4 border-gray-800 rounded-full"></div>
+                            
+                            <!-- 对话框 -->
+                            <div id="speech-bubble" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-white border-2 border-gray-800 rounded-lg p-3 w-32">
+                                <p id="clear-speech" class="text-gray-800 text-center">我现在很好</p>
+                                <p id="slurred-speech" class="text-gray-800 text-center hidden">我...现...在...很...</p>
+                            </div>
+                            
+                            <!-- 对话框尾部 -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-6 w-0 h-0 border-t-8 border-t-white border-l-8 border-l-transparent border-r-8 border-r-transparent"></div>
+                            
+                            <!-- 言语障碍指示箭头 -->
+                            <div id="speech-arrow" class="absolute top-2/3 left-1/2 transform -translate-x-1/2 w-12 h-2 bg-red-500 hidden">
+                                <div class="absolute bottom-0 w-0 h-0 border-l-4 border-l-transparent border-t-8 border-t-red-500 border-r-4 border-r-transparent"></div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 text-center mb-4">请患者重复一句话，观察是否有言语含糊、不清或无法理解</p>
+                        
+                        <div class="w-full max-w-xs">
+                            <div class="w-full bg-gray-300 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1 text-xs text-gray-600">
+                                <span>3/4</span>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加言语障碍动画
+                setTimeout(function() {
+                    document.getElementById('clear-speech').classList.add('hidden');
+                    document.getElementById('slurred-speech').classList.remove('hidden');
+                    document.getElementById('speech-arrow').classList.remove('hidden');
+                    document.getElementById('speech-arrow').classList.add('animate-pulse');
+                    
+                    // 添加文字闪烁效果模拟口吃
+                    const slurredText = document.getElementById('slurred-speech');
+                    let opacity = 1;
+                    let decreasing = true;
+                    const textInterval = setInterval(function() {
+                        if (decreasing) {
+                            opacity -= 0.2;
+                            if (opacity <= 0.4) decreasing = false;
+                        } else {
+                            opacity += 0.2;
+                            if (opacity >= 1) decreasing = true;
+                        }
+                        slurredText.style.opacity = opacity;
+                    }, 200);
+                }, 1000);
+            }
+            
+            function showTimeAnimation() {
+                animationContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full px-4">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 rounded-full bg-danger text-white flex items-center justify-center text-3xl font-bold mr-4 animate-pulse">T</div>
+                            <h4 class="text-xl font-bold text-gray-800">Time 及时就医</h4>
+                        </div>
+                        
+                        <div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+                            <!-- 时钟 -->
+                            <div class="w-32 h-32 border-4 border-gray-800 rounded-full relative">
+                                <!-- 时钟刻度 -->
+                                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1 w-1 h-3 bg-gray-800"></div>
+                                <div class="absolute top-1/2 right-0 transform translate-x-1 -translate-y-1/2 w-3 h-1 bg-gray-800"></div>
+                                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1 w-1 h-3 bg-gray-800"></div>
+                                <div class="absolute top-1/2 left-0 transform -translate-x-1 -translate-y-1/2 w-3 h-1 bg-gray-800"></div>
+                                
+                                <!-- 时针 -->
+                                <div id="hour-hand" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full w-1 h-8 bg-gray-800 origin-bottom"></div>
+                                
+                                <!-- 分针 -->
+                                <div id="minute-hand" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full w-1 h-12 bg-danger origin-bottom"></div>
+                                
+                                <!-- 中心点 -->
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-gray-800 rounded-full"></div>
+                            </div>
+                            
+                            <!-- 急救电话 -->
+                            <div id="emergency-call" class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-danger text-white px-4 py-2 rounded-lg hidden">
+                                120
+                            </div>
+                            
+                            <!-- 急救电话图标 -->
+                            <div id="phone-icon" class="absolute -right-4 top-1/2 transform -translate-y-1/2 text-danger text-3xl hidden">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 text-center mb-4">如果发现上述任何症状，立即拨打急救电话120</p>
+                        
+                        <div class="w-full max-w-xs">
+                            <div class="w-full bg-gray-300 rounded-full h-2">
+                                <div class="bg-danger h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1 text-xs text-gray-600">
+                                <span>4/4</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加时钟动画
+                const minuteHand = document.getElementById('minute-hand');
+                let rotation = 0;
+                const clockInterval = setInterval(function() {
+                    rotation += 6; // 每分钟6度
+                    minuteHand.style.transform = `translateX(-50%) translateY(-100%) rotate(${rotation}deg)`;
+                    
+                    if (rotation >= 90) { // 15分钟后
+                        clearInterval(clockInterval);
+                        document.getElementById('emergency-call').classList.remove('hidden');
+                        document.getElementById('phone-icon').classList.remove('hidden');
+                        
+                        // 添加闪烁效果
+                        document.getElementById('emergency-call').classList.add('animate-pulse');
+                        document.getElementById('phone-icon').classList.add('animate-pulse');
+                    }
+                }, 200);
+            }
+        }
+        
+        // 急救指导功能
+        function initFirstAid() {
+            const startBtn = document.getElementById('start-first-aid');
+            const restartBtn = document.getElementById('restart-first-aid');
+            const stepsContainer = document.getElementById('first-aid-steps');
+            const resultContainer = document.getElementById('first-aid-result');
+            
+            // 急救步骤
+            const steps = [
+                {
+                    id: 1,
+                    question: '发现家人出现脑卒中症状，您应该首先做什么？',
+                    options: [
+                        { text: '立即拨打急救电话120', correct: true, score: 30 },
+                        { text: '先给患者喂一些水', correct: false, score: 0 },
+                        { text: '让患者躺下休息，观察症状是否缓解', correct: false, score: 0 },
+                        { text: '立即送患者去医院', correct: false, score: 10 }
+                    ],
+                    explanation: '发现脑卒中症状后，应立即拨打急救电话120，因为专业急救人员能提供及时的医疗干预，并且知道哪家医院有脑卒中绿色通道。'
+                },
+                {
+                    id: 2,
+                    question: '在等待急救人员到来的过程中，您应该怎么做？',
+                    options: [
+                        { text: '给患者服用降压药', correct: false, score: 0 },
+                        { text: '让患者保持安静，取侧卧位', correct: true, score: 25 },
+                        { text: '帮助患者进行活动，促进血液循环', correct: false, score: 0 },
+                        { text: '给患者喂一些食物补充能量', correct: false, score: 0 }
+                    ],
+                    explanation: '让患者保持安静，避免活动，取侧卧位可以防止呕吐物导致窒息。不要给患者喂药或进食，以免加重症状或导致窒息。'
+                },
+                {
+                    id: 3,
+                    question: '您应该如何向急救人员描述患者的情况？',
+                    options: [
+                        { text: '详细描述患者的既往病史', correct: false, score: 10 },
+                        { text: '只说患者不舒服，需要救护车', correct: false, score: 0 },
+                        { text: '明确说明可能是脑卒中，并描述具体症状和发病时间', correct: true, score: 25 },
+                        { text: '让急救人员自己判断', correct: false, score: 0 }
+                    ],
+                    explanation: '明确告知急救人员可能是脑卒中，并描述具体症状和发病时间，这样可以让急救人员做好相应准备，争取救治时间。'
+                },
+                {
+                    id: 4,
+                    question: '关于脑卒中患者的搬运，以下哪种做法是正确的？',
+                    options: [
+                        { text: '立即将患者背起送往医院', correct: false, score: 0 },
+                        { text: '让患者自己走到楼下等待救护车', correct: false, score: 0 },
+                        { text: '保持患者头部略高，避免震动，等待专业人员搬运', correct: true, score: 20 },
+                        { text: '给患者戴上颈托，防止颈部受伤', correct: false, score: 5 }
+                    ],
+                    explanation: '脑卒中患者应保持头部略高，避免震动，等待专业急救人员搬运。随意搬运可能加重病情。'
+                }
+            ];
+            
+            let currentStep = 0;
+            let totalScore = 0;
+            
+            // 开始急救演练
+            startBtn.addEventListener('click', function() {
+                startFirstAid();
+            });
+            
+            // 重新演练
+            restartBtn.addEventListener('click', function() {
+                startFirstAid();
+            });
+            
+            function startFirstAid() {
+                currentStep = 0;
+                totalScore = 0;
+                
+                stepsContainer.innerHTML = '';
+                resultContainer.classList.add('hidden');
+                
+                showStep(currentStep);
+                
+                startBtn.classList.add('hidden');
+                restartBtn.classList.remove('hidden');
+            }
+            
+            function showStep(step) {
+                if (step >= steps.length) {
+                    showResult();
+                    return;
+                }
+                
+                const currentStepData = steps[step];
+                
+                const stepHTML = `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-gray-800 mb-4">步骤 ${step + 1}/${steps.length}</h4>
+                        <p class="text-gray-700 mb-4">${currentStepData.question}</p>
+                        
+                        <div class="space-y-3">
+                            ${currentStepData.options.map(function(option, index) {
+                                return `
+                                    <button class="option-btn w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-light transition-colors" 
+                                            data-step="${step}" 
+                                            data-option="${index}">
+                                        ${option.text}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="step-explanation hidden bg-light p-4 rounded-lg">
+                        <h5 class="font-bold text-gray-800 mb-2">解析：</h5>
+                        <p class="text-gray-700 mb-3">${currentStepData.explanation}</p>
+                        <button class="next-step-btn mt-2 px-4 py-2 bg-primary text-white rounded-lg">下一步</button>
+                    </div>
+                `;
+                
+                stepsContainer.innerHTML = stepHTML;
+                
+                // 添加选项按钮事件
+                document.querySelectorAll('.option-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const stepIndex = parseInt(this.getAttribute('data-step'));
+                        const optionIndex = parseInt(this.getAttribute('data-option'));
+                        const option = steps[stepIndex].options[optionIndex];
+                        
+                        // 禁用所有选项按钮
+                        document.querySelectorAll('.option-btn').forEach(function(b) {
+                            b.disabled = true;
+                            b.classList.add('opacity-70');
+                        });
+                        
+                        // 显示正确答案
+                        if (option.correct) {
+                            this.classList.add('bg-success', 'bg-opacity-10', 'border-success');
+                            totalScore += option.score;
+                        } else {
+                            this.classList.add('bg-danger', 'bg-opacity-10', 'border-danger');
+                            
+                            // 显示正确答案
+                            steps[stepIndex].options.forEach(function(opt, idx) {
+                                if (opt.correct) {
+                                    const correctBtn = document.querySelector(`.option-btn[data-step="${stepIndex}"][data-option="${idx}"]`);
+                                    correctBtn.classList.add('bg-success', 'bg-opacity-10', 'border-success');
+                                }
+                            });
+                        }
+                        
+                        // 显示解析
+                        const explanation = document.querySelector('.step-explanation');
+                        explanation.classList.remove('hidden');
+                        
+                        // 添加下一步按钮事件
+                        document.querySelector('.next-step-btn').addEventListener('click', function() {
+                            currentStep++;
+                            showStep(currentStep);
+                        });
+                    });
+                });
+            }
+            
+            function showResult() {
+                stepsContainer.innerHTML = '';
+                resultContainer.classList.remove('hidden');
+                
+                document.getElementById('first-aid-score').textContent = totalScore;
+                
+                startBtn.classList.remove('hidden');
+                restartBtn.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
