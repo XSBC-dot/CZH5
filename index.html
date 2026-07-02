@@ -1,294 +1,124 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>脑卒中健康自测系统</title>
-    <base href="./">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", system-ui, sans-serif;
-        }
-        body {
-            background-color: #f5f7fa;
-        }
-        /* 加载遮罩 */
-        #loading-box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.4s ease;
-        }
-        .spin {
-            width: 44px;
-            height: 44px;
-            border: 4px solid #0077B6;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: rotate 1s linear infinite;
-        }
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-        /* 主体容器 */
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
-            padding-bottom: 75px;
-        }
-        /* 页面容器 */
-        .page {
-            display: none;
-            padding: 24px 16px;
-            min-height: calc(100vh - 75px);
-        }
-        .page.active {
-            display: block;
-        }
-        /* 首页样式 */
-        .home-box {
-            text-align: center;
-            padding-top: 120px;
-        }
-        .circle-logo {
-            width: 160px;
-            height: 160px;
-            background: #e0f2fe;
-            border-radius: 50%;
-            margin: 0 auto 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            color: #0077B6;
-        }
-        h1 {
-            font-size: 26px;
-            color: #1e293b;
-            margin-bottom: 16px;
-        }
-        .desc {
-            color: #64748b;
-            font-size: 16px;
-            margin-bottom: 48px;
-        }
-        .btn-blue {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background: #0077B6;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 17px;
-            margin-bottom: 16px;
-            cursor: pointer;
-        }
-        .btn-white {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background: white;
-            color: #0077B6;
-            border: 2px solid #0077B6;
-            border-radius: 14px;
-            font-size: 17px;
-            cursor: pointer;
-        }
-        /* 卡片模块 */
-        .card {
-            background: white;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-        }
-        .card label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #1e293b;
-        }
-        select, input[type="radio"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-        .radio-item {
-            display: flex;
-            gap: 8px;
-            padding: 6px 0;
-        }
-        /* 底部导航 */
-        .footer-nav {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            background: white;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            height: 70px;
-        }
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: #64748b;
-            cursor: pointer;
-        }
-        .nav-item.active {
-            color: #0077B6;
-        }
-        .nav-icon {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        /* 结果弹窗 */
-        #result-wrap {
-            text-align: center;
-            margin-top: 24px;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>脑卒中自测</title>
+<base href="./">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif;}
+body{background:#f5f7fa;}
+#loading{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s;}
+.circle{width:42px;height:42px;border:4px solid #0077B6;border-top:transparent;border-radius:50%;animation:loop 1s linear infinite;}
+@keyframes loop{100%{transform:rotate(360deg);}}
+.main{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:72px;}
+.page{display:none;padding:20px;min-height:calc(100vh - 72px);}
+#page-home{display:block;text-align:center;padding-top:100px;}
+.card{background:#fff;border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 1px 8px rgba(0,0,0,0.05);text-align:left;}
+.btn-blue{width:100%;background:#0077B6;color:#fff;border:0;border-radius:12px;padding:13px;font-size:16px;margin:10px 0;cursor:pointer;}
+.btn-outline{width:100%;background:#fff;color:#0077B6;border:2px solid #0077B6;border-radius:12px;padding:13px;font-size:16px;margin:10px 0;cursor:pointer;}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;background:#fff;border-top:1px solid #eee;height:70px;display:flex;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:#666;cursor:pointer;}
+.nav-item.active{color:#0077B6;}
+select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin:8px 0;font-size:15px;}
+.radio-row{margin:8px 0;display:flex;gap:8px;}
+#result-box{display:none;text-align:center;margin-top:16px;}
+</style>
 </head>
 <body>
-    <!-- 加载遮罩 -->
-    <div id="loading-box">
-        <div class="spin"></div>
+<div id="loading">
+    <div class="circle"></div>
+</div>
+<div class="main">
+    <div id="page-home" class="page">
+        <div style="width:150px;height:150px;background:#e0f2fe;border-radius:50%;margin:0 auto 30px;display:flex;align-items:center;justify-content:center;font-size:58px;color:#0077B6;">脑</div>
+        <h1 style="font-size:24px;color:#111;margin-bottom:14px;">脑卒中健康自测工具</h1>
+        <p style="color:#666;margin-bottom:42px;">风险自测 | 卒中科普 | 急救知识</p>
+        <button class="btn-blue" onclick="changePage('page-test')">开始风险自测</button>
+        <button class="btn-outline" onclick="changePage('page-know')">查看科普知识</button>
     </div>
-
-    <div class="container">
-        <!-- 首页页面 -->
-        <div id="page-home" class="page active">
-            <div class="home-box">
-                <div class="circle-logo">脑</div>
-                <h1>2026脑卒中健康自测</h1>
-                <p class="desc">卒中风险评估 | 科普知识 | 急救指南</p>
-                <button class="btn-blue" onclick="switchPage('page-test')">开始风险自测</button>
-                <button class="btn-white" onclick="switchPage('page-know')">卒中科普知识</button>
+    <div id="page-test" class="page">
+        <h2 style="text-align:center;margin:22px 0;font-size:20px;">卒中风险问卷</h2>
+        <div class="card">
+            <label>年龄区间</label>
+            <select id="age-input">
+                <option value="">请选择</option>
+                <option value="1">40岁以下</option>
+                <option value="2">40-49岁</option>
+                <option value="3">50-59岁</option>
+                <option value="4">60岁以上</option>
+            </select>
+        </div>
+        <div class="card">
+            <label>是否患有高血压</label>
+            <div class="radio-row">
+                <input type="radio" name="hp" value="yes" id="hpy">
+                <label for="hpy">是</label>
+            </div>
+            <div class="radio-row">
+                <input type="radio" name="hp" value="no" id="hpn">
+                <label for="hpn">否</label>
             </div>
         </div>
-
-        <!-- 风险自测页面 -->
-        <div id="page-test" class="page">
-            <h2 style="text-align:center;margin:20px 0 30px;font-size:22px;">卒中风险问卷</h2>
-            <div class="card">
-                <label>你的年龄段</label>
-                <select id="age-select">
-                    <option value="">请选择</option>
-                    <option value="1">40岁以下</option>
-                    <option value="2">40~49岁</option>
-                    <option value="3">50~59岁</option>
-                    <option value="4">60岁及以上</option>
-                </select>
+        <div class="card">
+            <label>是否长期吸烟</label>
+            <div class="radio-row">
+                <input type="radio" name="smoke" value="yes" id="smokey">
+                <label for="smokey">是</label>
             </div>
-            <div class="card">
-                <label>是否确诊高血压</label>
-                <div class="radio-item">
-                    <input type="radio" name="hp" value="yes" id="hp-yes">
-                    <label for="hp-yes">是</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" name="hp" value="no" id="hp-no">
-                    <label for="hp-no">否</label>
-                </div>
-            </div>
-            <div class="card">
-                <label>是否长期吸烟</label>
-                <div class="radio-item">
-                    <input type="radio" name="smoke" value="yes" id="smoke-yes">
-                    <label for="smoke-yes">是</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" name="smoke" value="no" id="smoke-no">
-                    <label for="smoke-no">否</label>
-                </div>
-            </div>
-            <button class="btn-blue" onclick="showRiskResult()">查看风险评估</button>
-            <div id="result-wrap" class="card">
-                <h3>风险等级：<span style="color:#0077B6;font-size:20px;">低风险</span></h3>
-                <p style="margin-top:12px;color:#475569;">保持健康作息，定期体检</p>
+            <div class="radio-row">
+                <input type="radio" name="smoke" value="no" id="smoken">
+                <label for="smoken">否</label>
             </div>
         </div>
-
-        <!-- 科普页面 -->
-        <div id="page-know" class="page">
-            <h2 style="text-align:center;margin:20px 0 30px;font-size:22px;">FAST卒中识别口诀</h2>
-            <div class="card">
-                <p style="margin:10px 0;font-size:16px;"><b>F 面部</b>：微笑时单侧嘴角下垂、脸部麻木</p>
-                <p style="margin:10px 0;font-size:16px;"><b>A 手臂</b>：单侧手臂无力，抬举困难</p>
-                <p style="margin:10px 0;font-size:16px;"><b>S 语言</b>：说话含糊、听不懂、无法发声</p>
-                <p style="margin:10px 0;font-size:16px;"><b>T 时间</b>：立刻拨打120，记录发病准确时间</p>
-                <p style="margin-top:24px;color:#dc2626;font-weight:bold;font-size:17px;">出现任意一条，马上就医！</p>
-            </div>
+        <button class="btn-blue" onclick="showRisk()">查看评估结果</button>
+        <div id="result-box" class="card">
+            <h3>风险等级：<span style="color:#0077B6;font-size:19px;">低风险</span></h3>
+            <p style="margin-top:10px;color:#555;">坚持健康生活，定期体检复查</p>
         </div>
     </div>
-
-    <!-- 底部导航栏 -->
-    <div class="footer-nav">
-        <div class="nav-item active" onclick="switchPage('page-home')">
-            <div class="nav-icon">🏠</div>
-            <span>首页</span>
-        </div>
-        <div class="nav-item" onclick="switchPage('page-test')">
-            <div class="nav-icon">📋</div>
-            <span>风险自测</span>
-        </div>
-        <div class="nav-item" onclick="switchPage('page-know')">
-            <div class="nav-icon">📖</div>
-            <span>科普知识</span>
+    <div id="page-know" class="page">
+        <h2 style="text-align:center;margin:22px 0;font-size:20px;">FAST卒中识别口诀</h2>
+        <div class="card">
+            <p style="margin:9px 0;"><b>F面部</b>：微笑单侧脸歪、面部麻木</p>
+            <p style="margin:9px 0;"><b>A手臂</b>：单侧手臂无力抬不起来</p>
+            <p style="margin:9px 0;"><b>S语言</b>：说话含糊、听不懂他人话语</p>
+            <p style="margin:9px 0;"><b>T时间</b>：立刻拨打120急救电话</p>
+            <p style="margin-top:20px;color:#d00000;font-weight:bold;">出现任意一项，马上就医！</p>
         </div>
     </div>
-
-    <script>
-        // 页面加载完成关闭加载动画
-        window.onload = function() {
-            setTimeout(() => {
-                const loadBox = document.getElementById("loading-box");
-                loadBox.style.opacity = "0";
-                setTimeout(() => loadBox.style.display = "none", 400);
-            }, 600);
-        }
-
-        // 切换页面通用函数
-        function switchPage(targetId) {
-            // 隐藏所有页面
-            document.querySelectorAll(".page").forEach(p => {
-                p.classList.remove("active");
-            })
-            // 显示目标页面
-            const target = document.getElementById(targetId);
-            target.classList.add("active");
-            // 导航高亮
-            document.querySelectorAll(".nav-item").forEach(nav => {
-                nav.classList.remove("active");
-            })
-            event.currentTarget.classList.add("active");
-        }
-
-        // 展示风险结果
-        function showRiskResult() {
-            document.getElementById("result-wrap").style.display = "block";
-        }
-    </script>
+</div>
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="changePage('page-home')">
+        <span style="font-size:18px;">🏠</span>
+        <span>首页</span>
+    </div>
+    <div class="nav-item" onclick="changePage('page-test')">
+        <span style="font-size:18px;">📋</span>
+        <span>自测</span>
+    </div>
+    <div class="nav-item" onclick="changePage('page-know')">
+        <span style="font-size:18px;">📖</span>
+        <span>科普</span>
+    </div>
+</div>
+<script>
+window.onload = function(){
+    const loadDom = document.getElementById("loading");
+    loadDom.style.opacity = "0";
+    setTimeout(()=>loadDom.style.display = "none", 300);
+}
+function changePage(targetId){
+    document.querySelectorAll(".page").forEach(p=>{
+        p.style.display = "none";
+    })
+    document.getElementById(targetId).style.display = "block";
+    document.querySelectorAll(".nav-item").forEach(nav=>nav.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+}
+function showRisk(){
+    document.getElementById("result-box").style.display = "block";
+}
+</script>
 </body>
 </html>
