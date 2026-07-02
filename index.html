@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026脑卒中防控互动测试H5</title>
-    <!-- 相对基准路径：本地预览+GitHub Pages仓库CZH5全部兼容 -->
     <base href="./">
-    <!-- CDN增加跨域属性，防止GitHub拦截资源 -->
     <script src="https://cdn.tailwindcss.com" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" crossorigin="anonymous"></script>
@@ -79,14 +77,12 @@
             .step-indicator.completed {
                 @apply bg-success text-white;
             }
-            /* 底部留白彻底避开导航遮挡 */
             .page-content {
                 @apply pb-36;
             }
             .bottom-actions {
                 @apply mb-32;
             }
-            /* Loading兜底强制样式，超时自动消失 */
             #loading {
                 transition: opacity 0.3s ease;
             }
@@ -99,7 +95,6 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- 加载遮罩（增加兜底超时销毁） -->
     <div id="loading" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/10 z-50">
         <div class="flex flex-col items-center">
             <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -107,10 +102,9 @@
         </div>
     </div>
 
-    <!-- 主容器 -->
     <div id="app" class="max-w-md mx-auto min-h-screen bg-neutral-50 shadow-xl overflow-hidden relative">
         <div id="pages" class="relative">
-            <!-- 首页引导 默认显示 -->
+            <!-- 默认首页，自带active，无需JS也能展示 -->
             <div id="intro-page" class="page active min-h-screen flex flex-col">
                 <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <div class="w-48 h-48 bg-primary/10 rounded-full flex items-center justify-center mb-8 animate-pulse-slow">
@@ -135,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- 科普专题页 -->
             <div id="about-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-gradient-to-r from-primary to-secondary text-white p-4 flex items-center shadow-sm">
                     <button class="back-btn mr-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
@@ -209,7 +202,6 @@
                 </div>
             </div>
 
-            <!-- 风险自测问卷 -->
             <div id="risk-assessment-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4">
@@ -398,7 +390,6 @@
                 </div>
             </div>
 
-            <!-- 症状识别答题页 -->
             <div id="symptom-recognition-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
@@ -438,7 +429,6 @@
                 </div>
             </div>
 
-            <!-- FAST动画演示页 -->
             <div id="fast-principle-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
@@ -468,7 +458,6 @@
                 </div>
             </div>
 
-            <!-- 急救模拟演练 -->
             <div id="first-aid-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
@@ -505,7 +494,6 @@
                 </div>
             </div>
 
-            <!-- 底部固定导航栏 -->
             <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40 max-w-md mx-auto">
                 <div class="flex justify-around">
                     <button class="nav-btn flex flex-col items-center py-3 px-4 active text-primary" data-target="risk-assessment-page">
@@ -530,18 +518,14 @@
     </div>
 
     <script>
-        // 兜底强制移除Loading遮罩（解决永久卡死加载）
         window.addEventListener('load', function(){
             const loadingDom = document.getElementById('loading');
-            // 页面加载完成立刻隐藏
             loadingDom.classList.add('hidden-load');
-            // 兜底3秒强制销毁，防止JS报错无法关闭
             setTimeout(()=>{
                 if(loadingDom) loadingDom.remove();
             }, 3000);
         });
 
-        // 页面导航切换
         function initNavigation(){
             document.getElementById('start-btn').onclick = ()=>showPage('risk-assessment-page');
             document.getElementById('about-btn').onclick = ()=>showPage('about-page');
@@ -565,7 +549,6 @@
             if(pageId === 'risk-assessment-page') showQuestionStep(1);
         }
 
-        // 风险问卷逻辑
         function initRiskAssessment(){
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
@@ -699,7 +682,6 @@
             }
         }
 
-        // 症状答题模块
         function initSymptomRecognition(){
             const startBtn = document.getElementById('start-symptom-test');
             const restartBtn = document.getElementById('restart-symptom-test');
@@ -770,7 +752,6 @@
             }
         }
 
-        // FAST完整动画逻辑
         function initFastAnimation(){
             const playBtn = document.getElementById('play-fast-animation');
             const pauseBtn = document.getElementById('pause-fast-animation');
@@ -782,7 +763,7 @@
             resetBtn.onclick = resetAnim;
             function resetAnim(){
                 clearInterval(timer);
-                paused = false; step = 0;
+                paused=false; step=0;
                 pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
                 wrap.innerHTML = `<div class="text-center"><div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div><p class="text-gray-600">点击播放按钮启动分步动画</p></div>`;
                 playBtn.classList.remove('hidden');
@@ -794,12 +775,12 @@
                 playBtn.classList.add('hidden');
                 pauseBtn.classList.remove('hidden');
                 resetBtn.classList.remove('hidden');
-                step = 0;
+                step=0;
                 renderStep(step);
                 timer = setInterval(()=>{
                     if(!paused){
                         step++;
-                        if(step >=4){
+                        if(step>=4){
                             clearInterval(timer);
                             renderComplete();
                         }else{
@@ -818,7 +799,7 @@
                     timer = setInterval(()=>{
                         if(!paused){
                             step++;
-                            if(step >=4){
+                            if(step>=4){
                                 clearInterval(timer);
                                 renderComplete();
                             }else{
@@ -830,4 +811,14 @@
             }
             function renderStep(s){
                 let html = '';
-                if
+                if(s === 0){
+                    html = `
+                    <div class="text-center px-4">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mb-4">F</div>
+                        <h4 class="text-lg font-bold mb-2">面部歪斜</h4>
+                        <p>微笑，单侧嘴角下垂、脸部麻木</p>
+                    </div>`;
+                }else if(s === 1){
+                    html = `
+                    <div class="text-center px-4">
+                        <div
