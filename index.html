@@ -2,145 +2,124 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>脑卒中H5 CZH5</title>
 <base href="./">
-<!-- 仅保留两个必要CDN，减少加载失败概率 -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 <style>
-/* 内置基础样式，不依赖复杂配置，防止解析阻塞 */
-.page { display: none; }
-.page.active { display: flex; }
-.nav-active { color: #0077B6; }
-#loading { transition: opacity 0.4s; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Microsoft YaHei,sans-serif;}
+body{background:#f8fafc;min-height:100vh;}
+#loading{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.load-spin{width:40px;height:40px;border:4px #0077B6 solid;border-top:transparent;border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{100%{transform:rotate(360deg);}}
+.wrap{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:70px;}
+.page{display:none;padding:20px;min-height:calc(100vh - 70px);flex-direction:column;justify-content:center;text-align:center;}
+.page.active{display:flex;}
+.card{background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 1px 8px #00000010;text-align:left;}
+.btn-blue{width:100%;background:#0077B6;color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;margin:8px 0;}
+.btn-white{width:100%;background:#fff;color:#0077B6;border:2px solid #0077B6;border-radius:12px;padding:14px;font-size:16px;margin:8px 0;}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;background:#fff;border-top:1px solid #eee;display:flex;height:65px;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#666;font-size:12px;}
+.nav-item.active{color:#0077B6;}
+input,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin:6px 0;font-size:15px;}
 </style>
 </head>
-<body class="bg-gray-50 m-0 p-0 font-sans">
-<!-- 加载遮罩 -->
-<div id="loading" class="fixed inset-0 z-50 bg-white flex items-center justify-center">
-    <div class="text-center">
-        <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-        <p class="mt-3 text-blue-600">加载中...</p>
+<body>
+<div id="loading">
+    <div class="load-spin"></div>
+</div>
+<div class="wrap">
+    <!-- 首页 默认激活，无JS也能显示文字 -->
+    <div id="page-home" class="page active">
+        <div style="width:160px;height:160px;background:#e0f2fe;border-radius:50%;margin:0 auto 30px;display:flex;align-items:center;justify-content:center;font-size:60px;color:#0077B6;">脑</div>
+        <h1 style="font-size:24px;color:#111;margin-bottom:16px;">脑卒中风险自测工具</h1>
+        <p style="color:#666;margin-bottom:40px;">卒中自测 | 科普知识 | 急救指南</p>
+        <button class="btn-blue" onclick="switchPage('page-test')">开始风险自测</button>
+        <button class="btn-white" onclick="switchPage('page-know')">科普知识</button>
+    </div>
+
+    <!-- 自测页面 -->
+    <div id="page-test" class="page">
+        <h2 style="font-size:20px;margin-bottom:20px;">卒中风险问卷</h2>
+        <div class="card">
+            <label>年龄</label>
+            <select id="age">
+                <option value="">请选择年龄段</option>
+                <option value="1">40岁以下</option>
+                <option value="2">40-49岁</option>
+                <option value="3">50-59岁</option>
+                <option value="4">60岁以上</option>
+            </select>
+        </div>
+        <div class="card">
+            <label>是否确诊高血压</label>
+            <input type="radio" name="hp" value="yes"> 是
+            <input type="radio" name="hp" value="no"> 否
+        </div>
+        <div class="card">
+            <label>是否长期吸烟</label>
+            <input type="radio" name="smoke" value="yes"> 是
+            <input type="radio" name="smoke" value="no"> 否
+        </div>
+        <button class="btn-blue" onclick="showResult()">查看风险评估</button>
+        <div id="result-box" class="card" style="display:none;text-align:center;margin-top:20px;">
+            <h3>你的风险等级：<span style="color:#0077B6">低风险</span></h3>
+        </div>
+    </div>
+
+    <!-- 科普页面 -->
+    <div id="page-know" class="page">
+        <h2 style="font-size:20px;margin-bottom:20px;">FAST卒中识别口诀</h2>
+        <div class="card">
+            <p style="margin:8px 0;"><b>F</b> 面部歪斜，单侧嘴角下垂</p>
+            <p style="margin:8px 0;"><b>A</b> 单侧手臂无力，举不起来</p>
+            <p style="margin:8px 0;"><b>S</b> 说话含糊、口齿不清</p>
+            <p style="margin:8px 0;"><b>T</b> 立刻拨打120急救电话</p>
+            <p style="margin-top:16px;color:#d00000;font-weight:bold;">出现任意一条，马上就医！</p>
+        </div>
     </div>
 </div>
 
-<!-- 主容器 -->
-<div class="max-w-md mx-auto min-h-screen bg-gray-50 relative pb-20">
-    <div id="pageWrap">
-        <!-- 首页（默认激活，不用JS也能显示文字） -->
-        <div id="pageHome" class="page active flex-col p-6 min-h-screen justify-center text-center">
-            <div class="w-40 h-40 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-6">
-                <i class="fa fa-brain text-6xl text-blue-600"></i>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-800 mb-3">脑卒中健康自测工具</h1>
-            <p class="text-gray-500 mb-8">卒中风险自测 | 症状科普 | 急救知识</p>
-            <button id="btnTest" class="w-full bg-blue-600 text-white py-3 rounded-xl text-lg mb-4">
-                <i class="fa fa-play-circle mr-2"></i>开始风险测试
-            </button>
-            <button id="btnIntro" class="w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl text-lg">
-                <i class="fa fa-book mr-2"></i>科普知识
-            </button>
-        </div>
-
-        <!-- 测试页面 -->
-        <div id="pageTest" class="page flex-col p-6 hidden">
-            <h2 class="text-xl font-bold mb-6 text-center">卒中风险问卷</h2>
-            <div class="bg-white rounded-xl p-4 mb-4 shadow">
-                <label class="block mb-2 font-medium">年龄</label>
-                <select id="ageSel" class="w-full border p-3 rounded-lg">
-                    <option value="">请选择</option>
-                    <option value="1">40岁以下</option>
-                    <option value="2">40-49</option>
-                    <option value="3">50-59</option>
-                    <option value="4">60+</option>
-                </select>
-            </div>
-            <div class="bg-white rounded-xl p-4 mb-4 shadow">
-                <p class="font-medium mb-2">是否高血压</p>
-                <label class="flex gap-2 my-2"><input type="radio" name="hp" value="yes"> 是</label>
-                <label class="flex gap-2 my-2"><input type="radio" name="hp" value="no"> 否</label>
-            </div>
-            <div class="bg-white rounded-xl p-4 mb-4 shadow">
-                <p class="font-medium mb-2">是否长期吸烟</p>
-                <label class="flex gap-2 my-2"><input type="radio" name="smoke" value="yes"> 是</label>
-                <label class="flex gap-2 my-2"><input type="radio" name="smoke" value="no"> 否</label>
-            </div>
-            <button id="btnResult" class="w-full bg-blue-600 text-white py-3 rounded-xl mt-4">查看风险结果</button>
-            <div id="resultBox" class="mt-6 text-center hidden">
-                <h3 class="text-xl font-bold">风险等级：<span id="riskText" class="text-green-600">低风险</span></h3>
-            </div>
-        </div>
-
-        <!-- 科普页面 -->
-        <div id="pageIntro" class="page flex-col p-6 hidden">
-            <h2 class="text-xl font-bold mb-4 text-center">FAST卒中识别口诀</h2>
-            <div class="bg-white rounded-xl p-5 shadow">
-                <p class="my-2"><b>F</b>面部歪斜，单侧嘴角下垂</p>
-                <p class="my-2"><b>A</b>单侧手臂无力抬举困难</p>
-                <p class="my-2"><b>S</b>说话含糊、无法正常表达</p>
-                <p class="my-2"><b>T</b>立刻拨打120，记录发病时间</p>
-                <p class="mt-4 text-red-600 font-bold">出现任意一条症状，马上就医！</p>
-            </div>
-        </div>
+<!-- 底部导航 -->
+<div class="bottom-nav">
+    <div class="nav-item active" data-id="page-home" onclick="switchPage('page-home')">
+        <span style="font-size:18px;">🏠</span>
+        <span>首页</span>
     </div>
-
-    <!-- 底部导航栏 -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t flex justify-around py-3 z-40">
-        <button class="navBtn text-center flex flex-col items-center nav-active" data-target="pageHome">
-            <i class="fa fa-home text-lg"></i>
-            <span class="text-xs mt-1">首页</span>
-        </button>
-        <button class="navBtn text-center flex flex-col items-center" data-target="pageTest">
-            <i class="fa fa-list-alt text-lg"></i>
-            <span class="text-xs mt-1">自测</span>
-        </button>
-        <button class="navBtn text-center flex flex-col items-center" data-target="pageIntro">
-            <i class="fa fa-info text-lg"></i>
-            <span class="text-xs mt-1">科普</span>
-        </button>
+    <div class="nav-item" data-id="page-test" onclick="switchPage('page-test')">
+        <span style="font-size:18px;">📋</span>
+        <span>自测</span>
+    </div>
+    <div class="nav-item" data-id="page-know" onclick="switchPage('page-know')">
+        <span style="font-size:18px;">📖</span>
+        <span>科普</span>
     </div>
 </div>
 
 <script>
-// 页面加载完成直接关闭加载遮罩
+// 加载遮罩关闭
 window.onload = function(){
-    const loadDom = document.getElementById('loading');
-    loadDom.style.opacity = '0';
-    setTimeout(()=>loadDom.style.display = 'none', 300);
+    setTimeout(()=>{
+        document.getElementById('loading').style.display = 'none';
+    },800);
 }
-
-// 页面切换通用函数
-function switchPage(pageId){
+// 页面切换函数
+function switchPage(targetId){
     // 隐藏所有页面
-    document.querySelectorAll('.page').forEach(p=>{
-        p.classList.remove('active');
-        p.classList.add('hidden');
+    document.querySelectorAll('.page').forEach(item=>{
+        item.classList.remove('active');
+        item.style.display = 'none';
     })
-    // 显示目标页面
-    const target = document.getElementById(pageId);
-    target.classList.remove('hidden');
-    target.classList.add('active');
+    // 展示目标页面
+    const targetPage = document.getElementById(targetId);
+    targetPage.classList.add('active');
+    targetPage.style.display = 'flex';
     // 导航高亮
-    document.querySelectorAll('.navBtn').forEach(btn=>btn.classList.remove('nav-active'));
-    document.querySelector(`.navBtn[data-target="${pageId}"]`).classList.add('nav-active');
+    document.querySelectorAll('.nav-item').forEach(nav=>nav.classList.remove('active'));
+    document.querySelector(`.nav-item[data-id="${targetId}"]`).classList.add('active');
 }
-
-// 底部导航绑定点击
-document.querySelectorAll('.navBtn').forEach(btn=>{
-    btn.onclick = function(){
-        const targetId = this.getAttribute('data-target');
-        switchPage(targetId);
-    }
-})
-
-// 首页按钮跳转
-document.getElementById('btnTest').onclick = ()=>switchPage('pageTest');
-document.getElementById('btnIntro').onclick = ()=>switchPage('pageIntro');
-
-// 计算风险按钮
-document.getElementById('btnResult').onclick = function(){
-    document.getElementById('resultBox').classList.remove('hidden');
+// 展示评估结果
+function showResult(){
+    document.getElementById('result-box').style.display = 'block';
 }
 </script>
 </body>
