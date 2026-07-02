@@ -2,16 +2,16 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>卒中健康知识互动测试 | 急救科普H5</title>
-    <!-- 外部CDN 全局兼容 GitHub Pages -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>卒中健康知识互动测试</title>
+    <!-- 外部CDN 全局兼容 GitHub Pages，无本地路径 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -27,63 +27,61 @@
                         danger: '#dc2626'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'wave': 'wave 1.5s infinite',
-                    },
-                    keyframes: {
-                        wave: {
-                            '0%, 100%': { transform: 'scaleY(1)' },
-                            '50%': { transform: 'scaleY(1.5)' },
-                        }
+                        sans: ['system-ui', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-            .glass {
-                background: rgba(255, 255, 255, 0.25);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.18);
-            }
-            .card-hover { transition: all 0.3s ease; }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            }
-            .progress-bar { transition: width 0.5s ease-in-out; }
-            .option-btn { transition: all 0.2s ease; }
-            .option-btn:hover { transform: translateY(-2px); }
-            .option-btn.selected { background-color: #0077B6; color: white; }
-            .option-btn.correct { background-color: #4CAF50; color: white; }
-            .option-btn.incorrect { background-color: #FF5252; color: white; }
-            .audio-wave {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 3px;
-            }
-            .audio-wave .bar {
-                width: 4px;
-                height: 20px;
-                background-color: #00B4D8;
-                border-radius: 2px;
-                animation: wave 0.5s infinite;
-            }
-            .audio-wave .bar:nth-child(2) { animation-delay: 0.1s; }
-            .audio-wave .bar:nth-child(3) { animation-delay: 0.2s; }
-            .audio-wave .bar:nth-child(4) { animation-delay: 0.3s; }
-            .audio-wave .bar:nth-child(5) { animation-delay: 0.4s; }
+    <style>
+        /* 全局基础样式，修复背景、布局、适配移动端 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        body {
+            background: linear-gradient(to bottom, #f0f7ff, #e6f0ff);
+            min-height: 100vh;
+            padding-bottom: 70px; /* 给底部导航预留位置 */
+        }
+        /* 工具样式 */
+        .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .progress-bar { transition: width 0.5s ease-in-out; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover { transform: translateY(-2px); }
+        .option-btn.selected { background-color: #0077B6; color: #fff; }
+        .option-btn.correct { background-color: #4CAF50; color: #fff; }
+        .option-btn.incorrect { background-color: #FF5252; color: #fff; }
+        /* 音频波动动画 */
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+        .audio-wave .bar {
+            width: 4px;
+            height: 20px;
+            background-color: #00B4D8;
+            border-radius: 2px;
+            animation: wave 0.5s infinite;
+        }
+        .audio-wave .bar:nth-child(2) { animation-delay: 0.1s; }
+        .audio-wave .bar:nth-child(3) { animation-delay: 0.2s; }
+        .audio-wave .bar:nth-child(4) { animation-delay: 0.3s; }
+        .audio-wave .bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+        /* 全局隐藏类 */
+        .hidden { display: none !important; }
     </style>
 </head>
-<body class="bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen font-sans text-dark">
+<body class="font-sans text-dark">
     <!-- 顶部导航栏 -->
     <nav class="bg-primary text-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -109,15 +107,15 @@
             <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
                 <h2 class="text-3xl font-bold text-primary mb-4 text-shadow">卒中急救知识互动测试</h2>
                 <p class="text-lg mb-8 text-gray-700">识别卒中症状 · 掌握急救知识 · 守护家人健康</p>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="w-full h-48 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                    <div class="w-full h-48 bg-blue-50 rounded-lg flex items-center justify-center mb-6">
                         <i class="fa fa-stethoscope text-6xl text-primary"></i>
                     </div>
                     <p class="text-gray-600 mb-4">脑卒中（中风）是高发急性脑血管疾病，高致残、高致死。</p>
                     <p class="text-gray-600 font-bold">牢记急救知识，关键时刻能救命！</p>
                 </div>
-                
+
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <button id="startTestBtn" class="px-8 py-3 bg-primary hover:bg-secondary text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                         <i class="fa fa-play-circle mr-2"></i>开始测试
@@ -138,7 +136,7 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">卒中风险自测</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
@@ -149,17 +147,17 @@
                             <div id="progressBar" class="bg-primary h-2.5 rounded-full progress-bar" style="width: 10%"></div>
                         </div>
                     </div>
-                    
+
                     <div id="questionContainer" class="mb-6">
                         <h3 id="questionText" class="text-xl font-semibold mb-4">1. 您的年龄是？</h3>
                         <div id="optionsContainer" class="space-y-3"></div>
                     </div>
-                    
+
                     <div id="explanationContainer" class="hidden mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                         <h4 class="font-medium text-primary mb-2">知识解析</h4>
                         <p id="explanationText" class="text-gray-700"></p>
                     </div>
-                    
+
                     <div class="flex justify-between">
                         <button id="prevQuestionBtn" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors" disabled>
                             上一题
@@ -181,13 +179,13 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">卒中症状快速识别（FAST原则）</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-6 text-center">
                         <h3 class="text-xl font-semibold mb-2">FAST 快速识别法</h3>
                         <p class="text-gray-600">记住4个要点，快速判断卒中发作</p>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div class="symptom-card card-hover bg-blue-50 rounded-xl p-5 border border-blue-100" data-aos="fade-up" data-aos-delay="100">
                             <div class="flex items-center mb-3">
@@ -230,7 +228,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div id="symptomDemoContainer" class="hidden mb-6">
                         <div class="bg-gray-900 rounded-xl p-4 relative">
                             <button id="closeDemoBtn" class="absolute top-3 right-3 text-white hover:text-gray-300">
@@ -240,7 +238,7 @@
                             <div id="demoExplanation" class="text-white text-center"></div>
                         </div>
                     </div>
-                    
+
                     <div class="text-center">
                         <button id="startSymptomTestBtn" class="px-8 py-3 bg-primary hover:bg-secondary text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <i class="fa fa-check-circle mr-2"></i>进入急救学习
@@ -259,12 +257,12 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">卒中急救措施指导</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-6">
                         <h3 class="text-xl font-semibold mb-4">黄金救治时间：发病后 4.5 小时</h3>
                         <p class="text-gray-700 mb-4">越早送医治疗，后遗症越少、康复概率越高。</p>
-                        
+
                         <div class="bg-blue-50 rounded-lg p-4 mb-6">
                             <div class="flex items-center mb-2">
                                 <i class="fa fa-exclamation-circle text-warning text-xl mr-2"></i>
@@ -272,7 +270,7 @@
                             </div>
                             <p class="text-gray-700">等待救护车期间，请按以下步骤处置患者：</p>
                         </div>
-                        
+
                         <div class="space-y-6">
                             <div class="first-aid-step card-hover bg-white rounded-lg p-4 border-l-4 border-primary shadow-sm">
                                 <div class="flex items-start">
@@ -312,11 +310,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mt-8">
                         <h3 class="text-xl font-semibold mb-4">发病计时工具</h3>
                         <p class="text-gray-700 mb-4">记录发病时长，为医生诊疗提供依据：</p>
-                        
+
                         <div class="bg-white rounded-lg p-6 shadow-md border border-gray-200">
                             <div class="text-center mb-6">
                                 <div id="timerDisplay" class="text-4xl font-mono font-bold text-primary mb-4">00:00:00</div>
@@ -329,7 +327,7 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div class="bg-blue-50 rounded-lg p-4">
                                 <h4 class="font-semibold text-primary mb-2">时间参考</h4>
                                 <ul class="text-gray-700 space-y-2">
@@ -341,7 +339,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mt-8 text-center">
                         <button id="startFirstAidTestBtn" class="px-8 py-3 bg-primary hover:bg-secondary text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <i class="fa fa-check-circle mr-2"></i>进入情景模拟测试
@@ -360,15 +358,15 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">急救情景模拟</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-6 text-center">
                         <h3 class="text-xl font-semibold mb-2">实景答题模拟</h3>
                         <p class="text-gray-600 mb-6">根据场景描述，选择正确的急救做法</p>
-                        
+
                         <div class="bg-gray-900 rounded-xl p-6 mb-8">
                             <div id="scenarioDescription" class="text-white text-left mb-6 p-4 bg-gray-800 rounded-lg"></div>
-                            
+
                             <div id="voiceInputContainer" class="mb-6">
                                 <div class="audio-wave mb-4">
                                     <div class="bar"></div>
@@ -387,19 +385,19 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div id="voiceResultContainer" class="hidden mb-6">
                                 <h4 class="text-lg font-semibold text-white mb-2">你的回答：</h4>
                                 <p id="voiceResultText" class="text-gray-300 p-3 bg-gray-800 rounded-lg mb-4"></p>
                                 <div id="feedbackContainer" class="p-4 rounded-lg"></div>
                             </div>
                         </div>
-                        
+
                         <div class="flex justify-between">
                             <button id="prevScenarioBtn" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors" disabled>
                                 上一场景
                             </button>
-                            <button id="nextScenarioBtn" class="px-6 py-2 bg-primary hover:bg-secondary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                            <button id="nextScenarioBtn" class="px-6 py-2 bg-primary hover:bg-secondary text-white rounded-lg font-medium transition-colors">
                                 下一场景
                             </button>
                         </div>
@@ -417,7 +415,7 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">测试结果汇总</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-8 text-center">
                         <h3 class="text-2xl font-bold text-primary mb-4">卒中知识掌握测评</h3>
@@ -429,7 +427,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="space-y-6 mb-8">
                         <div class="result-section bg-blue-50 rounded-lg p-4">
                             <h4 class="text-lg font-semibold text-primary mb-3">风险评估总结</h4>
@@ -443,7 +441,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="result-section bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                             <h4 class="text-lg font-semibold text-primary mb-3">知识掌握明细</h4>
                             <div class="space-y-3">
@@ -476,7 +474,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="result-section bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                             <h4 class="text-lg font-semibold text-primary mb-3">健康建议</h4>
                             <ul class="space-y-2 text-gray-700">
@@ -495,7 +493,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
                         <button id="restartTestBtn" class="px-6 py-3 bg-primary hover:bg-secondary text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">
                             <i class="fa fa-refresh mr-2"></i>重新测试
@@ -517,12 +515,12 @@
                     </button>
                     <h2 class="text-2xl font-bold text-primary">卒中科普知识</h2>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                     <div class="mb-6">
                         <h3 class="text-xl font-semibold mb-4">什么是脑卒中？</h3>
                         <p class="text-gray-700 mb-4">脑卒中俗称中风，分为两大类：<strong>缺血性卒中（脑梗）</strong>和<strong>出血性卒中（脑出血/蛛网膜下腔出血）</strong>。</p>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="card-hover bg-red-50 rounded-xl p-5 border border-red-100">
                                 <h4 class="text-lg font-semibold text-red-600 mb-3">出血性卒中</h4>
@@ -533,7 +531,7 @@
                                 <p class="text-gray-700">脑血管堵塞，脑部缺血缺氧坏死，占卒中80%，也是最常见类型。</p>
                             </div>
                         </div>
-                        
+
                         <h3 class="text-xl font-semibold mb-4">卒中危险因素</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                             <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
@@ -551,7 +549,7 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <h3 class="text-xl font-semibold mb-4">日常预防方案</h3>
                         <div class="bg-green-50 rounded-lg p-5 mb-6">
                             <h4 class="font-semibold text-green-700 mb-3">健康生活方式</h4>
@@ -696,7 +694,7 @@
     </div>
 
     <!-- 紧急求助悬浮按钮 -->
-    <button id="emergencyBtn" class="fixed bottom-20 right-6 w-14 h-14 rounded-full bg-warning hover:bg-red-600 text-white shadow-lg flex items-center justify-center text-2xl animate-pulse-fast z-40">
+    <button id="emergencyBtn" class="fixed bottom-20 right-6 w-14 h-14 rounded-full bg-warning hover:bg-red-600 text-white shadow-lg flex items-center justify-center text-2xl z-40">
         <i class="fa fa-phone"></i>
     </button>
 
@@ -757,8 +755,11 @@
             });
 
             // 首页按钮
-            document.getElementById('startTestBtn').onclick = ()=>{showSection('riskTest');initRiskTest();};
+            document.getElementById('startTestBtn').onclick = ()=>{showSection('riskTest');};
             document.getElementById('learnMoreBtn').onclick = ()=>showSection('learnMore');
+            document.getElementById('startSymptomTestBtn').onclick = ()=>showSection('firstAidGuide');
+            document.getElementById('startFirstAidTestBtn').onclick = ()=>showSection('aiFirstAidSimulation');
+            document.getElementById('restartTestBtn').onclick = ()=>showSection('welcome');
 
             // 弹窗控制
             document.getElementById('helpBtn').onclick = ()=>document.getElementById('helpModal').classList.remove('hidden');
@@ -775,15 +776,54 @@
             document.getElementById('closeEmergencyBtn').onclick = ()=>document.getElementById('emergencyModal').classList.add('hidden');
             document.getElementById('notEmergencyBtn').onclick = ()=>document.getElementById('emergencyModal').classList.add('hidden');
             document.querySelector('.emergency-call-btn').onclick = ()=>alert('请立即拨打 120 急救电话！');
-            document.querySelectorAll('.share-btn').forEach(btn=>btn.onclick=()=>alert('分享功能已唤起，请选择对应渠道'));
+            document.querySelectorAll('.share-btn').forEach(btn=>btn.onclick=()=>alert('分享功能已唤起'));
 
-            // ========== 风险自测题库 ==========
-            let currentQuestionIndex = 0, userAnswers = [], riskScore = 0;
+            // 症状讲解弹窗
+            const demoData = {
+                face: {title:"面部下垂", content:"观察对方面部，让其微笑，若一侧嘴角无法上扬、面部僵硬歪斜，高度警惕卒中。"},
+                arm: {title:"手臂无力", content:"让患者双臂平举，若单侧手臂无力下垂、抬不起来，属于典型卒中症状。"},
+                speech: {title:"言语困难", content:"交谈时发现说话含糊、听不懂、无法正常表达，是卒中信号。"},
+                time: {title:"抓紧时间送医", content:"出现以上任意一种症状，不要拖延，立刻拨打120，时间就是大脑！"}
+            };
+            document.querySelectorAll('.symptom-demo-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const key = btn.dataset.symptom;
+                    const data = demoData[key];
+                    document.getElementById('demoContent').innerText = data.title;
+                    document.getElementById('demoExplanation').innerText = data.content;
+                    document.getElementById('symptomDemoContainer').classList.remove('hidden');
+                });
+            });
+            document.getElementById('closeDemoBtn').addEventListener('click', ()=>{
+                document.getElementById('symptomDemoContainer').classList.add('hidden');
+            });
+
+            // 简易计时器
+            let timerInterval = null;
+            let second = 0;
+            const timerDom = document.getElementById('timerDisplay');
+            function formatTime(s){
+                let h = Math.floor(s / 3600);
+                let m = Math.floor((s % 3600) / 60);
+                let s2 = s % 60;
+                return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s2.toString().padStart(2,'0')}`;
+            }
+            document.getElementById('startTimerBtn').addEventListener('click', ()=>{
+                if(timerInterval) return;
+                timerInterval = setInterval(()=>{
+                    second++;
+                    timerDom.innerText = formatTime(second);
+                },1000);
+            });
+            document.getElementById('resetTimerBtn').addEventListener('click', ()=>{
+                clearInterval(timerInterval);
+                timerInterval = null;
+                second = 0;
+                timerDom.innerText = "00:00:00";
+            });
+
+            // 模拟题库与答题（基础逻辑保证页面可用）
             const questions = [
-                {text:"1. 您的年龄是？",options:[{v:"A",t:"40岁以下",s:0},{v:"B",t:"40-59岁",s:1},{v:"C",t:"60-74岁",s:2},{v:"D",t:"75岁以上",s:3}],exp:"年龄越大，卒中发病风险显著升高。"},
-                {text:"2. 您的性别是？",options:[{v:"A",t:"男性",s:1},{v:"B",t:"女性",s:0}],exp:"男性卒中发病率略高于女性，女性绝经后风险上升。"},
-                {text:"3. 血压情况？",options:[{v:"A",t:"正常",s:0},{v:"B",t:"偏高",s:1},{v:"C",t:"高血压",s:3},{v:"D",t:"不清楚",s:2}],exp:"高血压是卒中第一危险因素，务必长期管控。"},
-                {text:"4. 是否患有糖尿病？",options:[{v:"A",t:"无，血糖正常",s:0},{v:"B",t:"血糖偏高",s:1},{v:"C",t:"有，控制良好",s:2},{v:"D",t:"有，控制差",s:3}],exp:"糖尿病会损伤全身血管，大幅提升卒中风险。"},
-                {text:"5. 血脂情况？",options:[{v:"A",t:"正常",s:0},{v:"B",t:"偏高",s:1},{v:"C",t:"偏高严重",s:2},{v:"D",t:"不清楚",s:1}],exp:"高血脂易造成血管斑块、堵塞，诱发脑梗。"},
-                {text:"6. 吸烟情况？",options:[{v:"A",t:"从不吸烟",s:0},{v:"B",t:"已戒烟",s:1},{v:"C",t:"偶尔吸烟",s:2},{v:"D",t:"长期吸烟",s:3}],exp:"吸烟损伤血管内皮，是卒中明确高危因素。"},
-                {text:"7. 饮酒情况？",options:[{v:"A",t:"从不饮酒",s:0},{v:"B",t:"少量偶尔",s:0},{v:"C",t:"经常饮酒",s:2},{v:"D",t:"大量
+                {q:"1. 您的年龄是？", opts:["40岁以下","40-59岁","60-74岁","75岁以上"], tip:"年龄越大，卒中发病风险显著升高。"},
+                {q:"2. 您的性别是？", opts:["男性","女性"], tip:"男性卒中发病率略高于女性，女性绝经后风险上升。"},
+                {q:"3. 血压情况？", opts:["正常","偏高","高血压","不清楚"], tip:"高血压是卒中第一危险因素，务必长期管控。"}
