@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026脑卒中防控互动测试H5</title>
-    <!-- 适配GitHub Pages二级仓库路径 CZH5 -->
-    <base href="/CZH5/">
-    <!-- 公网CDN 稳定可访问 -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 相对基准路径：本地预览+GitHub Pages仓库CZH5全部兼容 -->
+    <base href="./">
+    <!-- CDN增加跨域属性，防止GitHub拦截资源 -->
+    <script src="https://cdn.tailwindcss.com" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" crossorigin="anonymous"></script>
     
     <script>
         tailwind.config = {
@@ -79,18 +79,27 @@
             .step-indicator.completed {
                 @apply bg-success text-white;
             }
-            /* 彻底修复底部导航遮挡上下一题按钮，加大底部留白 */
+            /* 底部留白彻底避开导航遮挡 */
             .page-content {
                 @apply pb-36;
             }
             .bottom-actions {
                 @apply mb-32;
             }
+            /* Loading兜底强制样式，超时自动消失 */
+            #loading {
+                transition: opacity 0.3s ease;
+            }
+            #loading.hidden-load {
+                opacity: 0;
+                pointer-events: none;
+                z-index: -10 !important;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- 加载动画 -->
+    <!-- 加载遮罩（增加兜底超时销毁） -->
     <div id="loading" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/10 z-50">
         <div class="flex flex-col items-center">
             <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -98,10 +107,10 @@
         </div>
     </div>
 
-    <!-- 主容器 移动端适配 -->
+    <!-- 主容器 -->
     <div id="app" class="max-w-md mx-auto min-h-screen bg-neutral-50 shadow-xl overflow-hidden relative">
         <div id="pages" class="relative">
-            <!-- 首页引导 -->
+            <!-- 首页引导 默认显示 -->
             <div id="intro-page" class="page active min-h-screen flex flex-col">
                 <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <div class="w-48 h-48 bg-primary/10 rounded-full flex items-center justify-center mb-8 animate-pulse-slow">
@@ -110,7 +119,7 @@
                     <h1 class="text-[clamp(2rem,5vw,2.5rem)] font-bold text-neutral-800 mb-4">2026脑卒中防控新指南</h1>
                     <p class="text-[clamp(1rem,3vw,1.25rem)] text-neutral-600 mb-8 max-w-xs text-center">智能筛查·精准干预·全程管理·新技术赋能</p>
                     <div class="bg-primary/10 rounded-xl p-4 mb-6 w-full max-w-xs">
-                        <p class="text-primary font-medium text-center">2026年核心主题：<span class="font-bold">早识别·早干预·早康复</span></p>
+                        <p class="text-primary font-medium text-center">2026核心主题：<span class="font-bold">早识别·早干预·早康复</span></p>
                     </div>
                     <div class="w-full max-w-xs">
                         <button id="start-btn" class="btn-primary w-full mb-4">
@@ -126,7 +135,7 @@
                 </div>
             </div>
 
-            <!-- 科普专题页 2026新技术 -->
+            <!-- 科普专题页 -->
             <div id="about-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-gradient-to-r from-primary to-secondary text-white p-4 flex items-center shadow-sm">
                     <button class="back-btn mr-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
@@ -429,7 +438,7 @@
                 </div>
             </div>
 
-            <!-- FAST完整动画演示页（修复无动画逻辑） -->
+            <!-- FAST动画演示页 -->
             <div id="fast-principle-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
@@ -521,21 +530,18 @@
     </div>
 
     <script>
-        // 页面初始化入口，修复GitHub JS延迟加载空白
-        document.addEventListener('DOMContentLoaded', function() {
+        // 兜底强制移除Loading遮罩（解决永久卡死加载）
+        window.addEventListener('load', function(){
+            const loadingDom = document.getElementById('loading');
+            // 页面加载完成立刻隐藏
+            loadingDom.classList.add('hidden-load');
+            // 兜底3秒强制销毁，防止JS报错无法关闭
             setTimeout(()=>{
-                const loadingBox = document.getElementById('loading');
-                loadingBox.classList.add('opacity-0','pointer-events-none');
-                setTimeout(()=>loadingBox.classList.add('hidden'),300);
-            },1000);
-            initNavigation();
-            initRiskAssessment();
-            initSymptomRecognition();
-            initFastAnimation();
-            initFirstAid();
+                if(loadingDom) loadingDom.remove();
+            }, 3000);
         });
 
-        // 页面切换导航
+        // 页面导航切换
         function initNavigation(){
             document.getElementById('start-btn').onclick = ()=>showPage('risk-assessment-page');
             document.getElementById('about-btn').onclick = ()=>showPage('about-page');
@@ -544,29 +550,29 @@
             });
             document.querySelectorAll('.nav-btn').forEach(btn=>{
                 btn.onclick = function(){
-                    const target = this.dataset.target;
-                    showPage(target);
+                    const targetId = this.dataset.target;
+                    showPage(targetId);
                     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active','text-primary'));
                     this.classList.add('active','text-primary');
                 }
             })
         }
         function showPage(pageId){
-            document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-            const target = document.getElementById(pageId);
-            target.classList.remove('hidden');
-            target.classList.add('active');
+            document.querySelectorAll('.page').forEach(page=>page.classList.add('hidden'));
+            const targetPage = document.getElementById(pageId);
+            targetPage.classList.remove('hidden');
+            targetPage.classList.add('active');
             if(pageId === 'risk-assessment-page') showQuestionStep(1);
         }
 
-        // 风险问卷完整逻辑
+        // 风险问卷逻辑
         function initRiskAssessment(){
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             let currentStep = 1;
             const totalSteps = 4;
             prevBtn.onclick = ()=>{
-                if(currentStep>1){
+                if(currentStep > 1){
                     currentStep--;
                     showQuestionStep(currentStep);
                 }
@@ -583,10 +589,11 @@
             }
             document.querySelectorAll('input[type="radio"]').forEach(radio=>{
                 radio.onchange = function(){
-                    const name = this.name;
-                    document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{
-                        const label = r.closest('label');
-                        r.checked ? label.classList.add('active') : label.classList.remove('active');
+                    const groupName = this.name;
+                    document.querySelectorAll(`input[name="${groupName}"]`).forEach(r=>{
+                        const label = r.closest('.radio-label');
+                        if(r.checked) label.classList.add('active');
+                        else label.classList.remove('active');
                     })
                 }
             })
@@ -599,29 +606,29 @@
                     if(num < step) ind.classList.add('completed');
                     if(num === step) ind.classList.add('active');
                 })
-                const rate = ((step-1)/(totalSteps-1))*100;
-                document.getElementById('progress-bar').style.width = rate+'%';
-                prevBtn.disabled = step ===1;
-                prevBtn.classList.toggle('opacity-50',step===1);
+                const rate = ((step - 1) / (totalSteps - 1)) * 100;
+                document.getElementById('progress-bar').style.width = rate + '%';
+                prevBtn.disabled = step === 1;
+                prevBtn.classList.toggle('opacity-50', step === 1);
                 nextBtn.innerHTML = step === totalSteps ? '完成评估' : '下一步<i class="fa fa-arrow-right ml-2"></i>';
             }
             function validateStep(step){
-                const cur = document.querySelector(`.question-step[data-step="${step}"]`);
-                if(step ===1){
+                const curStepDom = document.querySelector(`.question-step[data-step="${step}"]`);
+                if(step === 1){
                     const age = document.getElementById('age').value;
                     const gender = document.querySelector('input[name="gender"]:checked');
                     const h = document.getElementById('height').value;
                     const w = document.getElementById('weight').value;
                     if(!age){alert('请选择年龄段');return false;}
                     if(!gender){alert('请选择性别');return false;}
-                    if(!h){alert('填写身高');return false;}
-                    if(!w){alert('填写体重');return false;}
+                    if(!h){alert('请填写身高');return false;}
+                    if(!w){alert('请填写体重');return false;}
                 }else{
-                    const groups = new Set();
-                    cur.querySelectorAll('input[type="radio"]').forEach(r=>groups.add(r.name));
-                    for(const g of groups){
+                    const groupSet = new Set();
+                    curStepDom.querySelectorAll('input[type="radio"]').forEach(r=>groupSet.add(r.name));
+                    for(const g of groupSet){
                         if(!document.querySelector(`input[name="${g}"]:checked`)){
-                            alert('完成当前页面全部题目');
+                            alert('请完成当前页面全部题目');
                             return false;
                         }
                     }
@@ -631,9 +638,9 @@
             function calculateRiskResult(){
                 const age = Number(document.getElementById('age').value);
                 const gender = document.querySelector('input[name="gender"]:checked').value;
-                const h = Number(document.getElementById('height').value)/100;
+                const h = Number(document.getElementById('height').value) / 100;
                 const w = Number(document.getElementById('weight').value);
-                const bmi = w/(h*h);
+                const bmi = w / (h * h);
                 const hp = document.querySelector('input[name="hypertension"]:checked').value;
                 const db = document.querySelector('input[name="diabetes"]:checked').value;
                 const heart = document.querySelector('input[name="heart_disease"]:checked').value;
@@ -645,41 +652,41 @@
 
                 let score = 0;
                 score += age;
-                score += gender === 'male' ?1:0;
-                score += bmi>=28 ?2 : bmi>=24 ?1:0;
-                score += hp==='yes'?2:0;
-                score += db==='yes'?2:0;
-                score += heart==='yes'?2:0;
-                score += family==='yes'?1:0;
-                score += smoke==='yes'?2:0;
-                score += drink==='often'?2:drink==='sometimes'?1:0;
-                score += move==='never'?2:move==='sometimes'?1:0;
-                score += salt==='salty'?2:salt==='normal'?1:0;
+                score += gender === 'male' ? 1 : 0;
+                score += bmi >= 28 ? 2 : bmi >= 24 ? 1 : 0;
+                score += hp === 'yes' ? 2 : 0;
+                score += db === 'yes' ? 2 : 0;
+                score += heart === 'yes' ? 2 : 0;
+                score += family === 'yes' ? 1 : 0;
+                score += smoke === 'yes' ? 2 : 0;
+                score += drink === 'often' ? 2 : drink === 'sometimes' ? 1 : 0;
+                score += move === 'never' ? 2 : move === 'sometimes' ? 1 : 0;
+                score += salt === 'salty' ? 2 : salt === 'normal' ? 1 : 0;
 
-                let level,cls;
-                if(score<=3){level='低风险';cls='bg-success';}
-                else if(score<=6){level='中低风险';cls='bg-secondary';}
-                else if(score<=9){level='中风险';cls='bg-warning';}
-                else if(score<=12){level='中高风险';cls='bg-orange-500';}
+                let level, cls;
+                if(score <= 3){level='低风险';cls='bg-success';}
+                else if(score <= 6){level='中低风险';cls='bg-secondary';}
+                else if(score <= 9){level='中风险';cls='bg-warning';}
+                else if(score <= 12){level='中高风险';cls='bg-orange-500';}
                 else{level='高风险';cls='bg-danger';}
                 const badge = document.getElementById('risk-level-badge');
                 badge.textContent = level;
                 badge.className = `inline-block px-6 py-2 rounded-full text-white text-xl font-bold mb-4 ${cls}`;
 
-                function updateBar(id,val,max){
-                    const pct = (val/max)*100;
+                function updateBar(id, val, max){
+                    const pct = (val / max) * 100;
                     const bar = document.getElementById(`${id}-bar`);
-                    bar.style.width = pct+'%';
-                    if(pct<30){bar.className='bg-success h-2 rounded-full';document.getElementById(`${id}-score`).textContent='低';}
-                    else if(pct<60){bar.className='bg-warning h-2 rounded-full';document.getElementById(`${id}-score`).textContent='中';}
+                    bar.style.width = pct + '%';
+                    if(pct < 30){bar.className='bg-success h-2 rounded-full';document.getElementById(`${id}-score`).textContent='低';}
+                    else if(pct < 60){bar.className='bg-warning h-2 rounded-full';document.getElementById(`${id}-score`).textContent='中';}
                     else{bar.className='bg-danger h-2 rounded-full';document.getElementById(`${id}-score`).textContent='高';}
                 }
-                updateBar('hypertension',hp==='yes'?2:0,2);
-                updateBar('diabetes',db==='yes'?2:0,2);
-                updateBar('heart',(heart==='yes'?2:0)+(family==='yes'?1:0),3);
-                updateBar('lifestyle',(smoke==='yes'?2:0)+(drink==='often'?2:drink==='sometimes'?1:0)+(move==='never'?2:move==='sometimes'?1:0)+(salt==='salty'?2:salt==='normal'?1:0),8);
+                updateBar('hypertension', hp==='yes'?2:0,2);
+                updateBar('diabetes', db==='yes'?2:0,2);
+                updateBar('heart', (heart==='yes'?2:0)+(family==='yes'?1:0),3);
+                updateBar('lifestyle', (smoke==='yes'?2:0)+(drink==='often'?2:drink==='sometimes'?1:0)+(move==='never'?2:move==='sometimes'?1:0)+(salt==='salty'?2:salt==='normal'?1:0),8);
 
-                const rec = document.getElementById('health-recommendations');
+                const recBox = document.getElementById('health-recommendations');
                 let html = '<li>每周150分钟快走、太极等中等强度运动</li><li>每日食盐≤5g，多蔬菜少肥肉</li><li>居家配备智能血压仪，测前静坐5分钟定期监测</li>';
                 if(hp==='yes') html += '<li>高血压人群严格遵医嘱按时服药，早晚监测血压</li>';
                 if(db==='yes') html += '<li>糖尿病控制空腹血糖4.4-7.0，餐后2小时＜10</li>';
@@ -688,7 +695,7 @@
                 if(move==='never') html += '<li>每天累计活动6000步，避免久坐超过1小时</li>';
                 if(salt==='salty') html += '<li>咸菜、腌肉、酱料等高盐食物全部减量</li>';
                 if(level==='中高风险'||level==='高风险') html += '<li>尽快前往医院神经内科完成脑血管筛查，学习FAST急救知识</li>';
-                rec.innerHTML = html;
+                recBox.innerHTML = html;
             }
         }
 
@@ -696,9 +703,9 @@
         function initSymptomRecognition(){
             const startBtn = document.getElementById('start-symptom-test');
             const restartBtn = document.getElementById('restart-symptom-test');
-            const box = document.getElementById('symptom-test-container');
+            const container = document.getElementById('symptom-test-container');
             const resBox = document.getElementById('symptom-result');
-            const qs = [
+            const questionList = [
                 {id:1,scene:"65岁阿姨晨起单侧脸麻、嘴角歪，以为没睡好",isStroke:true,exp:"单侧面部歪斜是中风典型信号，哪怕轻微也要就医"},
                 {id:2,scene:"高血压大叔散步左手突然抬不起来，几分钟自行恢复",isStroke:true,exp:"短暂消失=小中风TIA，一周内大中风风险极高，必须急诊"},
                 {id:3,scene:"70岁老人吃饭突然说不出完整句子，手脚有力",isStroke:true,exp:"单纯失语属于语言区脑梗，不可忽视"},
@@ -707,26 +714,31 @@
                 {id:6,scene:"老人看东西重影、单侧视物模糊",isStroke:true,exp:"眼部供血血管堵塞，属于FAST-ED新增预警"},
                 {id:7,scene:"起床短暂头晕，休息半小时缓解",isStroke:false,exp:"体位性低血压头晕无肢体、面部异常不属于中风"}
             ];
-            let idx = 0,right = 0;
-            startBtn.onclick = start;
-            restartBtn.onclick = start;
-            function start(){
-                idx=0;right=0;box.innerHTML='';resBox.classList.add('hidden');showQ(idx);
-                startBtn.classList.add('hidden');restartBtn.classList.remove('hidden');
+            let currentIdx = 0, rightCount = 0;
+            startBtn.onclick = startTest;
+            restartBtn.onclick = startTest;
+            function startTest(){
+                currentIdx = 0; rightCount = 0;
+                container.innerHTML = '';
+                resBox.classList.add('hidden');
+                showQuestion(currentIdx);
+                startBtn.classList.add('hidden');
+                restartBtn.classList.remove('hidden');
             }
-            function showQ(i){
-                if(i>=qs.length){
+            function showQuestion(i){
+                if(i >= questionList.length){
                     resBox.classList.remove('hidden');
-                    document.getElementById('correct-count').textContent = right;
-                    document.getElementById('total-count').textContent = qs.length;
-                    box.innerHTML='';
-                    startBtn.classList.remove('hidden');restartBtn.classList.add('hidden');
+                    document.getElementById('correct-count').textContent = rightCount;
+                    document.getElementById('total-count').textContent = questionList.length;
+                    container.innerHTML = '';
+                    startBtn.classList.remove('hidden');
+                    restartBtn.classList.add('hidden');
                     return;
                 }
-                const item = qs[i];
-                box.innerHTML = `
+                const item = questionList[i];
+                container.innerHTML = `
                 <div class="card">
-                    <h4 class="text-lg font-bold mb-3">题目${i+1}/${qs.length}</h4>
+                    <h4 class="text-lg font-bold mb-3">题目${i+1}/${questionList.length}</h4>
                     <p class="text-gray-700 mb-4">${item.scene}</p>
                     <p class="font-medium mb-4">该情况是否为中风预警？</p>
                     <div class="flex gap-4">
@@ -741,61 +753,57 @@
                 </div>`;
                 document.querySelectorAll('.answer-btn').forEach(btn=>{
                     btn.onclick = function(){
-                        const ans = this.dataset.ans === 'true';
-                        const real = qs[i].isStroke;
-                        document.querySelectorAll('.answer-btn').forEach(b=>{
-                            b.disabled=true;
-                            b.classList.add('opacity-60');
-                        });
-                        if(ans === real){
+                        const userAns = this.dataset.ans === 'true';
+                        const realAns = item.isStroke;
+                        document.querySelectorAll('.answer-btn').forEach(b=>{b.disabled=true;b.classList.add('opacity-60');});
+                        if(userAns === realAns){
                             this.classList.add('border-success','bg-success/10');
-                            right++;
+                            rightCount++;
                         }else{
                             this.classList.add('border-danger','bg-danger/10');
-                            document.querySelector(`.answer-btn[data-ans="${real}"]`).classList.add('border-success','bg-success/10');
+                            document.querySelector(`.answer-btn[data-ans="${realAns}"]`).classList.add('border-success','bg-success/10');
                         }
                         document.querySelector('.answer-explanation').classList.remove('hidden');
-                        document.querySelector('.next-question-btn').onclick = ()=>{idx++;showQ(idx);}
+                        document.querySelector('.next-question-btn').onclick = ()=>{currentIdx++;showQuestion(currentIdx);}
                     }
                 })
             }
         }
 
-        // 完整FAST动画逻辑（修复无动画问题）
+        // FAST完整动画逻辑
         function initFastAnimation(){
             const playBtn = document.getElementById('play-fast-animation');
             const pauseBtn = document.getElementById('pause-fast-animation');
             const resetBtn = document.getElementById('reset-fast-animation');
             const wrap = document.getElementById('fast-animation');
-            let timer,step=0,paused=false;
-            playBtn.onclick = play;
+            let timer, step=0, paused=false;
+            playBtn.onclick = playAnim;
             pauseBtn.onclick = togglePause;
-            resetBtn.onclick = reset;
-            function reset(){
+            resetBtn.onclick = resetAnim;
+            function resetAnim(){
                 clearInterval(timer);
-                paused=false;
-                step=0;
+                paused = false; step = 0;
                 pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
                 wrap.innerHTML = `<div class="text-center"><div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div><p class="text-gray-600">点击播放按钮启动分步动画</p></div>`;
                 playBtn.classList.remove('hidden');
                 pauseBtn.classList.add('hidden');
                 resetBtn.classList.add('hidden');
             }
-            function play(){
-                reset();
+            function playAnim(){
+                resetAnim();
                 playBtn.classList.add('hidden');
                 pauseBtn.classList.remove('hidden');
                 resetBtn.classList.remove('hidden');
-                step=0;
-                showStep(step);
+                step = 0;
+                renderStep(step);
                 timer = setInterval(()=>{
                     if(!paused){
                         step++;
-                        if(step>=4){
+                        if(step >=4){
                             clearInterval(timer);
-                            showComplete();
+                            renderComplete();
                         }else{
-                            showStep(step);
+                            renderStep(step);
                         }
                     }
                 },5000);
@@ -810,20 +818,16 @@
                     timer = setInterval(()=>{
                         if(!paused){
                             step++;
-                            if(step>=4){
+                            if(step >=4){
                                 clearInterval(timer);
-                                showComplete();
+                                renderComplete();
                             }else{
-                                showStep(step);
+                                renderStep(step);
                             }
                         }
                     },5000);
                 }
             }
-            function showComplete(){
-                wrap.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full px-4 text-center">
-                    <div class="w-24 h-24 rounded-full bg-success text-white flex items-center justify-center text-4xl font-bold mb-4">
-                        <i class="fa fa-check"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-800 mb-3">FAST动画演示完毕
+            function renderStep(s){
+                let html = '';
+                if
