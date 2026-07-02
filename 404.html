@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>脑卒中2026防控H5</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <script>
 const repo = "CZH5";
-const path = window.location.pathname;
-if(!path.startsWith(`/${repo}/`)){
-  window.location.href = `/${repo}/index.html#${path.replace("/"+repo,"")}`;
-}
+const path = location.pathname;
+if(!path.startsWith("/"+repo+"/")) location.href = "/"+repo+"/index.html";
 </script>
 </head>
 <body></body>
