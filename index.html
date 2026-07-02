@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026脑卒中防控互动测试H5</title>
-    <!-- CDN 保留公网稳定地址，GitHub Pages可正常加载 -->
+    <!-- 适配GitHub Pages二级仓库路径 CZH5 -->
+    <base href="/CZH5/">
+    <!-- 公网CDN 稳定可访问 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
@@ -77,12 +79,12 @@
             .step-indicator.completed {
                 @apply bg-success text-white;
             }
-            /* 核心修复：页面底部预留超大安全边距，避开底部导航遮挡上下一题按钮 */
+            /* 彻底修复底部导航遮挡上下一题按钮，加大底部留白 */
             .page-content {
-                @apply pb-32;
+                @apply pb-36;
             }
             .bottom-actions {
-                @apply mb-28;
+                @apply mb-32;
             }
         }
     </style>
@@ -96,7 +98,7 @@
         </div>
     </div>
 
-    <!-- 主容器 适配移动端最大宽度 -->
+    <!-- 主容器 移动端适配 -->
     <div id="app" class="max-w-md mx-auto min-h-screen bg-neutral-50 shadow-xl overflow-hidden relative">
         <div id="pages" class="relative">
             <!-- 首页引导 -->
@@ -427,7 +429,7 @@
                 </div>
             </div>
 
-            <!-- FAST完整动画演示页（修复无动画问题） -->
+            <!-- FAST完整动画演示页（修复无动画逻辑） -->
             <div id="fast-principle-page" class="page hidden min-h-screen flex flex-col">
                 <header class="bg-primary text-white p-4 flex items-center">
                     <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
@@ -519,10 +521,12 @@
     </div>
 
     <script>
+        // 页面初始化入口，修复GitHub JS延迟加载空白
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(()=>{
-                document.getElementById('loading').classList.add('opacity-0','pointer-events-none');
-                setTimeout(()=>document.getElementById('loading').classList.add('hidden'),300);
+                const loadingBox = document.getElementById('loading');
+                loadingBox.classList.add('opacity-0','pointer-events-none');
+                setTimeout(()=>loadingBox.classList.add('hidden'),300);
             },1000);
             initNavigation();
             initRiskAssessment();
@@ -531,7 +535,7 @@
             initFirstAid();
         });
 
-        // 页面导航
+        // 页面切换导航
         function initNavigation(){
             document.getElementById('start-btn').onclick = ()=>showPage('risk-assessment-page');
             document.getElementById('about-btn').onclick = ()=>showPage('about-page');
@@ -555,7 +559,7 @@
             if(pageId === 'risk-assessment-page') showQuestionStep(1);
         }
 
-        // 风险问卷逻辑
+        // 风险问卷完整逻辑
         function initRiskAssessment(){
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
@@ -688,7 +692,7 @@
             }
         }
 
-        // 症状答题
+        // 症状答题模块
         function initSymptomRecognition(){
             const startBtn = document.getElementById('start-symptom-test');
             const restartBtn = document.getElementById('restart-symptom-test');
@@ -739,7 +743,10 @@
                     btn.onclick = function(){
                         const ans = this.dataset.ans === 'true';
                         const real = qs[i].isStroke;
-                        document.querySelectorAll('.answer-btn').forEach(b=>b.disabled=true,b.classList.add('opacity-60'));
+                        document.querySelectorAll('.answer-btn').forEach(b=>{
+                            b.disabled=true;
+                            b.classList.add('opacity-60');
+                        });
                         if(ans === real){
                             this.classList.add('border-success','bg-success/10');
                             right++;
@@ -754,7 +761,7 @@
             }
         }
 
-        // FAST完整动画（修复无动画）
+        // 完整FAST动画逻辑（修复无动画问题）
         function initFastAnimation(){
             const playBtn = document.getElementById('play-fast-animation');
             const pauseBtn = document.getElementById('pause-fast-animation');
@@ -765,6 +772,58 @@
             pauseBtn.onclick = togglePause;
             resetBtn.onclick = reset;
             function reset(){
-                clearInterval(timer);paused=false;step=0;
+                clearInterval(timer);
+                paused=false;
+                step=0;
                 pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
-                wrap.innerHTML = `<div class="text-center"><div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div><p
+                wrap.innerHTML = `<div class="text-center"><div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div><p class="text-gray-600">点击播放按钮启动分步动画</p></div>`;
+                playBtn.classList.remove('hidden');
+                pauseBtn.classList.add('hidden');
+                resetBtn.classList.add('hidden');
+            }
+            function play(){
+                reset();
+                playBtn.classList.add('hidden');
+                pauseBtn.classList.remove('hidden');
+                resetBtn.classList.remove('hidden');
+                step=0;
+                showStep(step);
+                timer = setInterval(()=>{
+                    if(!paused){
+                        step++;
+                        if(step>=4){
+                            clearInterval(timer);
+                            showComplete();
+                        }else{
+                            showStep(step);
+                        }
+                    }
+                },5000);
+            }
+            function togglePause(){
+                paused = !paused;
+                if(paused){
+                    pauseBtn.innerHTML = '<i class="fa fa-play mr-2"></i>继续';
+                    clearInterval(timer);
+                }else{
+                    pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
+                    timer = setInterval(()=>{
+                        if(!paused){
+                            step++;
+                            if(step>=4){
+                                clearInterval(timer);
+                                showComplete();
+                            }else{
+                                showStep(step);
+                            }
+                        }
+                    },5000);
+                }
+            }
+            function showComplete(){
+                wrap.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full px-4 text-center">
+                    <div class="w-24 h-24 rounded-full bg-success text-white flex items-center justify-center text-4xl font-bold mb-4">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-3">FAST动画演示完毕
