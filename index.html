@@ -7,92 +7,6 @@
     <base href="./">
     <script src="https://cdn.tailwindcss.com" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" crossorigin="anonymous"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0077B6',
-                        secondary: '#48CAE4',
-                        accent: '#023E8A',
-                        light: '#E0F2FE',
-                        dark: '#023E8A',
-                        warning: '#FB8500',
-                        danger: '#D00000',
-                        success: '#06D6A0',
-                        neutral: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1E293B',
-                            900: '#0F172A'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-shadow {
-                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-            .btn-primary {
-                @apply bg-primary text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:bg-accent transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-secondary/30 active:scale-[0.98];
-            }
-            .btn-secondary {
-                @apply bg-white text-primary font-semibold py-3 px-6 rounded-xl shadow-md border-2 border-primary hover:bg-light transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-secondary/30 active:scale-[0.98];
-            }
-            .card {
-                @apply bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-lg border border-neutral-100;
-            }
-            .input-field {
-                @apply w-full px-4 py-3 text-lg border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200;
-            }
-            .radio-label {
-                @apply flex items-center p-4 border border-neutral-200 rounded-xl cursor-pointer transition-all duration-200 hover:bg-light hover:border-primary/30;
-            }
-            .radio-label.active {
-                @apply bg-light border-primary shadow-sm;
-            }
-            .step-indicator {
-                @apply w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-bold transition-all duration-300;
-            }
-            .step-indicator.active {
-                @apply bg-primary text-white;
-            }
-            .step-indicator.completed {
-                @apply bg-success text-white;
-            }
-            .page-content {
-                @apply pb-36;
-            }
-            .bottom-actions {
-                @apply mb-32;
-            }
-            #loading {
-                transition: opacity 0.3s ease;
-            }
-            #loading.hidden-load {
-                opacity: 0;
-                pointer-events: none;
-                z-index: -10 !important;
-            }
-        }
-    </style>
 </head>
 <body class="bg-gray-50 font-sans">
     <div id="loading" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/10 z-50">
@@ -103,722 +17,101 @@
     </div>
 
     <div id="app" class="max-w-md mx-auto min-h-screen bg-neutral-50 shadow-xl overflow-hidden relative">
-        <div id="pages" class="relative">
-            <!-- 默认首页，自带active，无需JS也能展示 -->
+        <div id="pages">
             <div id="intro-page" class="page active min-h-screen flex flex-col">
                 <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <div class="w-48 h-48 bg-primary/10 rounded-full flex items-center justify-center mb-8 animate-pulse-slow">
-                        <i class="fa fa-brain text-7xl text-primary"></i>
+                        <i class="fa fa-heartbeat text-7xl text-primary"></i>
                     </div>
-                    <h1 class="text-[clamp(2rem,5vw,2.5rem)] font-bold text-neutral-800 mb-4">2026脑卒中防控新指南</h1>
-                    <p class="text-[clamp(1rem,3vw,1.25rem)] text-neutral-600 mb-8 max-w-xs text-center">智能筛查·精准干预·全程管理·新技术赋能</p>
-                    <div class="bg-primary/10 rounded-xl p-4 mb-6 w-full max-w-xs">
-                        <p class="text-primary font-medium text-center">2026核心主题：<span class="font-bold">早识别·早干预·早康复</span></p>
-                    </div>
-                    <div class="w-full max-w-xs">
-                        <button id="start-btn" class="btn-primary w-full mb-4">
-                            <i class="fa fa-play-circle mr-2"></i>开始风险自测
-                        </button>
-                        <button id="about-btn" class="btn-secondary w-full">
-                            <i class="fa fa-info-circle mr-2"></i>2026卒中新技术科普
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-light py-4 px-6 text-center border-t border-neutral-100">
-                    <p class="text-sm text-neutral-500">本测试仅科普参考，不可替代医院专业诊疗</p>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">2026脑卒中防控新指南</h1>
+                    <p class="text-gray-600 mb-8">智能筛查·精准干预·全程管理</p>
+                    <button id="start-btn" class="btn-primary w-full mb-4">开始风险自测</button>
+                    <button id="about-btn" class="btn-secondary w-full">卒中科普知识</button>
                 </div>
             </div>
 
-            <div id="about-page" class="page hidden min-h-screen flex flex-col">
-                <header class="bg-gradient-to-r from-primary to-secondary text-white p-4 flex items-center shadow-sm">
-                    <button class="back-btn mr-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
-                        <i class="fa fa-arrow-left text-xl"></i>
-                    </button>
-                    <h2 class="text-xl font-semibold">2026脑卒中防控新趋势&新技术</h2>
-                </header>
-                <div class="flex-1 overflow-y-auto p-6 page-content">
-                    <div class="card mb-6">
-                        <h3 class="text-xl font-bold text-primary mb-4">2026卒中核心新认知</h3>
-                        <p class="text-neutral-700 mb-4">近年发病逐年年轻化，40岁以下青年卒中占比突破10%，不再是老年专属病。缺血性卒中占80%，可防可控。</p>
-                        <div class="bg-neutral-50 rounded-lg p-3 border-l-4 border-warning">
-                            <p class="text-sm"><i class="fa fa-lightbulb-o text-warning mr-2"></i>2026新共识：高血压远程监测、眼底AI筛查可提前5年预警脑血管病变</p>
-                        </div>
-                    </div>
-                    <div class="card mb-6">
-                        <h3 class="text-xl font-bold text-primary mb-4">四大2026前沿防控技术</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
-                                    <i class="fa fa-heartbeat text-primary"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">智能远程血压管理</h4>
-                                    <p class="text-sm text-neutral-600">操作规范：测量前静坐5分钟，连续测2次取平均值，设备自动上传AI预警波动风险</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
-                                    <i class="fa fa-eye text-primary"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">眼底AI筛查脑小血管病</h4>
-                                    <p class="text-sm text-neutral-600">不用CT核磁，拍照即可预判隐匿脑血管损伤，适合全民年度筛查</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
-                                    <i class="fa fa-robot text-primary"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">5G+AI远程卒中急救</h4>
-                                    <p class="text-sm text-neutral-600">基层一键连线三甲卒中中心，远程指导溶栓、机械取栓术前评估</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0 mt-1">
-                                    <i class="fa fa-dna text-primary"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">个体化基因风险分层</h4>
-                                    <p class="text-sm text-neutral-600">根据基因定制低盐、运动、降脂专属干预方案</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3 class="text-xl font-bold text-primary mb-4">新版FAST-ED识别口诀（大白话）</h3>
-                        <ul class="space-y-2 text-neutral-700">
-                            <li><b>F脸歪</b>：笑一下一边嘴角耷拉</li>
-                            <li><b>A手沉</b>：双手举高，单侧往下掉</li>
-                            <li><b>S嘴笨</b>：说话含糊、听不懂、说不出话</li>
-                            <li><b>T马上打120</b>：记住发病准确时间，别拖延</li>
-                            <li><b>E眼糊</b>：新增！单眼发黑、看东西重影</li>
-                            <li><b>D站不稳</b>：走路跑偏、眩晕站不住</li>
-                        </ul>
-                        <div class="mt-4 bg-danger/10 p-3 rounded-lg">
-                            <p class="text-danger font-medium">只要出现任意一条，立刻拨打120，不要在家观察！</p>
-                        </div>
-                    </div>
+            <div id="risk-assessment-page" class="page hidden p-6">
+                <h2 class="text-xl font-bold mb-6">脑卒中风险自测</h2>
+                <div class="card mb-4">
+                    <p class="mb-2">1. 你的年龄？</p>
+                    <select id="age" class="input-field w-full">
+                        <option value="1">40岁以下</option>
+                        <option value="2">40-49岁</option>
+                        <option value="3">50-59岁</option>
+                        <option value="4">60-69岁</option>
+                        <option value="5">70岁以上</option>
+                    </select>
                 </div>
-            </div>
-
-            <div id="risk-assessment-page" class="page hidden min-h-screen flex flex-col">
-                <header class="bg-primary text-white p-4 flex items-center">
-                    <button class="back-btn mr-4">
-                        <i class="fa fa-arrow-left text-xl"></i>
-                    </button>
-                    <h2 class="text-xl font-bold">脑卒中个体化风险自测</h2>
-                </header>
-                <div class="flex justify-between items-center px-6 py-4 bg-light">
-                    <div class="flex flex-col items-center">
-                        <div class="step-indicator active" data-step="1">1</div>
-                        <span class="text-xs mt-1">基本信息</span>
-                    </div>
-                    <div class="flex-1 h-1 mx-2 bg-gray-300">
-                        <div class="h-full bg-primary" style="width: 0%;" id="progress-bar"></div>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="step-indicator" data-step="2">2</div>
-                        <span class="text-xs mt-1">基础慢病</span>
-                    </div>
-                    <div class="flex-1 h-1 mx-2 bg-gray-300">
-                        <div class="h-full bg-primary" style="width: 0%;"></div>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="step-indicator" data-step="3">3</div>
-                        <span class="text-xs mt-1">生活习惯</span>
-                    </div>
-                    <div class="flex-1 h-1 mx-2 bg-gray-300">
-                        <div class="h-full bg-primary" style="width: 0%;"></div>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="step-indicator" data-step="4">4</div>
-                        <span class="text-xs mt-1">风险报告</span>
-                    </div>
+                <div class="card mb-4">
+                    <p class="mb-2">2. 有高血压吗？</p>
+                    <label class="radio-label block"><input type="radio" name="hp" value="yes" class="mr-2"> 有</label>
+                    <label class="radio-label block"><input type="radio" name="hp" value="no" class="mr-2"> 无</label>
                 </div>
-                <div class="flex-1 overflow-y-auto p-6 page-content">
-                    <div id="questionnaire-container">
-                        <div class="question-step active" data-step="1">
-                            <h3 class="text-xl font-bold text-gray-800 mb-6">一、个人基础信息</h3>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">年龄</label>
-                                <select id="age" class="input-field">
-                                    <option value="">请选择年龄段</option>
-                                    <option value="1">40岁以下</option>
-                                    <option value="2">40-49岁</option>
-                                    <option value="3">50-59岁</option>
-                                    <option value="4">60-69岁</option>
-                                    <option value="5">70岁以上</option>
-                                </select>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">性别</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1">
-                                        <input type="radio" name="gender" value="male" class="mr-3">
-                                        <span>男</span>
-                                    </label>
-                                    <label class="radio-label flex-1">
-                                        <input type="radio" name="gender" value="female" class="mr-3">
-                                        <span>女</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">身高 cm</label>
-                                <input type="number" id="height" class="input-field" placeholder="例：165">
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">体重 kg</label>
-                                <input type="number" id="weight" class="input-field" placeholder="例：62">
-                            </div>
-                        </div>
-                        <div class="question-step hidden" data-step="2">
-                            <h3 class="text-xl font-bold text-gray-800 mb-6">二、慢性病史</h3>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">确诊高血压？</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1"><input type="radio" name="hypertension" value="yes" class="mr-3">是</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="hypertension" value="no" class="mr-3">否</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">确诊糖尿病？</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1"><input type="radio" name="diabetes" value="yes" class="mr-3">是</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="diabetes" value="no" class="mr-3">否</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">心脏病/房颤病史？</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1"><input type="radio" name="heart_disease" value="yes" class="mr-3">是</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="heart_disease" value="no" class="mr-3">否</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">父母兄弟姐妹有中风史？</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1"><input type="radio" name="family_history" value="yes" class="mr-3">有</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="family_history" value="no" class="mr-3">无</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="question-step hidden" data-step="3">
-                            <h3 class="text-xl font-bold text-gray-800 mb-6">三、日常生活习惯</h3>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">长期吸烟？</label>
-                                <div class="flex space-x-4">
-                                    <label class="radio-label flex-1"><input type="radio" name="smoking" value="yes" class="mr-3">是</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="smoking" value="no" class="mr-3">否</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">饮酒频率</label>
-                                <div class="flex space-x-3">
-                                    <label class="radio-label flex-1"><input type="radio" name="drinking" value="often" class="mr-3">经常</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="drinking" value="sometimes" class="mr-3">偶尔</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="drinking" value="never" class="mr-3">不喝</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">每周运动情况</label>
-                                <div class="flex space-x-3">
-                                    <label class="radio-label flex-1"><input type="radio" name="exercise" value="regular" class="mr-3">规律运动</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="exercise" value="sometimes" class="mr-3">偶尔动</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="exercise" value="never" class="mr-3">几乎不动</label>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-gray-700 font-medium mb-2">日常吃饭口味</label>
-                                <div class="flex space-x-3">
-                                    <label class="radio-label flex-1"><input type="radio" name="diet" value="salty" class="mr-3">偏咸</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="diet" value="normal" class="mr-3">适中</label>
-                                    <label class="radio-label flex-1"><input type="radio" name="diet" value="light" class="mr-3">清淡</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="question-step hidden" data-step="4">
-                            <div class="text-center mb-8">
-                                <div class="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fa fa-bar-chart text-5xl text-primary"></i>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">你的卒中风险报告</h3>
-                                <div class="inline-block px-6 py-2 rounded-full text-white text-xl font-bold mb-4" id="risk-level-badge">低风险</div>
-                            </div>
-                            <div class="card mb-6">
-                                <h4 class="text-lg font-bold text-primary mb-4">各项风险占比</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <div class="flex justify-between mb-1"><span>高血压风险</span><span id="hypertension-score">低</span></div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2"><div class="h-2 rounded-full" id="hypertension-bar" style="width:20%"></div></div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between mb-1"><span>血糖风险</span><span id="diabetes-score">低</span></div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2"><div class="h-2 rounded-full" id="diabetes-bar" style="width:10%"></div></div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between mb-1"><span>心脑血管遗传</span><span id="heart-score">中</span></div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2"><div class="h-2 rounded-full" id="heart-bar" style="width:50%"></div></div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between mb-1"><span>生活习惯风险</span><span id="lifestyle-score">中</span></div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2"><div class="h-2 rounded-full" id="lifestyle-bar" style="width:60%"></div></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-6">
-                                <h4 class="text-lg font-bold text-primary mb-4">2026个体化干预建议</h4>
-                                <ul class="list-disc pl-5 text-gray-700 space-y-2" id="health-recommendations"></ul>
-                            </div>
-                            <div class="card">
-                                <h4 class="text-lg font-bold text-danger mb-4">急救必记</h4>
-                                <p>一旦出现脸歪、手无力、说话不清、眼糊、站不稳任意症状，立刻拨打120，记录发病时间，不要喂水喂药！</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card mb-4">
+                    <p class="mb-2">3. 有糖尿病吗？</p>
+                    <label class="radio-label block"><input type="radio" name="db" value="yes" class="mr-2"> 有</label>
+                    <label class="radio-label block"><input type="radio" name="db" value="no" class="mr-2"> 无</label>
                 </div>
-                <div class="p-6 bg-light bottom-actions">
-                    <div class="flex space-x-4">
-                        <button id="prev-btn" class="btn-secondary flex-1" disabled>
-                            <i class="fa fa-arrow-left mr-2"></i>上一题
-                        </button>
-                        <button id="next-btn" class="btn-primary flex-1">
-                            下一步<i class="fa fa-arrow-right ml-2"></i>
-                        </button>
-                    </div>
+                <div class="card mb-4">
+                    <p class="mb-2">4. 吸烟吗？</p>
+                    <label class="radio-label block"><input type="radio" name="smoke" value="yes" class="mr-2"> 每天吸</label>
+                    <label class="radio-label block"><input type="radio" name="smoke" value="no" class="mr-2"> 不吸</label>
                 </div>
-            </div>
-
-            <div id="symptom-recognition-page" class="page hidden min-h-screen flex flex-col">
-                <header class="bg-primary text-white p-4 flex items-center">
-                    <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
-                    <h2 class="text-xl font-bold">卒中症状识别答题测试</h2>
-                </header>
-                <div class="flex-1 overflow-y-auto p-6 page-content">
-                    <div class="card mb-6">
-                        <h3 class="text-xl font-bold text-primary mb-4">2026新版FAST-ED实战考题</h3>
-                        <p class="text-neutral-700 mb-4">结合真实临床案例，区分中风预警和普通疲劳、落枕、偏头痛。</p>
-                        <div class="bg-primary/5 p-3 rounded-lg text-sm">
-                            <i class="fa fa-lightbulb-o text-primary mr-1"></i>提示：30%中风患者只有轻微、短暂症状，极易忽视！
-                        </div>
-                    </div>
-                    <div id="symptom-test-container"></div>
-                    <div id="symptom-result" class="hidden">
-                        <div class="text-center mb-6">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2">答题完成</h3>
-                            <p class="text-xl">答对 <span id="correct-count">0</span> / <span id="total-count">7</span> 题</p>
-                        </div>
-                        <div class="card">
-                            <h4 class="text-lg font-bold text-primary mb-4">全部中风预警信号</h4>
-                            <ul class="list-disc pl-5 space-y-1 text-neutral-700">
-                                <li>单侧脸麻木、口角歪斜</li>
-                                <li>单侧胳膊抬不起来、发软下坠</li>
-                                <li>说话含糊、听不懂、突然失语</li>
-                                <li>单眼发黑、看东西重影</li>
-                                <li>走路摇晃、眩晕失衡</li>
-                                <li>无诱因突发剧烈头痛</li>
-                                <li>短暂发作几分钟后恢复（小中风TIA）</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6 bg-light bottom-actions">
-                    <button id="start-symptom-test" class="btn-primary w-full"><i class="fa fa-play-circle mr-2"></i>开始答题</button>
-                    <button id="restart-symptom-test" class="btn-primary w-full hidden"><i class="fa fa-refresh mr-2"></i>重新作答</button>
-                </div>
-            </div>
-
-            <div id="fast-principle-page" class="page hidden min-h-screen flex flex-col">
-                <header class="bg-primary text-white p-4 flex items-center">
-                    <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
-                    <h2 class="text-xl font-bold">FAST-ED分步动画演示</h2>
-                </header>
-                <div class="flex-1 overflow-y-auto p-6 page-content">
-                    <div class="card mb-6">
-                        <h3 class="text-xl font-bold text-primary mb-4">FAST快速识别口诀</h3>
-                        <p>分4段动态动画完整演示面部、手臂、语言、急救全流程，自动分步播放，带动态形变效果。</p>
-                    </div>
-                    <div class="card mt-6">
-                        <h4 class="text-lg font-bold text-primary mb-4">动画演示区</h4>
-                        <div class="relative w-full h-80 bg-gray-100 rounded-lg overflow-hidden">
-                            <div id="fast-animation" class="w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div>
-                                    <p class="text-gray-600">点击播放按钮启动分步动画</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex justify-center gap-3 flex-wrap">
-                            <button id="play-fast-animation" class="btn-primary"><i class="fa fa-play mr-2"></i>播放动画</button>
-                            <button id="pause-fast-animation" class="btn-secondary hidden"><i class="fa fa-pause mr-2"></i>暂停</button>
-                            <button id="reset-fast-animation" class="btn-secondary hidden"><i class="fa fa-refresh mr-2"></i>重置</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="first-aid-page" class="page hidden min-h-screen flex flex-col">
-                <header class="bg-primary text-white p-4 flex items-center">
-                    <button class="back-btn mr-4"><i class="fa fa-arrow-left text-xl"></i></button>
-                    <h2 class="text-xl font-bold">中风现场急救模拟</h2>
-                </header>
-                <div class="flex-1 overflow-y-auto p-6 page-content">
-                    <div class="card mb-6">
-                        <h3 class="text-xl font-bold text-primary mb-4">2026标准急救流程</h3>
-                        <p class="text-neutral-700 mb-4">每延误1分钟，190万脑细胞永久死亡，模拟家庭突发中风正确处置步骤。</p>
-                        <div class="bg-danger/10 p-3 rounded-lg text-danger font-medium">核心操作：发现症状立刻拨打120，记录发病时间，侧卧防窒息，不喂药不喂水！</div>
-                    </div>
-                    <div id="first-aid-steps"></div>
-                    <div id="first-aid-result" class="hidden mt-6">
-                        <div class="text-center py-4">
-                            <div class="w-20 h-20 rounded-full bg-success text-white flex items-center justify-center text-4xl mx-auto mb-4"><i class="fa fa-check"></i></div>
-                            <h4 class="text-xl font-bold text-success mb-2">急救演练完成</h4>
-                            <p>得分：<span id="first-aid-score">0</span>/100</p>
-                        </div>
-                        <div class="card mt-4">
-                            <h5 class="font-bold mb-2">急救要点复盘</h5>
-                            <ul class="list-disc pl-5 space-y-1 text-neutral-700">
-                                <li>第一时间拨打120，明确告知疑似脑卒中</li>
-                                <li>精准记下患者开始不舒服的时间</li>
-                                <li>平躺侧卧位，解开领口，保持呼吸通畅</li>
-                                <li>禁止喂水、喂降压药、食物</li>
-                                <li>整理既往病历、长期服用药物交给急救人员</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6 bg-light bottom-actions">
-                    <button id="start-first-aid" class="btn-primary w-full"><i class="fa fa-play-circle mr-2"></i>开始急救模拟</button>
-                    <button id="restart-first-aid" class="btn-primary w-full hidden"><i class="fa fa-refresh mr-2"></i>重新演练</button>
-                </div>
-            </div>
-
-            <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40 max-w-md mx-auto">
-                <div class="flex justify-around">
-                    <button class="nav-btn flex flex-col items-center py-3 px-4 active text-primary" data-target="risk-assessment-page">
-                        <i class="fa fa-heartbeat text-xl mb-1"></i>
-                        <span class="text-xs">风险自测</span>
-                    </button>
-                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="symptom-recognition-page">
-                        <i class="fa fa-stethoscope text-xl mb-1"></i>
-                        <span class="text-xs">症状答题</span>
-                    </button>
-                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="fast-principle-page">
-                        <i class="fa fa-film text-xl mb-1"></i>
-                        <span class="text-xs">FAST动画</span>
-                    </button>
-                    <button class="nav-btn flex flex-col items-center py-3 px-4" data-target="first-aid-page">
-                        <i class="fa fa-ambulance text-xl mb-1"></i>
-                        <span class="text-xs">急救演练</span>
-                    </button>
+                <button id="calc-risk" class="btn-primary w-full mt-4">查看风险结果</button>
+                <div id="result" class="mt-6 text-center hidden">
+                    <h3 class="text-xl font-bold mb-2">你的风险等级：<span id="level" class="text-success">低风险</span></h3>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t max-w-md mx-auto">
+        <div class="flex justify-around p-2">
+            <button class="nav-btn text-primary" data-page="intro-page">首页</button>
+            <button class="nav-btn" data-page="risk-assessment-page">风险测试</button>
+        </div>
+    </div>
+
+    <style>
+        .btn-primary{background:#0077B6;color:white;padding:12px 16px;border-radius:12px;border:none;font-weight:bold;}
+        .btn-secondary{background:white;color:#0077B6;padding:12px 16px;border-radius:12px;border:2px solid #0077B6;font-weight:bold;}
+        .card{background:white;padding:16px;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:12px;}
+        .input-field{padding:10px 14px;border:1px solid #e2e8f0;border-radius:12px;width:100%;}
+        .radio-label{padding:8px 0;}
+        .page{display:none;}
+        .page.active{display:block;}
+        .nav-btn{font-size:14px;padding:8px 4px;}
+    </style>
+
     <script>
-        window.addEventListener('load', function(){
-            const loadingDom = document.getElementById('loading');
-            loadingDom.classList.add('hidden-load');
+        // 加载动画自动关闭
+        window.addEventListener('load',()=>{
             setTimeout(()=>{
-                if(loadingDom) loadingDom.remove();
-            }, 3000);
+                document.getElementById('loading').style.display='none';
+            },1000);
         });
 
-        function initNavigation(){
-            document.getElementById('start-btn').onclick = ()=>showPage('risk-assessment-page');
-            document.getElementById('about-btn').onclick = ()=>showPage('about-page');
-            document.querySelectorAll('.back-btn').forEach(btn=>{
-                btn.onclick = ()=>showPage('intro-page');
-            });
-            document.querySelectorAll('.nav-btn').forEach(btn=>{
-                btn.onclick = function(){
-                    const targetId = this.dataset.target;
-                    showPage(targetId);
-                    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active','text-primary'));
-                    this.classList.add('active','text-primary');
-                }
-            })
-        }
-        function showPage(pageId){
-            document.querySelectorAll('.page').forEach(page=>page.classList.add('hidden'));
-            const targetPage = document.getElementById(pageId);
-            targetPage.classList.remove('hidden');
-            targetPage.classList.add('active');
-            if(pageId === 'risk-assessment-page') showQuestionStep(1);
-        }
+        // 页面切换
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns.forEach(btn=>{
+            btn.onclick=()=>{
+                document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+                document.getElementById(btn.dataset.page).classList.add('active');
+                navBtns.forEach(b=>b.classList.remove('text-primary'));
+                btn.classList.add('text-primary');
+            }
+        });
 
-        function initRiskAssessment(){
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            let currentStep = 1;
-            const totalSteps = 4;
-            prevBtn.onclick = ()=>{
-                if(currentStep > 1){
-                    currentStep--;
-                    showQuestionStep(currentStep);
-                }
-            }
-            nextBtn.onclick = ()=>{
-                if(validateStep(currentStep)){
-                    if(currentStep < totalSteps){
-                        currentStep++;
-                        showQuestionStep(currentStep);
-                    }else{
-                        calculateRiskResult();
-                    }
-                }
-            }
-            document.querySelectorAll('input[type="radio"]').forEach(radio=>{
-                radio.onchange = function(){
-                    const groupName = this.name;
-                    document.querySelectorAll(`input[name="${groupName}"]`).forEach(r=>{
-                        const label = r.closest('.radio-label');
-                        if(r.checked) label.classList.add('active');
-                        else label.classList.remove('active');
-                    })
-                }
-            })
-            window.showQuestionStep = function(step){
-                document.querySelectorAll('.question-step').forEach(s=>s.classList.add('hidden'));
-                document.querySelector(`.question-step[data-step="${step}"]`).classList.remove('hidden');
-                document.querySelectorAll('.step-indicator').forEach(ind=>{
-                    const num = Number(ind.dataset.step);
-                    ind.classList.remove('active','completed');
-                    if(num < step) ind.classList.add('completed');
-                    if(num === step) ind.classList.add('active');
-                })
-                const rate = ((step - 1) / (totalSteps - 1)) * 100;
-                document.getElementById('progress-bar').style.width = rate + '%';
-                prevBtn.disabled = step === 1;
-                prevBtn.classList.toggle('opacity-50', step === 1);
-                nextBtn.innerHTML = step === totalSteps ? '完成评估' : '下一步<i class="fa fa-arrow-right ml-2"></i>';
-            }
-            function validateStep(step){
-                const curStepDom = document.querySelector(`.question-step[data-step="${step}"]`);
-                if(step === 1){
-                    const age = document.getElementById('age').value;
-                    const gender = document.querySelector('input[name="gender"]:checked');
-                    const h = document.getElementById('height').value;
-                    const w = document.getElementById('weight').value;
-                    if(!age){alert('请选择年龄段');return false;}
-                    if(!gender){alert('请选择性别');return false;}
-                    if(!h){alert('请填写身高');return false;}
-                    if(!w){alert('请填写体重');return false;}
-                }else{
-                    const groupSet = new Set();
-                    curStepDom.querySelectorAll('input[type="radio"]').forEach(r=>groupSet.add(r.name));
-                    for(const g of groupSet){
-                        if(!document.querySelector(`input[name="${g}"]:checked`)){
-                            alert('请完成当前页面全部题目');
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-            function calculateRiskResult(){
-                const age = Number(document.getElementById('age').value);
-                const gender = document.querySelector('input[name="gender"]:checked').value;
-                const h = Number(document.getElementById('height').value) / 100;
-                const w = Number(document.getElementById('weight').value);
-                const bmi = w / (h * h);
-                const hp = document.querySelector('input[name="hypertension"]:checked').value;
-                const db = document.querySelector('input[name="diabetes"]:checked').value;
-                const heart = document.querySelector('input[name="heart_disease"]:checked').value;
-                const family = document.querySelector('input[name="family_history"]:checked').value;
-                const smoke = document.querySelector('input[name="smoking"]:checked').value;
-                const drink = document.querySelector('input[name="drinking"]:checked').value;
-                const move = document.querySelector('input[name="exercise"]:checked').value;
-                const salt = document.querySelector('input[name="diet"]:checked').value;
+        // 首页按钮
+        document.getElementById('start-btn').onclick=()=>{
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.getElementById('risk-assessment-page').classList.add('active');
+        };
 
-                let score = 0;
-                score += age;
-                score += gender === 'male' ? 1 : 0;
-                score += bmi >= 28 ? 2 : bmi >= 24 ? 1 : 0;
-                score += hp === 'yes' ? 2 : 0;
-                score += db === 'yes' ? 2 : 0;
-                score += heart === 'yes' ? 2 : 0;
-                score += family === 'yes' ? 1 : 0;
-                score += smoke === 'yes' ? 2 : 0;
-                score += drink === 'often' ? 2 : drink === 'sometimes' ? 1 : 0;
-                score += move === 'never' ? 2 : move === 'sometimes' ? 1 : 0;
-                score += salt === 'salty' ? 2 : salt === 'normal' ? 1 : 0;
-
-                let level, cls;
-                if(score <= 3){level='低风险';cls='bg-success';}
-                else if(score <= 6){level='中低风险';cls='bg-secondary';}
-                else if(score <= 9){level='中风险';cls='bg-warning';}
-                else if(score <= 12){level='中高风险';cls='bg-orange-500';}
-                else{level='高风险';cls='bg-danger';}
-                const badge = document.getElementById('risk-level-badge');
-                badge.textContent = level;
-                badge.className = `inline-block px-6 py-2 rounded-full text-white text-xl font-bold mb-4 ${cls}`;
-
-                function updateBar(id, val, max){
-                    const pct = (val / max) * 100;
-                    const bar = document.getElementById(`${id}-bar`);
-                    bar.style.width = pct + '%';
-                    if(pct < 30){bar.className='bg-success h-2 rounded-full';document.getElementById(`${id}-score`).textContent='低';}
-                    else if(pct < 60){bar.className='bg-warning h-2 rounded-full';document.getElementById(`${id}-score`).textContent='中';}
-                    else{bar.className='bg-danger h-2 rounded-full';document.getElementById(`${id}-score`).textContent='高';}
-                }
-                updateBar('hypertension', hp==='yes'?2:0,2);
-                updateBar('diabetes', db==='yes'?2:0,2);
-                updateBar('heart', (heart==='yes'?2:0)+(family==='yes'?1:0),3);
-                updateBar('lifestyle', (smoke==='yes'?2:0)+(drink==='often'?2:drink==='sometimes'?1:0)+(move==='never'?2:move==='sometimes'?1:0)+(salt==='salty'?2:salt==='normal'?1:0),8);
-
-                const recBox = document.getElementById('health-recommendations');
-                let html = '<li>每周150分钟快走、太极等中等强度运动</li><li>每日食盐≤5g，多蔬菜少肥肉</li><li>居家配备智能血压仪，测前静坐5分钟定期监测</li>';
-                if(hp==='yes') html += '<li>高血压人群严格遵医嘱按时服药，早晚监测血压</li>';
-                if(db==='yes') html += '<li>糖尿病控制空腹血糖4.4-7.0，餐后2小时＜10</li>';
-                if(smoke==='yes') html += '<li>立刻戒烟，远离二手烟、三手烟环境</li>';
-                if(drink!=='never') html += '<li>严格限酒，男性每日酒精≤25g，女性≤15g</li>';
-                if(move==='never') html += '<li>每天累计活动6000步，避免久坐超过1小时</li>';
-                if(salt==='salty') html += '<li>咸菜、腌肉、酱料等高盐食物全部减量</li>';
-                if(level==='中高风险'||level==='高风险') html += '<li>尽快前往医院神经内科完成脑血管筛查，学习FAST急救知识</li>';
-                recBox.innerHTML = html;
-            }
-        }
-
-        function initSymptomRecognition(){
-            const startBtn = document.getElementById('start-symptom-test');
-            const restartBtn = document.getElementById('restart-symptom-test');
-            const container = document.getElementById('symptom-test-container');
-            const resBox = document.getElementById('symptom-result');
-            const questionList = [
-                {id:1,scene:"65岁阿姨晨起单侧脸麻、嘴角歪，以为没睡好",isStroke:true,exp:"单侧面部歪斜是中风典型信号，哪怕轻微也要就医"},
-                {id:2,scene:"高血压大叔散步左手突然抬不起来，几分钟自行恢复",isStroke:true,exp:"短暂消失=小中风TIA，一周内大中风风险极高，必须急诊"},
-                {id:3,scene:"70岁老人吃饭突然说不出完整句子，手脚有力",isStroke:true,exp:"单纯失语属于语言区脑梗，不可忽视"},
-                {id:4,scene:"中年人突发炸裂式头痛伴恶心呕吐",isStroke:true,exp:"突发剧烈头痛警惕脑出血"},
-                {id:5,scene:"上班族单纯脖子酸痛，转头受限",isStroke:false,exp:"单纯颈痛无神经症状多为落枕肌肉劳损"},
-                {id:6,scene:"老人看东西重影、单侧视物模糊",isStroke:true,exp:"眼部供血血管堵塞，属于FAST-ED新增预警"},
-                {id:7,scene:"起床短暂头晕，休息半小时缓解",isStroke:false,exp:"体位性低血压头晕无肢体、面部异常不属于中风"}
-            ];
-            let currentIdx = 0, rightCount = 0;
-            startBtn.onclick = startTest;
-            restartBtn.onclick = startTest;
-            function startTest(){
-                currentIdx = 0; rightCount = 0;
-                container.innerHTML = '';
-                resBox.classList.add('hidden');
-                showQuestion(currentIdx);
-                startBtn.classList.add('hidden');
-                restartBtn.classList.remove('hidden');
-            }
-            function showQuestion(i){
-                if(i >= questionList.length){
-                    resBox.classList.remove('hidden');
-                    document.getElementById('correct-count').textContent = rightCount;
-                    document.getElementById('total-count').textContent = questionList.length;
-                    container.innerHTML = '';
-                    startBtn.classList.remove('hidden');
-                    restartBtn.classList.add('hidden');
-                    return;
-                }
-                const item = questionList[i];
-                container.innerHTML = `
-                <div class="card">
-                    <h4 class="text-lg font-bold mb-3">题目${i+1}/${questionList.length}</h4>
-                    <p class="text-gray-700 mb-4">${item.scene}</p>
-                    <p class="font-medium mb-4">该情况是否为中风预警？</p>
-                    <div class="flex gap-4">
-                        <button class="answer-btn flex-1 py-3 rounded-lg border-2 border-gray-300" data-i="${i}" data-ans="true">是</button>
-                        <button class="answer-btn flex-1 py-3 rounded-lg border-2 border-gray-300" data-i="${i}" data-ans="false">否</button>
-                    </div>
-                    <div class="answer-explanation hidden mt-4 p-4 bg-light rounded-lg">
-                        <h5 class="font-bold mb-2">解析</h5>
-                        <p>${item.exp}</p>
-                        <button class="next-question-btn mt-3 px-4 py-2 bg-primary text-white rounded-lg">下一题</button>
-                    </div>
-                </div>`;
-                document.querySelectorAll('.answer-btn').forEach(btn=>{
-                    btn.onclick = function(){
-                        const userAns = this.dataset.ans === 'true';
-                        const realAns = item.isStroke;
-                        document.querySelectorAll('.answer-btn').forEach(b=>{b.disabled=true;b.classList.add('opacity-60');});
-                        if(userAns === realAns){
-                            this.classList.add('border-success','bg-success/10');
-                            rightCount++;
-                        }else{
-                            this.classList.add('border-danger','bg-danger/10');
-                            document.querySelector(`.answer-btn[data-ans="${realAns}"]`).classList.add('border-success','bg-success/10');
-                        }
-                        document.querySelector('.answer-explanation').classList.remove('hidden');
-                        document.querySelector('.next-question-btn').onclick = ()=>{currentIdx++;showQuestion(currentIdx);}
-                    }
-                })
-            }
-        }
-
-        function initFastAnimation(){
-            const playBtn = document.getElementById('play-fast-animation');
-            const pauseBtn = document.getElementById('pause-fast-animation');
-            const resetBtn = document.getElementById('reset-fast-animation');
-            const wrap = document.getElementById('fast-animation');
-            let timer, step=0, paused=false;
-            playBtn.onclick = playAnim;
-            pauseBtn.onclick = togglePause;
-            resetBtn.onclick = resetAnim;
-            function resetAnim(){
-                clearInterval(timer);
-                paused=false; step=0;
-                pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
-                wrap.innerHTML = `<div class="text-center"><div class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold mb-4 animate-pulse">F</div><p class="text-gray-600">点击播放按钮启动分步动画</p></div>`;
-                playBtn.classList.remove('hidden');
-                pauseBtn.classList.add('hidden');
-                resetBtn.classList.add('hidden');
-            }
-            function playAnim(){
-                resetAnim();
-                playBtn.classList.add('hidden');
-                pauseBtn.classList.remove('hidden');
-                resetBtn.classList.remove('hidden');
-                step=0;
-                renderStep(step);
-                timer = setInterval(()=>{
-                    if(!paused){
-                        step++;
-                        if(step>=4){
-                            clearInterval(timer);
-                            renderComplete();
-                        }else{
-                            renderStep(step);
-                        }
-                    }
-                },5000);
-            }
-            function togglePause(){
-                paused = !paused;
-                if(paused){
-                    pauseBtn.innerHTML = '<i class="fa fa-play mr-2"></i>继续';
-                    clearInterval(timer);
-                }else{
-                    pauseBtn.innerHTML = '<i class="fa fa-pause mr-2"></i>暂停';
-                    timer = setInterval(()=>{
-                        if(!paused){
-                            step++;
-                            if(step>=4){
-                                clearInterval(timer);
-                                renderComplete();
-                            }else{
-                                renderStep(step);
-                            }
-                        }
-                    },5000);
-                }
-            }
-            function renderStep(s){
-                let html = '';
-                if(s === 0){
-                    html = `
-                    <div class="text-center px-4">
-                        <div class="w-20 h-20 mx-auto rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold mb-4">F</div>
-                        <h4 class="text-lg font-bold mb-2">面部歪斜</h4>
-                        <p>微笑，单侧嘴角下垂、脸部麻木</p>
-                    </div>`;
-                }else if(s === 1){
-                    html = `
-                    <div class="text-center px-4">
-                        <div
+        // 计算风险
+        document.getElementById('calc-risk').onclick=()=>{
+            document.getElementById('result').classList.remove('hidden');
+        };
+    </script>
+</body>
+</html>
