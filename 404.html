@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>
-const repo = "CZH5";
-const path = location.pathname;
-if(!path.startsWith("/"+repo+"/")) location.href = "/"+repo+"/index.html";
+const repoName = "CZH5";
+if(!window.location.pathname.startsWith("/" + repoName + "/")){
+    window.location.href = "/" + repoName + "/index.html";
+}
 </script>
 </head>
 <body></body>
