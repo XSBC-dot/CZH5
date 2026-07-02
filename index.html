@@ -1,124 +1,292 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>脑卒中自测</title>
-<base href="./">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif;}
-body{background:#f5f7fa;}
-#loading{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s;}
-.circle{width:42px;height:42px;border:4px solid #0077B6;border-top:transparent;border-radius:50%;animation:loop 1s linear infinite;}
-@keyframes loop{100%{transform:rotate(360deg);}}
-.main{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:72px;}
-.page{display:none;padding:20px;min-height:calc(100vh - 72px);}
-#page-home{display:block;text-align:center;padding-top:100px;}
-.card{background:#fff;border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 1px 8px rgba(0,0,0,0.05);text-align:left;}
-.btn-blue{width:100%;background:#0077B6;color:#fff;border:0;border-radius:12px;padding:13px;font-size:16px;margin:10px 0;cursor:pointer;}
-.btn-outline{width:100%;background:#fff;color:#0077B6;border:2px solid #0077B6;border-radius:12px;padding:13px;font-size:16px;margin:10px 0;cursor:pointer;}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;background:#fff;border-top:1px solid #eee;height:70px;display:flex;}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:#666;cursor:pointer;}
-.nav-item.active{color:#0077B6;}
-select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin:8px 0;font-size:15px;}
-.radio-row{margin:8px 0;display:flex;gap:8px;}
-#result-box{display:none;text-align:center;margin-top:16px;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>卒中科普互动测试 | CZH5静态项目</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      padding: 15px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin: 20px 0;
+      color: #c93737;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .repo-desc {
+      font-size: 12px;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    .quiz-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .question {
+      margin-bottom: 22px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .question h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 15px;
+    }
+
+    .option:hover {
+      background-color: #f0f7ff;
+      border-color: #409eff;
+    }
+
+    .option.selected {
+      background-color: #e6f7ff;
+      border-color: #409eff;
+    }
+
+    .analysis {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fef0f0;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #c93737;
+      display: none;
+    }
+
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background-color: #c93737;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-submit:active {
+      background-color: #b22d2d;
+    }
+
+    .result {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      display: none;
+    }
+
+    .result h2 {
+      color: #c93737;
+      margin-bottom: 10px;
+    }
+
+    .result p {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .tips {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      text-align: left;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: #999;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+    .footer a {
+      color: #409eff;
+      text-decoration: none;
+    }
+  </style>
 </head>
+
 <body>
-<div id="loading">
-    <div class="circle"></div>
-</div>
-<div class="main">
-    <div id="page-home" class="page">
-        <div style="width:150px;height:150px;background:#e0f2fe;border-radius:50%;margin:0 auto 30px;display:flex;align-items:center;justify-content:center;font-size:58px;color:#0077B6;">脑</div>
-        <h1 style="font-size:24px;color:#111;margin-bottom:14px;">脑卒中健康自测工具</h1>
-        <p style="color:#666;margin-bottom:42px;">风险自测 | 卒中科普 | 急救知识</p>
-        <button class="btn-blue" onclick="changePage('page-test')">开始风险自测</button>
-        <button class="btn-outline" onclick="changePage('page-know')">查看科普知识</button>
+  <div class="header">
+    <h1>卒中（中风）预防知识小测试</h1>
+    <p>学习卒中知识，守护家人健康</p>
+    <p class="repo-desc">静态H5项目 · GitHub仓库：CZH5</p>
+  </div>
+
+  <div class="quiz-container" id="quiz">
+    <!-- 题目1 -->
+    <div class="question">
+      <h3>1. 下列哪项是卒中最快速的识别方法？</h3>
+      <div class="options">
+        <div class="option" data-correct="false">看脸色是否苍白</div>
+        <div class="option" data-correct="true">FAST原则（口角歪、举手难、言语异常、快打120）</div>
+        <div class="option" data-correct="false">测量血压是否升高</div>
+      </div>
+      <div class="analysis">✅ 正确答案：FAST原则是国际通用卒中快速识别法。</div>
     </div>
-    <div id="page-test" class="page">
-        <h2 style="text-align:center;margin:22px 0;font-size:20px;">卒中风险问卷</h2>
-        <div class="card">
-            <label>年龄区间</label>
-            <select id="age-input">
-                <option value="">请选择</option>
-                <option value="1">40岁以下</option>
-                <option value="2">40-49岁</option>
-                <option value="3">50-59岁</option>
-                <option value="4">60岁以上</option>
-            </select>
-        </div>
-        <div class="card">
-            <label>是否患有高血压</label>
-            <div class="radio-row">
-                <input type="radio" name="hp" value="yes" id="hpy">
-                <label for="hpy">是</label>
-            </div>
-            <div class="radio-row">
-                <input type="radio" name="hp" value="no" id="hpn">
-                <label for="hpn">否</label>
-            </div>
-        </div>
-        <div class="card">
-            <label>是否长期吸烟</label>
-            <div class="radio-row">
-                <input type="radio" name="smoke" value="yes" id="smokey">
-                <label for="smokey">是</label>
-            </div>
-            <div class="radio-row">
-                <input type="radio" name="smoke" value="no" id="smoken">
-                <label for="smoken">否</label>
-            </div>
-        </div>
-        <button class="btn-blue" onclick="showRisk()">查看评估结果</button>
-        <div id="result-box" class="card">
-            <h3>风险等级：<span style="color:#0077B6;font-size:19px;">低风险</span></h3>
-            <p style="margin-top:10px;color:#555;">坚持健康生活，定期体检复查</p>
-        </div>
+
+    <!-- 题目2 -->
+    <div class="question">
+      <h3>2. 以下哪项是卒中的高危因素？</h3>
+      <div class="options">
+        <div class="option" data-correct="true">高血压、糖尿病、高血脂、房颤</div>
+        <div class="option" data-correct="false">经常运动、饮食清淡</div>
+        <div class="option" data-correct="false">睡眠充足、心情平稳</div>
+      </div>
+      <div class="analysis">✅ 正确答案：三高与房颤是卒中最主要危险因素。</div>
     </div>
-    <div id="page-know" class="page">
-        <h2 style="text-align:center;margin:22px 0;font-size:20px;">FAST卒中识别口诀</h2>
-        <div class="card">
-            <p style="margin:9px 0;"><b>F面部</b>：微笑单侧脸歪、面部麻木</p>
-            <p style="margin:9px 0;"><b>A手臂</b>：单侧手臂无力抬不起来</p>
-            <p style="margin:9px 0;"><b>S语言</b>：说话含糊、听不懂他人话语</p>
-            <p style="margin:9px 0;"><b>T时间</b>：立刻拨打120急救电话</p>
-            <p style="margin-top:20px;color:#d00000;font-weight:bold;">出现任意一项，马上就医！</p>
-        </div>
+
+    <!-- 题目3 -->
+    <div class="question">
+      <h3>3. 发现疑似卒中患者，第一步应该做什么？</h3>
+      <div class="options">
+        <div class="option" data-correct="false">喂水喂药</div>
+        <div class="option" data-correct="false">让患者平躺休息</div>
+        <div class="option" data-correct="true">立即拨打120，送往有卒中中心的医院</div>
+      </div>
+      <div class="analysis">✅ 正确答案：时间就是大脑，切勿喂水喂药！</div>
     </div>
-</div>
-<div class="bottom-nav">
-    <div class="nav-item active" onclick="changePage('page-home')">
-        <span style="font-size:18px;">🏠</span>
-        <span>首页</span>
+
+    <!-- 题目4 -->
+    <div class="question">
+      <h3>4. 关于卒中，以下说法正确的是？</h3>
+      <div class="options">
+        <div class="option" data-correct="false">只有老年人才会得卒中</div>
+        <div class="option" data-correct="true">年轻人也可能发生卒中</div>
+        <div class="option" data-correct="false">卒中无法预防</div>
+      </div>
+      <div class="analysis">✅ 正确答案：熬夜、压力大、三高年轻化，卒中也会年轻化。</div>
     </div>
-    <div class="nav-item" onclick="changePage('page-test')">
-        <span style="font-size:18px;">📋</span>
-        <span>自测</span>
+
+    <!-- 题目5 -->
+    <div class="question">
+      <h3>5. 预防卒中，最有效的生活方式是？</h3>
+      <div class="options">
+        <div class="option" data-correct="false">多吃补品、保健品</div>
+        <div class="option" data-correct="true">低盐饮食、规律运动、戒烟限酒、控制三高</div>
+        <div class="option" data-correct="false">偶尔体检即可</div>
+      </div>
+      <div class="analysis">✅ 正确答案：健康生活方式是预防卒中的基石。</div>
     </div>
-    <div class="nav-item" onclick="changePage('page-know')">
-        <span style="font-size:18px;">📖</span>
-        <span>科普</span>
+
+    <button class="btn-submit" onclick="submitQuiz()">提交答案</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>测试完成</h2>
+    <p id="scoreText"></p>
+    <div class="tips">
+      <strong>健康小贴士：</strong><br>
+      • 记住FAST口诀，早识别、早急救<br>
+      • 控制血压、血糖、血脂是预防关键<br>
+      • 规律作息、健康饮食、坚持运动<br>
+      • 定期体检，远离卒中风险
     </div>
-</div>
-<script>
-window.onload = function(){
-    const loadDom = document.getElementById("loading");
-    loadDom.style.opacity = "0";
-    setTimeout(()=>loadDom.style.display = "none", 300);
-}
-function changePage(targetId){
-    document.querySelectorAll(".page").forEach(p=>{
-        p.style.display = "none";
-    })
-    document.getElementById(targetId).style.display = "block";
-    document.querySelectorAll(".nav-item").forEach(nav=>nav.classList.remove("active"));
-    event.currentTarget.classList.add("active");
-}
-function showRisk(){
-    document.getElementById("result-box").style.display = "block";
-}
-</script>
+  </div>
+
+  <div class="footer">
+    <p>项目托管于 GitHub <a href="https://github.com/你的用户名/CZH5" target="_blank">CZH5</a> | 纯静态H5，无后端依赖</p>
+  </div>
+
+  <script>
+    // 选项点击选中
+    document.querySelectorAll(".option").forEach(item => {
+      item.addEventListener("click", function () {
+        const parent = this.closest(".options");
+        parent.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
+        this.classList.add("selected");
+      });
+    });
+
+    // 提交判分逻辑
+    function submitQuiz() {
+      let score = 0;
+      const questions = document.querySelectorAll(".question");
+
+      questions.forEach((q) => {
+        const selected = q.querySelector(".option.selected");
+        const analysis = q.querySelector(".analysis");
+
+        if (selected) {
+          analysis.style.display = "block";
+          if (selected.dataset.correct === "true") {
+            score++;
+          }
+        }
+      });
+
+      document.getElementById("quiz").style.display = "none";
+      const result = document.getElementById("result");
+      result.style.display = "block";
+
+      const total = questions.length;
+      document.getElementById("scoreText").innerHTML =
+        `你的得分：${score} / ${total}分<br>${getLevel(score, total)}`;
+    }
+
+    // 分数评级
+    function getLevel(score, total) {
+      const rate = score / total;
+      if (rate === 1) return "🎉 满分！你是卒中科普小达人！";
+      if (rate >= 0.8) return "👍 优秀！卒中知识掌握很棒！";
+      if (rate >= 0.6) return "😊 合格！继续学习更健康！";
+      return "😉 加油！多学卒中知识，守护健康！";
+    }
+  </script>
 </body>
 </html>
