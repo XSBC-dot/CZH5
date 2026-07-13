@@ -1,292 +1,2906 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>卒中科普互动测试 | CZH5静态项目</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Microsoft YaHei", sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#c94545" />
+<title>2026脑卒中全周期防控科普测试 | CZH5静态项目</title>
+<style>
+/* ========== CSS 变量与重置 ========== */
+:root {
+  --primary: #c94545;
+  --primary-light: #e87878;
+  --primary-dark: #a83636;
+  --primary-bg: #fef2f2;
+  --primary-border: #f5c6c6;
+  --background: #fdf9f8;
+  --card: #ffffff;
+  --foreground: #2d2a2a;
+  --muted-foreground: #787171;
+  --border: #ece5e5;
+  --muted: #f5f0f0;
+  --accent: #fef2f2;
+  --success: #4a9d6f;
+  --success-bg: #eef7f1;
+  --warning: #e0a23a;
+  --warning-bg: #fdf6e9;
+  --destructive: #d94f4f;
+  --destructive-bg: #fef0f0;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --shadow-primary: 0 6px 16px rgba(201, 69, 69, 0.25);
+}
 
-    body {
-      background-color: #f5f7fa;
-      color: #333;
-      padding: 15px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    .header {
-      text-align: center;
-      margin: 20px 0;
-      color: #c93737;
-    }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
 
-    .header h1 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
+body {
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
 
-    .header p {
-      font-size: 14px;
-      color: #666;
-    }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul, ol { list-style: none; }
 
-    .repo-desc {
-      font-size: 12px;
-      color: #888;
-      margin-top: 6px;
-    }
+/* ========== 工具类 ========== */
+.hidden { display: none !important; }
+.fade-in { animation: fadeIn 0.3s ease-out; }
+.fade-in-up { animation: fadeInUp 0.35s ease-out; }
 
-    .quiz-container {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      margin-bottom: 30px;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
 
-    .question {
-      margin-bottom: 22px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eee;
-    }
+/* ========== 顶部渐变 Banner ========== */
+.hero-banner {
+  background: linear-gradient(135deg, var(--primary) 0%, #d46060 50%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 48px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 28px 28px;
+}
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -30px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  filter: blur(10px);
+}
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  filter: blur(8px);
+}
+.hero-date {
+  font-size: 13px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.hero-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 12px;
+  position: relative;
+  z-index: 1;
+}
+.hero-subtitle {
+  font-size: 15px;
+  opacity: 0.9;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+}
 
-    .question h3 {
-      font-size: 16px;
-      margin-bottom: 12px;
-      color: #222;
-      line-height: 1.5;
-    }
+/* ========== 通用卡片 ========== */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  padding: 18px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-desc {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-bottom: 14px;
+}
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+/* ========== 四大科普入口卡片 ========== */
+.science-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px;
+  margin-top: -18px;
+  position: relative;
+  z-index: 2;
+}
+.science-card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+.science-card:active {
+  transform: scale(0.97);
+}
+.science-card-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.science-card-icon.red { background: var(--primary-bg); }
+.science-card-icon.orange { background: var(--warning-bg); }
+.science-card-icon.blue { background: #eef4fb; }
+.science-card-icon.green { background: var(--success-bg); }
+.science-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.science-card-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+.science-card-arrow {
+  position: absolute;
+  bottom: 10px; right: 12px;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  font-size: 14px;
+}
 
-    .option {
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 15px;
-    }
+/* ========== 风险自测 ========== */
+.section-wrap {
+  padding: 0 16px;
+  margin-top: 20px;
+}
+.risk-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.risk-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 18px;
+}
+.risk-title-group h2 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.risk-title-group p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
 
-    .option:hover {
-      background-color: #f0f7ff;
-      border-color: #409eff;
-    }
+.risk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.risk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.risk-item.checked {
+  border-color: var(--primary);
+  background: var(--primary-bg);
+}
+.risk-checkbox {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 2px solid #d8d0d0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+.risk-item.checked .risk-checkbox {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.risk-checkbox svg {
+  width: 14px; height: 14px;
+  stroke: #fff;
+  stroke-width: 3;
+  fill: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.risk-item.checked .risk-checkbox svg { opacity: 1; }
+.risk-item-text { flex: 1; min-width: 0; }
+.risk-item-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+.risk-item-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 1px;
+}
 
-    .option.selected {
-      background-color: #e6f7ff;
-      border-color: #409eff;
-    }
+/* 风险结果卡片 */
+.risk-result {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  display: none;
+}
+.risk-result.show {
+  display: block;
+  animation: fadeInUp 0.3s ease-out;
+}
+.risk-result-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.risk-level-tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+.risk-level-tag.high { background: var(--destructive); }
+.risk-level-tag.medium { background: var(--warning); }
+.risk-level-tag.low { background: var(--success); }
+.risk-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+.risk-suggestion {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--foreground);
+  opacity: 0.85;
+}
 
-    .analysis {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #fef0f0;
-      border-radius: 6px;
-      font-size: 14px;
-      color: #c93737;
-      display: none;
-    }
+/* ========== 主按钮 ========== */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), #d65a5a);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: 17px;
+  font-weight: 600;
+  box-shadow: var(--shadow-primary);
+  transition: all 0.15s ease;
+  text-align: center;
+}
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 10px rgba(201, 69, 69, 0.2);
+}
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--card);
+  color: var(--foreground);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xl);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+  background: var(--muted);
+}
 
-    .btn-submit {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background-color: #c93737;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+/* ========== 底部说明 ========== */
+.footer-note {
+  text-align: center;
+  padding: 8px 20px 4px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.footer-note .info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px; height: 14px;
+  margin-right: 4px;
+  vertical-align: -2px;
+}
+.footer-repo {
+  text-align: center;
+  padding: 6px 20px 20px;
+  font-size: 11px;
+  color: #a89f9f;
+}
+.footer-repo a {
+  color: var(--primary);
+  font-weight: 500;
+}
 
-    .btn-submit:active {
-      background-color: #b22d2d;
-    }
+/* ========== 底部 Tab 导航 ========== */
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 40;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab-bar-inner {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0 6px;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+.tab-item.active { color: var(--primary); }
+.tab-item svg {
+  width: 24px; height: 24px;
+  stroke-width: 1.8;
+  transition: transform 0.2s ease;
+}
+.tab-item.active svg {
+  stroke-width: 2.2;
+  transform: scale(1.08);
+}
 
-    .result {
-      text-align: center;
-      padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      display: none;
-    }
+/* ========== 悬浮科普按钮 ========== */
+.floating-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 84px;
+  z-index: 30;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #d65a5a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-primary);
+  transition: all 0.2s ease;
+}
+.floating-btn:active { transform: scale(0.92); }
+.floating-btn svg { width: 26px; height: 26px; }
+.floating-btn .close-icon { display: none; }
+.floating-btn.open .book-icon { display: none; }
+.floating-btn.open .close-icon { display: block; }
 
-    .result h2 {
-      color: #c93737;
-      margin-bottom: 10px;
-    }
+/* 悬浮面板 */
+.floating-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 148px;
+  z-index: 30;
+  width: 170px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: none;
+}
+.floating-panel.show {
+  display: block;
+  animation: fadeInUp 0.25s ease-out;
+}
+.floating-panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  padding: 1px;
+}
+.floating-panel-item {
+  background: var(--card);
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.floating-panel-item:active { background: var(--muted); }
+.floating-panel-item svg {
+  width: 22px; height: 22px;
+  color: var(--primary);
+}
 
-    .result p {
-      font-size: 16px;
-      margin: 8px 0;
-    }
+/* 遮罩 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 45;
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+.overlay.show { display: block; }
 
-    .tips {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #666;
-      line-height: 1.6;
-      text-align: left;
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 8px;
-    }
+/* ========== 科普弹窗 ========== */
+.modal {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 100%;
+  max-width: 480px;
+  max-height: 82vh;
+  background: var(--card);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  display: none;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal.show { display: block; }
+.modal-handle {
+  text-align: center;
+  padding: 10px 0 4px;
+}
+.modal-handle-bar {
+  width: 40px; height: 5px;
+  border-radius: 999px;
+  background: #ddd5d5;
+  margin: 0 auto;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 20px 14px;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.modal-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+.modal-close:active { background: #e8e0e0; }
+.modal-body {
+  padding: 0 20px 28px;
+}
+.modal-body p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--foreground);
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+.modal-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background: var(--muted);
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+.modal-step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--primary-bg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.modal-step-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.modal-step-desc {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+.modal-warning {
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-border);
+  border-radius: 14px;
+}
+.modal-warning-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+.modal-warning-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--foreground);
+  opacity: 0.8;
+}
+.modal-list { margin: 10px 0; }
+.modal-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 4px 0;
+  color: var(--foreground);
+  opacity: 0.85;
+}
+.modal-list li .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-top: 9px;
+  flex-shrink: 0;
+}
+.modal-list.green li .dot { background: var(--success); }
+.modal-list.red li .dot { background: var(--destructive); }
 
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 12px;
-      color: #999;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-    .footer a {
-      color: #409eff;
-      text-decoration: none;
-    }
-  </style>
+.time-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+.time-card {
+  padding: 14px;
+  border-radius: 14px;
+  text-align: center;
+}
+.time-card.red { background: var(--primary-bg); }
+.time-card.orange { background: var(--warning-bg); }
+.time-card-num {
+  font-size: 22px;
+  font-weight: 700;
+}
+.time-card.red .time-card-num { color: var(--primary); }
+.time-card.orange .time-card-num { color: var(--warning); }
+.time-card-label {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+/* 全周期时间线 */
+.phases-timeline {
+  position: relative;
+  padding-left: 28px;
+  margin: 14px 0;
+}
+.phases-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px; top: 6px; bottom: 6px;
+  width: 1px;
+  background: var(--border);
+}
+.phase-item {
+  position: relative;
+  margin-bottom: 12px;
+}
+.phase-item:last-child { margin-bottom: 0; }
+.phase-dot {
+  position: absolute;
+  left: -28px; top: 4px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phase-content {
+  background: var(--muted);
+  padding: 12px;
+  border-radius: 12px;
+}
+.phase-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.phase-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+/* ========== 答题页 ========== */
+.quiz-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(253, 249, 248, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.quiz-progress-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.quiz-progress-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+.quiz-progress-text strong {
+  font-size: 20px;
+  color: var(--primary);
+  font-weight: 700;
+}
+.quiz-restart {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  background: var(--muted);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.quiz-restart:active { background: #e8e0e0; }
+.quiz-restart svg { width: 14px; height: 14px; }
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.quiz-content {
+  padding: 20px 16px 100px;
+}
+.quiz-module-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.quiz-module-tag svg { width: 14px; height: 14px; }
+
+.quiz-question {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--foreground);
+  margin-bottom: 24px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.quiz-option:active:not(.disabled) { transform: scale(0.99); }
+.quiz-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-bg);
+}
+.quiz-option.correct {
+  border-color: var(--success);
+  background: var(--success-bg);
+}
+.quiz-option.wrong {
+  border-color: var(--destructive);
+  background: var(--destructive-bg);
+}
+.quiz-option.disabled { cursor: default; opacity: 0.6; }
+.quiz-option.disabled.selected { opacity: 1; }
+.quiz-option.disabled.correct,
+.quiz-option.disabled.wrong { opacity: 1; }
+
+.quiz-option-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.quiz-option.selected .quiz-option-letter {
+  background: var(--primary);
+  color: #fff;
+}
+.quiz-option.correct .quiz-option-letter {
+  background: var(--success);
+  color: #fff;
+}
+.quiz-option.wrong .quiz-option-letter {
+  background: var(--destructive);
+  color: #fff;
+}
+.quiz-option-text {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--foreground);
+}
+.quiz-option-icon {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  display: none;
+}
+.quiz-option.correct .quiz-option-icon { display: block; color: var(--success); }
+.quiz-option.wrong .quiz-option-icon { display: block; color: var(--destructive); }
+
+/* 解析卡片 */
+.explanation-card {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  display: none;
+}
+.explanation-card.show {
+  display: block;
+  animation: fadeInUp 0.3s ease-out;
+}
+.explanation-card.correct {
+  background: var(--success-bg);
+  border: 1px solid #c6e6d4;
+}
+.explanation-card.wrong {
+  background: var(--destructive-bg);
+  border: 1px solid #f5c6c6;
+}
+.explanation-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.explanation-header svg { width: 22px; height: 22px; }
+.explanation-card.correct .explanation-header { color: var(--success); }
+.explanation-card.wrong .explanation-header { color: var(--destructive); }
+.explanation-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.explanation-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+.explanation-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--foreground);
+  opacity: 0.85;
+}
+
+/* 底部固定提交按钮 */
+.quiz-bottom-bar {
+  position: fixed;
+  bottom: 60px;
+  left: 0; right: 0;
+  z-index: 20;
+  padding: 12px 16px;
+  background: linear-gradient(to top, var(--background) 60%, transparent);
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+.quiz-bottom-bar-inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+.quiz-submit-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+.quiz-submit-btn.primary {
+  background: linear-gradient(135deg, var(--primary), #d65a5a);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+.quiz-submit-btn.primary:active { transform: scale(0.98); }
+.quiz-submit-btn.disabled {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ========== 结果页 ========== */
+.result-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #d46060 50%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 44px 20px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+}
+.result-hero::before,
+.result-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  filter: blur(10px);
+}
+.result-hero::before {
+  top: -30px; right: -20px;
+  width: 140px; height: 140px;
+}
+.result-hero::after {
+  bottom: -10px; left: -30px;
+  width: 120px; height: 120px;
+}
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+.result-badge svg { width: 16px; height: 16px; }
+.result-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 分数圆环 */
+.result-score-card {
+  margin: -44px 16px 0;
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  padding: 28px 20px 22px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.score-ring-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+}
+.score-ring-bg {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 12;
+}
+.score-ring-fill {
+  fill: none;
+  stroke: url(#scoreGradient);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.score-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.score-num {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--foreground);
+  line-height: 1;
+}
+.score-label {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+.score-grade-tag {
+  margin-top: 8px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--muted);
+}
+.score-desc {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}
+
+/* 模块统计 */
+.module-stats-section {
+  padding: 20px 16px 0;
+}
+.module-stats-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.module-stats-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-bottom: 14px;
+}
+.module-stat-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.module-stat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.module-stat-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.module-stat-icon svg { width: 18px; height: 18px; }
+.module-stat-info { flex: 1; min-width: 0; }
+.module-stat-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+.module-stat-score {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.module-stat-bar {
+  height: 6px;
+  background: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.module-stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.8s ease;
+  width: 0;
+}
+.module-stat-bar-fill.high { background: var(--success); }
+.module-stat-bar-fill.mid { background: var(--warning); }
+.module-stat-bar-fill.low { background: var(--destructive); }
+
+.module-keypoints {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.module-keypoint {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  padding: 2px 0;
+}
+.module-keypoint svg {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.module-keypoint.correct svg { color: var(--success); }
+.module-keypoint.wrong svg { color: var(--destructive); }
+
+.result-actions {
+  padding: 20px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ========== 科普大全页 ========== */
+.science-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #d46060 50%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 44px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 28px 28px;
+}
+.science-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -30px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  filter: blur(10px);
+}
+.science-hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+.science-hero-title svg { width: 26px; height: 26px; }
+.science-hero-subtitle {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 中风120速记卡 */
+.stroke120-card {
+  margin: -18px 16px 0;
+  background: linear-gradient(135deg, #fef2f2, #fff7ed);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #fecaca;
+  position: relative;
+  z-index: 2;
+}
+.stroke120-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.stroke120-card-header svg {
+  width: 22px; height: 22px;
+  color: var(--primary);
+}
+.stroke120-card-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.stroke120-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.stroke120-item {
+  background: rgba(255,255,255,0.85);
+  border-radius: 14px;
+  padding: 10px 6px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.stroke120-anim {
+  position: relative;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.stroke120-num {
+  position: absolute;
+  top: -2px; left: 2px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.stroke120-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.stroke120-desc {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+  margin-top: 1px;
+}
+.stroke120-warn {
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* 脸部动画 */
+.face-shape {
+  position: relative;
+  width: 40px; height: 44px;
+  border-radius: 45%;
+  border: 2px solid #f5a0a0;
+  background: #fef2f2;
+  animation: faceSkew 3.5s ease-in-out infinite;
+}
+.face-eye-l {
+  position: absolute;
+  top: 14px; left: 7px;
+  width: 8px; height: 3px;
+  border-radius: 999px;
+  background: #e07070;
+  opacity: 0.7;
+}
+.face-eye-r {
+  position: absolute;
+  top: 14px; right: 7px;
+  width: 8px; height: 3px;
+  border-radius: 999px;
+  background: #e07070;
+  opacity: 0.7;
+  animation: eyeDroop 3.5s ease-in-out infinite;
+}
+.face-mouth {
+  position: absolute;
+  bottom: 10px; left: 50%;
+  width: 18px; height: 3px;
+  margin-left: -9px;
+  border-radius: 999px;
+  background: #e07070;
+  opacity: 0.65;
+  transform-origin: left center;
+  animation: mouthSlant 3.5s ease-in-out infinite;
+}
+@keyframes faceSkew {
+  0%, 45%, 100% { transform: rotate(0deg); }
+  55%, 85% { transform: rotate(-4deg); }
+}
+@keyframes eyeDroop {
+  0%, 45%, 100% { height: 3px; opacity: 0.7; top: 14px; }
+  55%, 85% { height: 1.5px; opacity: 0.45; top: 15px; }
+}
+@keyframes mouthSlant {
+  0%, 45%, 100% { transform: rotate(0deg); }
+  55%, 85% { transform: rotate(-10deg); }
+}
+
+/* 手臂动画 */
+.arm-figure {
+  position: relative;
+  width: 36px; height: 44px;
+}
+.arm-head {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 14px; height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  border: 2px solid #f5a0a0;
+  background: #fef2f2;
+}
+.arm-body {
+  position: absolute;
+  top: 13px; left: 50%;
+  width: 20px; height: 24px;
+  margin-left: -10px;
+  border-radius: 8px 8px 0 0;
+  border: 2px solid #f5a0a0;
+  border-bottom: none;
+  background: rgba(254, 242, 242, 0.5);
+}
+.arm-left {
+  position: absolute;
+  top: 15px; left: 0;
+  width: 3px; height: 16px;
+  border-radius: 999px;
+  background: #f5a0a0;
+  transform-origin: top center;
+}
+.arm-right {
+  position: absolute;
+  top: 15px; right: 0;
+  width: 3px; height: 16px;
+  border-radius: 999px;
+  background: #e07070;
+  transform-origin: top center;
+  animation: armDrop 3.5s ease-in-out infinite;
+}
+@keyframes armDrop {
+  0%, 40%, 100% { transform: rotate(0deg); }
+  50%, 80% { transform: rotate(30deg); }
+}
+
+/* 语音动画 */
+.speech-bubble {
+  position: relative;
+  width: 42px; height: 36px;
+  background: #fef2f2;
+  border: 1px solid #f5c6c6;
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding-bottom: 2px;
+}
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; left: 6px;
+  width: 8px; height: 8px;
+  background: #fef2f2;
+  border-right: 1px solid #f5c6c6;
+  border-bottom: 1px solid #f5c6c6;
+  transform: rotate(45deg);
+}
+.speech-wave {
+  height: 3px;
+  border-radius: 999px;
+  background: #e07070;
+}
+.speech-wave.w1 {
+  width: 20px;
+  opacity: 0.5;
+  animation: wave1 2.8s ease-in-out infinite;
+}
+.speech-wave.w2 {
+  width: 16px;
+  opacity: 0.4;
+  animation: wave2 2.8s ease-in-out infinite 0.3s;
+}
+.speech-wave.w3 {
+  width: 14px;
+  opacity: 0.3;
+  animation: wave3 2.8s ease-in-out infinite 0.6s;
+}
+@keyframes wave1 {
+  0%, 100% { opacity: 0.3; width: 14px; }
+  50% { opacity: 0.6; width: 20px; }
+}
+@keyframes wave2 {
+  0%, 100% { opacity: 0.25; width: 10px; }
+  50% { opacity: 0.5; width: 16px; }
+}
+@keyframes wave3 {
+  0%, 100% { opacity: 0.2; width: 8px; }
+  50% { opacity: 0.4; width: 14px; }
+}
+
+/* 科普模块折叠 */
+.science-modules {
+  padding: 20px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.module-accordion {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.module-accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+.module-accordion-header:active { background: var(--muted); }
+.module-accordion-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.module-accordion-icon svg { width: 20px; height: 20px; }
+.module-accordion-info { flex: 1; min-width: 0; }
+.module-accordion-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.module-accordion-summary {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.module-accordion-chevron {
+  width: 20px; height: 20px;
+  color: var(--muted-foreground);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.module-accordion.open .module-accordion-chevron {
+  transform: rotate(180deg);
+}
+.module-accordion-content {
+  display: none;
+  padding: 0 16px 18px;
+  border-top: 1px solid var(--border);
+  animation: fadeIn 0.25s ease;
+}
+.module-accordion.open .module-accordion-content {
+  display: block;
+}
+.module-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0;
+}
+.module-tag {
+  padding: 4px 10px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.module-tag:active { background: #fcd9d9; }
+
+.subtopic {
+  scroll-margin-top: 80px;
+}
+.subtopic-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+.subtopic-title-bar {
+  width: 4px; height: 16px;
+  border-radius: 999px;
+  background: var(--primary);
+}
+.subtopic-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--foreground);
+  opacity: 0.85;
+}
+.subtopic-keypoints {
+  margin-top: 8px;
+  padding-left: 0;
+}
+.subtopic-keypoints li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  padding: 3px 0;
+}
+.subtopic-keypoints li svg {
+  width: 14px; height: 14px;
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 3px;
+  opacity: 0.7;
+}
+.subtopic-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0 4px;
+}
+
+/* 免责声明 */
+.disclaimer {
+  text-align: center;
+  padding: 12px 20px 24px;
+  font-size: 11px;
+  color: #b0a8a8;
+  line-height: 1.6;
+}
+
+/* 页面切换动画 */
+.page {
+  display: none;
+  min-height: 100vh;
+}
+.page.active {
+  display: block;
+}
+</style>
 </head>
-
 <body>
-  <div class="header">
-    <h1>卒中（中风）预防知识小测试</h1>
-    <p>学习卒中知识，守护家人健康</p>
-    <p class="repo-desc">静态H5项目 · GitHub仓库：CZH5</p>
+
+<!-- SVG 图标定义（全局复用） -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c94545" />
+      <stop offset="100%" style="stop-color:#e87878" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ========== 首页 ========== -->
+<div id="page-home" class="page active">
+  <!-- 顶部 Banner -->
+  <div class="hero-banner">
+    <div class="hero-date">
+      <span id="hero-date"></span>
+      <span class="hero-badge">卒中防控科普</span>
+    </div>
+    <h1 class="hero-title">2026 脑卒中<br/>全周期防控指南</h1>
+    <p class="hero-subtitle">早识别 · 快急救 · 勤预防 · 重康复</p>
   </div>
 
-  <div class="quiz-container" id="quiz">
-    <!-- 题目1 -->
-    <div class="question">
-      <h3>1. 下列哪项是卒中最快速的识别方法？</h3>
-      <div class="options">
-        <div class="option" data-correct="false">看脸色是否苍白</div>
-        <div class="option" data-correct="true">FAST原则（口角歪、举手难、言语异常、快打120）</div>
-        <div class="option" data-correct="false">测量血压是否升高</div>
-      </div>
-      <div class="analysis">✅ 正确答案：FAST原则是国际通用卒中快速识别法。</div>
-    </div>
-
-    <!-- 题目2 -->
-    <div class="question">
-      <h3>2. 以下哪项是卒中的高危因素？</h3>
-      <div class="options">
-        <div class="option" data-correct="true">高血压、糖尿病、高血脂、房颤</div>
-        <div class="option" data-correct="false">经常运动、饮食清淡</div>
-        <div class="option" data-correct="false">睡眠充足、心情平稳</div>
-      </div>
-      <div class="analysis">✅ 正确答案：三高与房颤是卒中最主要危险因素。</div>
-    </div>
-
-    <!-- 题目3 -->
-    <div class="question">
-      <h3>3. 发现疑似卒中患者，第一步应该做什么？</h3>
-      <div class="options">
-        <div class="option" data-correct="false">喂水喂药</div>
-        <div class="option" data-correct="false">让患者平躺休息</div>
-        <div class="option" data-correct="true">立即拨打120，送往有卒中中心的医院</div>
-      </div>
-      <div class="analysis">✅ 正确答案：时间就是大脑，切勿喂水喂药！</div>
-    </div>
-
-    <!-- 题目4 -->
-    <div class="question">
-      <h3>4. 关于卒中，以下说法正确的是？</h3>
-      <div class="options">
-        <div class="option" data-correct="false">只有老年人才会得卒中</div>
-        <div class="option" data-correct="true">年轻人也可能发生卒中</div>
-        <div class="option" data-correct="false">卒中无法预防</div>
-      </div>
-      <div class="analysis">✅ 正确答案：熬夜、压力大、三高年轻化，卒中也会年轻化。</div>
-    </div>
-
-    <!-- 题目5 -->
-    <div class="question">
-      <h3>5. 预防卒中，最有效的生活方式是？</h3>
-      <div class="options">
-        <div class="option" data-correct="false">多吃补品、保健品</div>
-        <div class="option" data-correct="true">低盐饮食、规律运动、戒烟限酒、控制三高</div>
-        <div class="option" data-correct="false">偶尔体检即可</div>
-      </div>
-      <div class="analysis">✅ 正确答案：健康生活方式是预防卒中的基石。</div>
-    </div>
-
-    <button class="btn-submit" onclick="submitQuiz()">提交答案</button>
+  <!-- 四大科普入口 -->
+  <div class="science-grid">
+    <button class="science-card" onclick="openModal('stroke120')">
+      <div class="science-card-icon red">⚡</div>
+      <div class="science-card-title">中风120识别</div>
+      <div class="science-card-desc">三步快速识别</div>
+      <span class="science-card-arrow">›</span>
+    </button>
+    <button class="science-card" onclick="openModal('firstAid')">
+      <div class="science-card-icon orange">🛡️</div>
+      <div class="science-card-title">急救指导</div>
+      <div class="science-card-desc">黄金时间处置</div>
+      <span class="science-card-arrow">›</span>
+    </button>
+    <button class="science-card" onclick="switchTab('science')">
+      <div class="science-card-icon blue">🧠</div>
+      <div class="science-card-title">全周期科普</div>
+      <div class="science-card-desc">预防·急救·康复</div>
+      <span class="science-card-arrow">›</span>
+    </button>
+    <button class="science-card" onclick="scrollToRisk()">
+      <div class="science-card-icon green">❤️</div>
+      <div class="science-card-title">风险自评</div>
+      <div class="science-card-desc">5项快速评估</div>
+      <span class="science-card-arrow">›</span>
+    </button>
   </div>
 
-  <div class="result" id="result">
-    <h2>测试完成</h2>
-    <p id="scoreText"></p>
-    <div class="tips">
-      <strong>健康小贴士：</strong><br>
-      • 记住FAST口诀，早识别、早急救<br>
-      • 控制血压、血糖、血脂是预防关键<br>
-      • 规律作息、健康饮食、坚持运动<br>
-      • 定期体检，远离卒中风险
+  <!-- 风险自测 -->
+  <div class="section-wrap" id="risk-test">
+    <div class="card">
+      <div class="risk-header">
+        <div class="risk-icon">⚠️</div>
+        <div class="risk-title-group">
+          <h2>卒中风险自测</h2>
+          <p>勾选高危因素，自动评估风险等级</p>
+        </div>
+      </div>
+      <div class="risk-list" id="risk-list">
+        <!-- JS 渲染 -->
+      </div>
+      <div class="risk-result" id="risk-result">
+        <div class="risk-result-header">
+          <span class="risk-level-tag" id="risk-level-tag">低风险</span>
+          <span class="risk-count" id="risk-count">已选 0 项</span>
+        </div>
+        <p class="risk-suggestion" id="risk-suggestion"></p>
+      </div>
     </div>
   </div>
 
-  <div class="footer">
-    <p>项目托管于 GitHub <a href="https://github.com/你的用户名/CZH5" target="_blank">CZH5</a> | 纯静态H5，无后端依赖</p>
+  <!-- 开始测试主按钮 -->
+  <div class="section-wrap">
+    <button class="btn-primary" onclick="startQuiz()">
+      开始知识测试
+    </button>
   </div>
 
-  <script>
-    // 选项点击选中
-    document.querySelectorAll(".option").forEach(item => {
-      item.addEventListener("click", function () {
-        const parent = this.closest(".options");
-        parent.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
-        this.classList.add("selected");
-      });
-    });
+  <!-- 底部说明 -->
+  <div class="footer-note">
+    <span class="info-icon">ℹ️</span>
+    本内容仅供科普参考，不能替代专业医疗诊断
+  </div>
+  <div class="footer-repo">
+    CZH5 静态科普项目 · <a href="https://github.com/xsbc-dot/CZH5" target="_blank" rel="noopener">GitHub 仓库</a>
+  </div>
+</div>
 
-    // 提交判分逻辑
-    function submitQuiz() {
-      let score = 0;
-      const questions = document.querySelectorAll(".question");
+<!-- ========== 答题页 ========== -->
+<div id="page-quiz" class="page">
+  <div class="quiz-topbar">
+    <div class="quiz-progress-info">
+      <div class="quiz-progress-text">
+        第 <strong id="quiz-current">1</strong><span style="color:var(--muted-foreground);font-size:14px;"> / <span id="quiz-total">10</span> 题</span>
+      </div>
+      <button class="quiz-restart" onclick="restartQuiz()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        重新开始
+      </button>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-bar-fill" id="quiz-progress-fill" style="width:10%"></div>
+    </div>
+  </div>
 
-      questions.forEach((q) => {
-        const selected = q.querySelector(".option.selected");
-        const analysis = q.querySelector(".analysis");
+  <div class="quiz-content" id="quiz-content">
+    <!-- JS 渲染题目 -->
+  </div>
 
-        if (selected) {
-          analysis.style.display = "block";
-          if (selected.dataset.correct === "true") {
-            score++;
-          }
+  <div class="quiz-bottom-bar">
+    <div class="quiz-bottom-bar-inner">
+      <button class="quiz-submit-btn primary" id="quiz-submit-btn" onclick="submitAnswer()">
+        提交答案
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 结果页 ========== -->
+<div id="page-result" class="page">
+  <div class="result-hero">
+    <div class="result-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      测试完成
+    </div>
+    <h1 class="result-title" id="result-title">卒中防控达人</h1>
+  </div>
+
+  <div class="result-score-card">
+    <div class="score-ring-wrap">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="score-ring-bg" cx="80" cy="80" r="70" />
+        <circle class="score-ring-fill" id="score-ring" cx="80" cy="80" r="70" />
+      </svg>
+      <div class="score-text">
+        <div class="score-num" id="score-num">0</div>
+        <div class="score-label">总分 100 分</div>
+        <div class="score-grade-tag" id="score-grade-tag">优秀</div>
+      </div>
+    </div>
+    <p class="score-desc" id="score-desc"></p>
+  </div>
+
+  <div class="module-stats-section">
+    <h2 class="module-stats-title">各模块掌握情况</h2>
+    <p class="module-stats-desc">点击展开查看对应模块核心要点</p>
+    <div id="module-stats-list">
+      <!-- JS 渲染 -->
+    </div>
+  </div>
+
+  <div class="result-actions">
+    <button class="btn-primary" onclick="restartQuiz()">重新测试</button>
+    <button class="btn-secondary" onclick="switchTab('home')">返回首页</button>
+  </div>
+
+  <div class="disclaimer" style="padding-top:20px;">
+    本内容仅供科普参考，不能替代专业医疗诊断与治疗<br/>
+    CZH5 静态科普项目 · <a href="https://github.com/xsbc-dot/CZH5" target="_blank" rel="noopener" style="color:var(--primary)">GitHub 仓库</a>
+  </div>
+</div>
+
+<!-- ========== 科普大全页 ========== -->
+<div id="page-science" class="page">
+  <div class="science-hero">
+    <h1 class="science-hero-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+      科普大全
+    </h1>
+    <p class="science-hero-subtitle">系统了解脑卒中全周期防控知识</p>
+  </div>
+
+  <!-- 中风120速记卡 -->
+  <div class="stroke120-card">
+    <div class="stroke120-card-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <h3>中风120 速记卡</h3>
+    </div>
+    <div class="stroke120-grid">
+      <div class="stroke120-item">
+        <div class="stroke120-anim">
+          <span class="stroke120-num">1</span>
+          <div class="face-shape">
+            <div class="face-eye-l"></div>
+            <div class="face-eye-r"></div>
+            <div class="face-mouth"></div>
+          </div>
+        </div>
+        <div class="stroke120-title">看脸</div>
+        <div class="stroke120-desc">不对称<br/>口角歪</div>
+      </div>
+      <div class="stroke120-item">
+        <div class="stroke120-anim">
+          <span class="stroke120-num">2</span>
+          <div class="arm-figure">
+            <div class="arm-head"></div>
+            <div class="arm-body"></div>
+            <div class="arm-left"></div>
+            <div class="arm-right"></div>
+          </div>
+        </div>
+        <div class="stroke120-title">查臂</div>
+        <div class="stroke120-desc">单侧<br/>无力下垂</div>
+      </div>
+      <div class="stroke120-item">
+        <div class="stroke120-anim">
+          <span class="stroke120-num">0</span>
+          <div class="speech-bubble">
+            <div class="speech-wave w1"></div>
+            <div class="speech-wave w2"></div>
+            <div class="speech-wave w3"></div>
+          </div>
+        </div>
+        <div class="stroke120-title">聆听</div>
+        <div class="stroke120-desc">言语<br/>说不清</div>
+      </div>
+    </div>
+    <div class="stroke120-warn">
+      ⚠ 出现任一症状，立即拨打 120！
+    </div>
+  </div>
+
+  <!-- 五大模块折叠面板 -->
+  <div class="science-modules" id="science-modules">
+    <!-- JS 渲染 -->
+  </div>
+
+  <div class="disclaimer">
+    本内容仅供科普参考，不能替代专业医疗诊断与治疗<br/>
+    CZH5 静态科普项目 · <a href="https://github.com/xsbc-dot/CZH5" target="_blank" rel="noopener" style="color:var(--primary)">GitHub 仓库</a>
+  </div>
+</div>
+
+<!-- ========== 底部 Tab 导航 ========== -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <button class="tab-item active" data-tab="home" onclick="switchTab('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      首页
+    </button>
+    <button class="tab-item" data-tab="quiz" onclick="switchTab('quiz')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+      知识测试
+    </button>
+    <button class="tab-item" data-tab="science" onclick="switchTab('science')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+      科普大全
+    </button>
+  </div>
+</nav>
+
+<!-- ========== 悬浮科普按钮 ========== -->
+<button class="floating-btn" id="floating-btn" onclick="toggleFloating()">
+  <svg class="book-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+  <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+</button>
+
+<div class="floating-panel" id="floating-panel">
+  <div class="floating-panel-grid">
+    <div class="floating-panel-item" onclick="quickEntry('stroke120')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      中风120
+    </div>
+    <div class="floating-panel-item" onclick="quickEntry('firstAid')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+      急救指导
+    </div>
+    <div class="floating-panel-item" onclick="switchTab('science');toggleFloating();">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+      全周期科普
+    </div>
+    <div class="floating-panel-item" onclick="switchTab('home');toggleFloating();setTimeout(scrollToRisk,100);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      风险自评
+    </div>
+  </div>
+</div>
+
+<!-- 遮罩 -->
+<div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+<!-- ========== 科普弹窗 ========== -->
+<!-- 中风120 -->
+<div class="modal" id="modal-stroke120">
+  <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+  <div class="modal-header">
+    <h3 class="modal-title">中风120 识别口诀</h3>
+    <button class="modal-close" onclick="closeModal('stroke120')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>「中风120」是我国推广的脑卒中快速识别口诀。出现以下任一症状，请立即拨打 120 急救电话。</p>
+    <div class="modal-step">
+      <div class="modal-step-num">1</div>
+      <div>
+        <div class="modal-step-title">看一张脸</div>
+        <div class="modal-step-desc">面部是否对称，有无口角歪斜、流口水</div>
+      </div>
+    </div>
+    <div class="modal-step">
+      <div class="modal-step-num">2</div>
+      <div>
+        <div class="modal-step-title">查两只胳膊</div>
+        <div class="modal-step-desc">平行举起时是否单侧无力下垂、握力减弱</div>
+      </div>
+    </div>
+    <div class="modal-step">
+      <div class="modal-step-num">0</div>
+      <div>
+        <div class="modal-step-title">聆听说话</div>
+        <div class="modal-step-desc">是否言语不清、表达困难、听不懂别人说话</div>
+      </div>
+    </div>
+    <div class="modal-warning">
+      <div class="modal-warning-title">⚠ 重要提醒</div>
+      <p class="modal-warning-text">
+        出现任何一项疑似症状，不要等待症状自行缓解，立即拨打 120！时间就是大脑，每一分钟都至关重要。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 急救指导 -->
+<div class="modal" id="modal-firstAid">
+  <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+  <div class="modal-header">
+    <h3 class="modal-title">急救指导</h3>
+    <button class="modal-close" onclick="closeModal('firstAid')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="time-grid">
+      <div class="time-card red">
+        <div class="time-card-num">4.5h</div>
+        <div class="time-card-label">静脉溶栓</div>
+      </div>
+      <div class="time-card orange">
+        <div class="time-card-num">6-8h</div>
+        <div class="time-card-label">机械取栓</div>
+      </div>
+    </div>
+    <p style="margin-top:4px;">缺血性脑卒中黄金救治时间极短，越早治疗预后越好。</p>
+    <h4 style="font-size:15px;font-weight:600;margin:14px 0 8px;">✅ 正确做法</h4>
+    <ul class="modal-list green">
+      <li><span class="dot"></span>立即拨打 120 急救电话</li>
+      <li><span class="dot"></span>让患者平卧，头偏向一侧</li>
+      <li><span class="dot"></span>记录发病准确时间</li>
+      <li><span class="dot"></span>保持呼吸道通畅</li>
+      <li><span class="dot"></span>解开衣领，保持通风</li>
+    </ul>
+    <h4 style="font-size:15px;font-weight:600;margin:14px 0 8px;">❌ 禁止操作</h4>
+    <ul class="modal-list red">
+      <li><span class="dot"></span>不要自行喂药、喂水</li>
+      <li><span class="dot"></span>不要随意搬动患者</li>
+      <li><span class="dot"></span>不要摇晃或拍打患者</li>
+      <li><span class="dot"></span>不要等待症状自行消失</li>
+      <li><span class="dot"></span>不要自行驾车送医</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 全周期科普 -->
+<div class="modal" id="modal-fullCycle">
+  <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+  <div class="modal-header">
+    <h3 class="modal-title">全周期防控科普</h3>
+    <button class="modal-close" onclick="closeModal('fullCycle')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>脑卒中防控是一个全周期的系统工程，涵盖预防、急救、康复、防复发多个阶段。</p>
+    <div class="phases-timeline">
+      <div class="phase-item">
+        <div class="phase-dot">1</div>
+        <div class="phase-content">
+          <div class="phase-title">预防期</div>
+          <div class="phase-desc">控制三高、健康生活、定期筛查</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot">2</div>
+        <div class="phase-content">
+          <div class="phase-title">急性期</div>
+          <div class="phase-desc">快速识别、黄金时间、规范救治</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot">3</div>
+        <div class="phase-content">
+          <div class="phase-title">恢复期</div>
+          <div class="phase-desc">3-6个月黄金康复期、系统训练</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot">4</div>
+        <div class="phase-content">
+          <div class="phase-title">维持期</div>
+          <div class="phase-desc">二级预防、长期用药、定期复查</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px;background:var(--muted);border-radius:14px;">
+      <div style="font-size:14px;font-weight:600;">💡 核心理念</div>
+      <p style="font-size:13px;line-height:1.7;color:var(--muted-foreground);margin-top:4px;margin-bottom:0;">
+        预防为先、急救要快、康复要早、长期管理。每个阶段都不可忽视，才能最大程度降低卒中危害。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 风险自评说明 -->
+<div class="modal" id="modal-riskSelfTest">
+  <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+  <div class="modal-header">
+    <h3 class="modal-title">风险自评说明</h3>
+    <button class="modal-close" onclick="closeModal('riskSelfTest')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>本自测基于 5 项常见脑卒中高危因素设计，帮助您初步了解自身风险水平。</p>
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--success-bg);border-radius:14px;margin-bottom:10px;">
+      <div style="font-size:24px;">🟢</div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--success);">低风险</div>
+        <div style="font-size:12px;color:var(--muted-foreground);">0-1 项：保持健康生活方式，每年常规体检</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--warning-bg);border-radius:14px;margin-bottom:10px;">
+      <div style="font-size:24px;">🟡</div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--warning);">中风险</div>
+        <div style="font-size:12px;color:var(--muted-foreground);">2-3 项：定期体检监测，积极改善生活方式</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--destructive-bg);border-radius:14px;">
+      <div style="font-size:24px;">🔴</div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--destructive);">高风险</div>
+        <div style="font-size:12px;color:var(--muted-foreground);">4-5 项：建议尽快到医院进行专项筛查</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted-foreground);margin-top:14px;margin-bottom:0;">
+      * 本自测仅供初步参考，不能替代专业医疗评估。如有疑虑请及时就医咨询。
+    </p>
+  </div>
+</div>
+
+<script>
+/* ============ 数据定义 ============ */
+
+// 风险因素
+const RISK_FACTORS = [
+  { id: 'hypertension', label: '高血压', desc: '收缩压≥140mmHg' },
+  { id: 'diabetes', label: '糖尿病', desc: '空腹血糖≥7.0mmol/L' },
+  { id: 'hyperlipidemia', label: '高血脂', desc: '总胆固醇≥6.2mmol/L' },
+  { id: 'smoking', label: '吸烟', desc: '长期吸烟或二手烟暴露' },
+  { id: 'inactivity', label: '缺乏运动', desc: '每周运动少于3次' },
+];
+
+// 风险等级规则
+const RISK_LEVELS = [
+  { level: 'high', min: 4, max: 5, title: '高风险', suggestion: '建议尽快到医院神经内科进行脑卒中专项筛查，遵医嘱控制基础疾病。', color: '#d94f4f', bgColor: '#fef0f0' },
+  { level: 'medium', min: 2, max: 3, title: '中风险', suggestion: '存在多项危险因素，建议定期体检监测血压血糖血脂，改善生活方式。', color: '#e0a23a', bgColor: '#fdf6e9' },
+  { level: 'low', min: 0, max: 1, title: '低风险', suggestion: '风险较低，继续保持健康生活方式，每年常规体检即可。', color: '#4a9d6f', bgColor: '#eef7f1' },
+];
+
+// 题库（10道，覆盖五大模块）
+const QUIZ_QUESTIONS = [
+  {
+    id: '1',
+    question: '脑卒中最常见的类型是？',
+    options: ['缺血性脑卒中', '出血性脑卒中', '蛛网膜下腔出血', '短暂性脑缺血发作'],
+    correctIndex: 0,
+    explanation: '缺血性脑卒中约占所有脑卒中的70%-80%，是最常见类型，由脑血管堵塞导致脑组织缺血坏死。',
+    module: 'principle',
+  },
+  {
+    id: '2',
+    question: '以下哪项属于脑卒中不可控危险因素？',
+    options: ['高血压', '吸烟', '年龄增长', '缺乏运动'],
+    correctIndex: 2,
+    explanation: '年龄、性别、遗传等属于不可控因素；高血压、吸烟、缺乏运动等可通过积极干预控制。',
+    module: 'prevention',
+  },
+  {
+    id: '3',
+    question: '「中风120」口诀中「1」代表什么？',
+    options: ['1查两只手臂', '1看一张脸', '1听语言', '1打120'],
+    correctIndex: 1,
+    explanation: '中风120口诀：1看一张脸是否对称，2查两只手臂是否单侧无力，0（聆）听语言是否清晰。',
+    module: 'recognition',
+  },
+  {
+    id: '4',
+    question: '静脉溶栓的黄金时间窗是发病后多少小时内？',
+    options: ['2小时', '4.5小时', '8小时', '12小时'],
+    correctIndex: 1,
+    explanation: '急性缺血性脑卒中静脉溶栓的黄金时间窗为发病后4.5小时内，越早治疗预后越好。',
+    module: 'recognition',
+  },
+  {
+    id: '5',
+    question: '脑卒中后康复的黄金期是发病后多长时间？',
+    options: ['1个月内', '3-6个月', '1年内', '2年内'],
+    correctIndex: 1,
+    explanation: '发病后3-6个月是康复黄金期，此阶段神经功能恢复最快，应积极进行系统康复训练。',
+    module: 'rehabilitation',
+  },
+  {
+    id: '6',
+    question: '脑卒中二级预防的核心是？',
+    options: ['只需要服药', '只需要康复训练', '长期用药+定期复查', '只需要饮食控制'],
+    correctIndex: 2,
+    explanation: '二级预防需要坚持长期规范用药并定期复查，控制三高，降低复发风险，不可自行停药。',
+    module: 'rehabilitation',
+  },
+  {
+    id: '7',
+    question: '卒中后抑郁的发生率约为多少？',
+    options: ['10%以下', '约30%-50%', '约70%', '几乎100%'],
+    correctIndex: 1,
+    explanation: '卒中后抑郁发生率约30%-50%，需早期识别和积极干预，家属支持非常重要。',
+    module: 'psychology',
+  },
+  {
+    id: '8',
+    question: '以下哪项是高血压患者预防脑卒中的正确做法？',
+    options: ['血压正常就停药', '长期规律服用降压药', '只靠饮食控制', '只在头晕时服药'],
+    correctIndex: 1,
+    explanation: '高血压是脑卒中首要危险因素，患者需长期规律服用降压药，保持血压稳定达标。',
+    module: 'prevention',
+  },
+  {
+    id: '9',
+    question: '发现疑似中风患者，以下哪项做法是错误的？',
+    options: ['立即拨打120', '记录发病时间', '给患者喂水喂药', '保持呼吸道通畅'],
+    correctIndex: 2,
+    explanation: '中风发作时切勿随意喂水喂药，可能引起误吸或加重病情，应等待专业急救人员。',
+    module: 'recognition',
+  },
+  {
+    id: '10',
+    question: '脑卒中患者居家康复训练应遵循什么原则？',
+    options: ['越多越好', '循序渐进、持之以恒', '只练上肢', '只练下肢'],
+    correctIndex: 1,
+    explanation: '居家康复应遵循循序渐进、持之以恒的原则，在专业指导下进行全面功能训练。',
+    module: 'rehabilitation',
+  },
+];
+
+// 模块标签
+const MODULE_LABELS = {
+  principle: '原理与危害',
+  prevention: '预防与筛查',
+  recognition: '识别与急救',
+  rehabilitation: '康复与防复发',
+  psychology: '心理与社会融入',
+};
+
+// 科普五大模块内容
+const SCIENCE_MODULES = [
+  {
+    id: '1',
+    title: '原理与危害',
+    icon: 'brain',
+    summary: '了解脑卒中的发病机制与疾病负担',
+    subTopics: [
+      {
+        title: '什么是脑卒中',
+        content: '脑卒中俗称「中风」，是一种急性脑血管疾病，分为缺血性和出血性两大类。缺血性卒中占70%-80%，由脑血管堵塞导致脑组织缺血坏死；出血性卒中占20%-30%，由脑血管破裂出血引起。',
+        keyPoints: ['缺血性卒中：脑血管堵塞', '出血性卒中：脑血管破裂', '发病急、进展快、危害大'],
+      },
+      {
+        title: '疾病负担与危害',
+        content: '我国脑卒中发病率居世界首位，每年新发脑卒中约280万例，死亡约150万例。存活者中约75%留有不同程度的残疾，给家庭和社会带来沉重负担。',
+        keyPoints: ['高发病率', '高致残率', '高死亡率', '高复发率'],
+      },
+    ],
+  },
+  {
+    id: '2',
+    title: '预防与筛查',
+    icon: 'shield',
+    summary: '掌握高危因素管理与筛查策略',
+    subTopics: [
+      {
+        title: '高危因素管理',
+        content: '脑卒中的危险因素分为不可控因素（年龄、性别、遗传、种族）和可控因素（高血压、糖尿病、高血脂、吸烟、饮酒、肥胖、缺乏运动等）。积极控制可控因素可显著降低发病风险。',
+        keyPoints: ['高血压是首要危险因素', '控制血糖血脂', '戒烟限酒', '规律运动'],
+      },
+      {
+        title: '分年龄筛查策略',
+        content: '40岁以上人群应定期进行脑卒中风险筛查。高危人群建议每年筛查一次，包括血压、血糖、血脂、颈动脉超声等检查。有家族史或慢性病人群应提前筛查。',
+        keyPoints: ['40岁以上定期筛查', '高危人群每年一次', '颈动脉超声是重要手段'],
+      },
+    ],
+  },
+  {
+    id: '3',
+    title: '识别与急救',
+    icon: 'activity',
+    summary: '牢记中风120口诀，把握黄金救治时间',
+    subTopics: [
+      {
+        title: '中风120识别口诀',
+        content: '"1看"——看一张脸，是否对称、口角歪斜；"2查"——查两只胳膊，平行举起时是否单侧无力下垂；"0听"——聆听说话，是否言语不清、表达困难。出现任一症状立即拨打120。',
+        keyPoints: ['1看：脸不对称', '2查：胳膊单侧无力', '0听：说话不清', '立即拨打120'],
+      },
+      {
+        title: '黄金救治时间',
+        content: '缺血性脑卒中发病后4.5小时内是静脉溶栓的黄金时间，6-8小时内可考虑机械取栓。越早治疗，脑组织损伤越小，预后越好。时间就是大脑！',
+        keyPoints: ['静脉溶栓：4.5小时内', '机械取栓：6-8小时内', '时间就是大脑'],
+      },
+      {
+        title: '现场急救流程',
+        content: '发现卒中症状后，立即拨打120急救电话。让患者平卧，头偏向一侧防止呕吐物窒息。不要随意搬动患者，不要自行喂药或喂食。记录发病时间，配合急救人员转运。',
+        keyPoints: ['立即拨打120', '平卧头偏一侧', '禁止自行喂药', '记录发病时间'],
+      },
+    ],
+  },
+  {
+    id: '4',
+    title: '康复与防复发',
+    icon: 'sparkles',
+    summary: '规范康复路径，坚持二级预防',
+    subTopics: [
+      {
+        title: '三段式康复路径',
+        content: '脑卒中康复分为急性期（发病后1-4周）、恢复期（1-6个月）和居家维持期（6个月后）。发病后病情稳定即可开始康复训练，3-6个月是黄金康复期。',
+        keyPoints: ['急性期：床上被动训练', '恢复期：主动功能训练', '黄金康复期：3-6个月', '坚持长期康复'],
+      },
+      {
+        title: '二级预防规范',
+        content: '脑卒中复发率高，二级预防至关重要。包括长期规律服用抗血小板/抗凝药物、控制血压血糖血脂、定期复查、健康生活方式等。不可自行停药或减药。',
+        keyPoints: ['长期规律用药', '定期复查', '控制三高', '不可自行停药'],
+      },
+    ],
+  },
+  {
+    id: '5',
+    title: '心理与社会融入',
+    icon: 'heart',
+    summary: '关注心理健康，重建社会功能',
+    subTopics: [
+      {
+        title: '卒中后抑郁干预',
+        content: '约30%-50%的脑卒中患者会出现抑郁情绪，表现为情绪低落、兴趣减退、睡眠障碍等。家属应多陪伴鼓励，及时识别抑郁信号，必要时寻求专业心理干预和药物治疗。',
+        keyPoints: ['发病率30%-50%', '早识别早干预', '心理疏导+药物治疗', '家属支持很重要'],
+      },
+      {
+        title: '社会功能重建',
+        content: '根据患者功能恢复情况，分层次进行社会功能重建。从日常生活自理开始，逐步恢复家庭角色和社会参与。鼓励患者参加社区活动和病友互助小组。',
+        keyPoints: ['生活自理是基础', '逐步恢复社会角色', '参与社区活动', '病友互助支持'],
+      },
+    ],
+  },
+];
+
+/* ============ 状态管理 ============ */
+
+const STORAGE_KEYS = {
+  QUIZ: '__stroke_quiz_state',
+  RISK: '__stroke_risk_selected',
+};
+
+let quizState = loadQuizState();
+let selectedRiskFactors = loadRiskFactors();
+let currentModal = null;
+let floatingOpen = false;
+
+function loadQuizState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.QUIZ);
+    if (saved) return JSON.parse(saved);
+  } catch (e) {}
+  return {
+    currentIndex: 0,
+    answers: {},
+    score: 0,
+    isCompleted: false,
+    moduleStats: initModuleStats(),
+  };
+}
+
+function saveQuizState() {
+  try {
+    localStorage.setItem(STORAGE_KEYS.QU, JSON.stringify(quizState));
+  } catch (e) {}
+}
+
+function initModuleStats() {
+  const stats = {};
+  QUIZ_QUESTIONS.forEach(q => {
+    if (!stats[q.module]) stats[q.module] = { total: 0, correct: 0 };
+    stats[q.module].total += 1;
+  });
+  return stats;
+}
+
+function resetQuizState() {
+  quizState = {
+    currentIndex: 0,
+    answers: {},
+    score: 0,
+    isCompleted: false,
+    moduleStats: initModuleStats(),
+  };
+  saveQuizState();
+}
+
+function loadRiskFactors() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEYS.RISK);
+    if (saved) return JSON.parse(saved);
+  } catch (e) {}
+  return [];
+}
+
+function saveRiskFactors() {
+  try {
+    localStorage.setItem(STORAGE_KEYS.RISK, JSON.stringify(selectedRiskFactors));
+  } catch (e) {}
+}
+
+/* ============ Tab 切换（Hash 路由） ============ */
+
+function switchTab(tab) {
+  // 更新 hash
+  if (tab === 'home') {
+    location.hash = '#/';
+  } else {
+    location.hash = '#/' + tab;
+  }
+  closeAllModals();
+  closeFloating();
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderActivePage() {
+  const hash = location.hash.replace('#/', '') || 'home';
+  let activeTab = 'home';
+  
+  if (hash === 'quiz') activeTab = 'quiz';
+  else if (hash === 'science') activeTab = 'science';
+  else if (hash === 'result') activeTab = 'result';
+  else activeTab = 'home';
+
+  // 隐藏所有页面
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // 显示目标页面
+  const target = document.getElementById('page-' + activeTab);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  // 更新 tab 激活态
+  document.querySelectorAll('.tab-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.tab === activeTab);
+  });
+
+  // 结果页特殊处理：渲染分数
+  if (activeTab === 'result') {
+    renderResultPage();
+  }
+  // 答题页特殊处理
+  if (activeTab === 'quiz') {
+    renderQuizQuestion();
+  }
+}
+
+window.addEventListener('hashchange', renderActivePage);
+
+/* ============ 首页：风险自测 ============ */
+
+function renderRiskList() {
+  const list = document.getElementById('risk-list');
+  list.innerHTML = RISK_FACTORS.map(factor => {
+    const checked = selectedRiskFactors.includes(factor.id);
+    return `
+      <button class="risk-item ${checked ? 'checked' : ''}" onclick="toggleRiskFactor('${factor.id}')">
+        <div class="risk-checkbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="risk-item-text">
+          <div class="risk-item-label">${factor.label}</div>
+          <div class="risk-item-desc">${factor.desc}</div>
+        </div>
+      </button>
+    `;
+  }).join('');
+
+  updateRiskResult();
+}
+
+function toggleRiskFactor(id) {
+  if (selectedRiskFactors.includes(id)) {
+    selectedRiskFactors = selectedRiskFactors.filter(f => f !== id);
+  } else {
+    selectedRiskFactors.push(id);
+  }
+  saveRiskFactors();
+  renderRiskList();
+}
+
+function getRiskLevel(count) {
+  return RISK_LEVELS.find(l => count >= l.min && count <= l.max) || RISK_LEVELS[2];
+}
+
+function updateRiskResult() {
+  const count = selectedRiskFactors.length;
+  const level = getRiskLevel(count);
+  const resultEl = document.getElementById('risk-result');
+  
+  if (count > 0) {
+    resultEl.classList.add('show');
+    resultEl.style.background = level.bgColor;
+  } else {
+    resultEl.classList.remove('show');
+    return;
+  }
+
+  const tagEl = document.getElementById('risk-level-tag');
+  tagEl.textContent = level.title;
+  tagEl.className = 'risk-level-tag ' + level.level;
+
+  document.getElementById('risk-count').textContent = `已选 ${count} 项`;
+  document.getElementById('risk-suggestion').textContent = level.suggestion;
+}
+
+function scrollToRisk() {
+  const el = document.getElementById('risk-test');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ============ 答题页 ============ */
+
+function startQuiz() {
+  // 检查是否有未完成的进度
+  if (quizState.isCompleted) {
+    resetQuizState();
+  }
+  switchTab('quiz');
+}
+
+function restartQuiz() {
+  resetQuizState();
+  switchTab('quiz');
+}
+
+let quizSubmitted = false;
+let quizSelectedOption = null;
+
+function renderQuizQuestion() {
+  const q = QUIZ_QUESTIONS[quizState.currentIndex];
+  if (!q) return;
+
+  // 恢复状态
+  const savedAnswer = quizState.answers[quizState.currentIndex];
+  if (savedAnswer !== undefined) {
+    quizSubmitted = true;
+    quizSelectedOption = savedAnswer;
+  } else {
+    quizSubmitted = false;
+    quizSelectedOption = null;
+  }
+
+  // 更新进度
+  document.getElementById('quiz-current').textContent = quizState.currentIndex + 1;
+  document.getElementById('quiz-total').textContent = QUIZ_QUESTIONS.length;
+  const progress = ((quizState.currentIndex + 1) / QUIZ_QUESTIONS.length) * 100;
+  document.getElementById('quiz-progress-fill').style.width = progress + '%';
+
+  const moduleLabel = MODULE_LABELS[q.module] || '';
+  
+  const optionsHtml = q.options.map((opt, i) => {
+    let cls = 'quiz-option';
+    if (quizSubmitted) {
+      cls += ' disabled';
+      if (i === q.correctIndex) cls += ' correct';
+      else if (i === quizSelectedOption && i !== q.correctIndex) cls += ' wrong';
+      else if (i === quizSelectedOption) cls += ' selected';
+    } else {
+      if (i === quizSelectedOption) cls += ' selected';
+    }
+    const letter = String.fromCharCode(65 + i);
+    const iconSvg = (i === q.correctIndex && quizSubmitted)
+      ? `<svg class="quiz-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+      : (i === quizSelectedOption && i !== q.correctIndex && quizSubmitted)
+        ? `<svg class="quiz-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`
+        : '';
+    return `
+      <button class="${cls}" onclick="selectOption(${i})" ${quizSubmitted ? 'disabled' : ''}>
+        <div class="quiz-option-letter">${letter}</div>
+        <div class="quiz-option-text">${opt}</div>
+        ${iconSvg}
+      </button>
+    `;
+  }).join('');
+
+  const isCorrect = quizSubmitted && quizSelectedOption === q.correctIndex;
+  const explanationHtml = quizSubmitted ? `
+    <div class="explanation-card show ${isCorrect ? 'correct' : 'wrong'}">
+      <div class="explanation-header">
+        ${isCorrect 
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+             <span class="explanation-title">回答正确！</span>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+             <span class="explanation-title">回答错误</span>`
         }
-      });
+      </div>
+      <div class="explanation-label">💡 知识解析</div>
+      <div class="explanation-text">${q.explanation}</div>
+    </div>
+  ` : '';
 
-      document.getElementById("quiz").style.display = "none";
-      const result = document.getElementById("result");
-      result.style.display = "block";
+  const btnText = quizSubmitted 
+    ? (quizState.currentIndex >= QUIZ_QUESTIONS.length - 1 ? '查看结果' : '下一题')
+    : '提交答案';
+  const btnCls = quizSubmitted 
+    ? 'quiz-submit-btn primary'
+    : (quizSelectedOption !== null ? 'quiz-submit-btn primary' : 'quiz-submit-btn disabled');
 
-      const total = questions.length;
-      document.getElementById("scoreText").innerHTML =
-        `你的得分：${score} / ${total}分<br>${getLevel(score, total)}`;
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="fade-in-up">
+      <div class="quiz-module-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+        ${moduleLabel}
+      </div>
+      <h2 class="quiz-question">${q.question}</h2>
+      <div class="quiz-options">
+        ${optionsHtml}
+      </div>
+      ${explanationHtml}
+    </div>
+  `;
+
+  const submitBtn = document.getElementById('quiz-submit-btn');
+  submitBtn.textContent = btnText;
+  submitBtn.className = btnCls;
+}
+
+function selectOption(index) {
+  if (quizSubmitted) return;
+  quizSelectedOption = index;
+  renderQuizQuestion();
+}
+
+function submitAnswer() {
+  if (!quizSubmitted) {
+    // 提交答案
+    if (quizSelectedOption === null) return;
+    const q = QUIZ_QUESTIONS[quizState.currentIndex];
+    const isCorrect = quizSelectedOption === q.correctIndex;
+    
+    quizState.answers[quizState.currentIndex] = quizSelectedOption;
+    if (isCorrect) {
+      quizState.score += 10;
+      if (quizState.moduleStats[q.module]) {
+        quizState.moduleStats[q.module].correct += 1;
+      }
     }
-
-    // 分数评级
-    function getLevel(score, total) {
-      const rate = score / total;
-      if (rate === 1) return "🎉 满分！你是卒中科普小达人！";
-      if (rate >= 0.8) return "👍 优秀！卒中知识掌握很棒！";
-      if (rate >= 0.6) return "😊 合格！继续学习更健康！";
-      return "😉 加油！多学卒中知识，守护健康！";
+    quizSubmitted = true;
+    saveQuizState();
+    renderQuizQuestion();
+  } else {
+    // 下一题或查看结果
+    if (quizState.currentIndex >= QUIZ_QUESTIONS.length - 1) {
+      quizState.isCompleted = true;
+      saveQuizState();
+      switchTab('result');
+    } else {
+      quizState.currentIndex += 1;
+      quizSubmitted = false;
+      quizSelectedOption = null;
+      saveQuizState();
+      renderQuizQuestion();
+      // 滚动到顶部
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  </script>
+  }
+}
+
+/* ============ 结果页 ============ */
+
+function renderResultPage() {
+  const score = quizState.score;
+  const grade = getGrade(score);
+
+  document.getElementById('result-title').textContent = grade.title;
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-grade-tag').textContent = grade.level;
+  document.getElementById('score-desc').textContent = grade.desc;
+
+  // 圆环动画
+  const ring = document.getElementById('score-ring');
+  const circumference = 2 * Math.PI * 70; // r=70
+  const offset = circumference - (score / 100) * circumference;
+  
+  // 先重置再触发动画
+  ring.style.strokeDashoffset = circumference;
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      ring.style.strokeDashoffset = offset;
+    }, 100);
+  });
+
+  // 数字动画
+  animateNumber('score-num', score);
+
+  // 模块统计
+  renderModuleStats();
+}
+
+function animateNumber(elId, target) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  let current = 0;
+  const duration = 1000;
+  const startTime = performance.now();
+  
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    current = Math.round(target * eased);
+    el.textContent = current;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+function getGrade(score) {
+  if (score >= 90) return { level: '优秀', title: '卒中防控达人', desc: '您对脑卒中防控知识掌握得非常全面，继续保持！' };
+  if (score >= 70) return { level: '良好', title: '知识储备充足', desc: '您对脑卒中防控有较好的了解，继续学习巩固吧！' };
+  if (score >= 60) return { level: '及格', title: '基础掌握尚可', desc: '您已了解基础知识，建议深入学习重点模块。' };
+  return { level: '需加强', title: '建议系统学习', desc: '脑卒中防控知识很重要，建议您系统学习科普内容。' };
+}
+
+function renderModuleStats() {
+  const list = document.getElementById('module-stats-list');
+  const modules = Object.entries(quizState.moduleStats);
+  
+  list.innerHTML = modules.map(([module, stat]) => {
+    const percent = stat.total > 0 ? (stat.correct / stat.total) * 100 : 0;
+    const level = percent >= 80 ? 'high' : percent >= 50 ? 'mid' : 'low';
+    const moduleData = SCIENCE_MODULES.find(m => MODULE_LABELS[module] === m.title);
+    const keypoints = moduleData && moduleData.subTopics[0] ? moduleData.subTopics[0].keyPoints.slice(0, 3) : [];
+    const allCorrect = percent >= 80;
+
+    const iconSvg = getModuleIconSvg(module);
+
+    return `
+      <div class="module-stat-item">
+        <div class="module-stat-header">
+          <div class="module-stat-icon">${iconSvg}</div>
+          <div class="module-stat-info">
+            <div class="module-stat-name">${MODULE_LABELS[module] || module}</div>
+          </div>
+          <div class="module-stat-score">${stat.correct}/${stat.total}</div>
+        </div>
+        <div class="module-stat-bar">
+          <div class="module-stat-bar-fill ${level}" data-width="${percent}%"></div>
+        </div>
+        <div class="module-keypoints">
+          ${keypoints.map(kp => `
+            <div class="module-keypoint ${allCorrect ? 'correct' : 'wrong'}">
+              ${allCorrect 
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'}
+              <span>${kp}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 延迟触发进度条动画
+  setTimeout(() => {
+    document.querySelectorAll('.module-stat-bar-fill').forEach(el => {
+      el.style.width = el.dataset.width;
+    });
+  }, 300);
+}
+
+function getModuleIconSvg(module) {
+  const common = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  switch (module) {
+    case 'principle':
+      return `<svg ${common}><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5a2.5 2.5 0 0 0 0 5"/><path d="M15.5 8.5a2.5 2.5 0 0 1 0 5"/></svg>`;
+    case 'prevention':
+      return `<svg ${common}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>`;
+    case 'recognition':
+      return `<svg ${common}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`;
+    case 'rehabilitation':
+      return `<svg ${common}><path d="m12 2 3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>`;
+    case 'psychology':
+      return `<svg ${common}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
+    default:
+      return `<svg ${common}><circle cx="12" cy="12" r="10"/></svg>`;
+  }
+}
+
+/* ============ 科普大全页 ============ */
+
+function renderScienceModules() {
+  const container = document.getElementById('science-modules');
+  container.innerHTML = SCIENCE_MODULES.map((mod, idx) => {
+    const iconSvg = getModuleIconSvgByName(mod.icon);
+    const subtopicsHtml = mod.subTopics.map((sub, sIdx) => `
+      <div class="subtopic" id="sub-${mod.id}-${sIdx}">
+        <h4 class="subtopic-title">
+          <span class="subtopic-title-bar"></span>
+          ${sub.title}
+        </h4>
+        <p class="subtopic-text">${sub.content}</p>
+        <ul class="subtopic-keypoints">
+          ${sub.keyPoints.map(kp => `
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>${kp}</span>
+            </li>
+          `).join('')}
+        </ul>
+        ${sIdx < mod.subTopics.length - 1 ? '<div class="subtopic-divider"></div>' : ''}
+      </div>
+    `).join('');
+
+    const tagsHtml = mod.subTopics.map((sub, sIdx) => `
+      <span class="module-tag" onclick="scrollToSubtopic('${mod.id}', ${sIdx})">${sub.title}</span>
+    `).join('');
+
+    // 默认展开第一个模块
+    const isOpen = idx === 0 ? 'open' : '';
+
+    return `
+      <div class="module-accordion ${isOpen}" id="module-${mod.id}">
+        <button class="module-accordion-header" onclick="toggleModule('${mod.id}')">
+          <div class="module-accordion-icon">${iconSvg}</div>
+          <div class="module-accordion-info">
+            <div class="module-accordion-title">${mod.title}</div>
+            <div class="module-accordion-summary">${mod.summary}</div>
+          </div>
+          <svg class="module-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="module-accordion-content">
+          <div class="module-tags">${tagsHtml}</div>
+          ${subtopicsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getModuleIconSvgByName(icon) {
+  const common = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  switch (icon) {
+    case 'brain':
+      return `<svg ${common}><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/></svg>`;
+    case 'shield':
+      return `<svg ${common}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>`;
+    case 'activity':
+      return `<svg ${common}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`;
+    case 'sparkles':
+      return `<svg ${common}><path d="m12 2 3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>`;
+    case 'heart':
+      return `<svg ${common}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
+    default:
+      return `<svg ${common}><circle cx="12" cy="12" r="10"/></svg>`;
+  }
+}
+
+function toggleModule(id) {
+  const el = document.getElementById('module-' + id);
+  if (el) {
+    el.classList.toggle('open');
+  }
+}
+
+function scrollToSubtopic(modId, subIdx) {
+  const el = document.getElementById(`sub-${modId}-${subIdx}`);
+  if (el) {
+    // 确保父级展开
+    const modEl = document.getElementById('module-' + modId);
+    if (modEl && !modEl.classList.contains('open')) {
+      modEl.classList.add('open');
+    }
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+}
+
+/* ============ 弹窗控制 ============ */
+
+function openModal(type) {
+  closeFloating();
+  const modal = document.getElementById('modal-' + type);
+  const overlay = document.getElementById('overlay');
+  if (modal) {
+    modal.classList.add('show');
+    overlay.classList.add('show');
+    currentModal = type;
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(type) {
+  const modal = document.getElementById('modal-' + type);
+  const overlay = document.getElementById('overlay');
+  if (modal) {
+    modal.classList.remove('show');
+    overlay.classList.remove('show');
+    currentModal = null;
+    document.body.style.overflow = '';
+  }
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
+  document.getElementById('overlay').classList.remove('show');
+  currentModal = null;
+  document.body.style.overflow = '';
+}
+
+/* ============ 悬浮按钮 ============ */
+
+function toggleFloating() {
+  floatingOpen = !floatingOpen;
+  const btn = document.getElementById('floating-btn');
+  const panel = document.getElementById('floating-panel');
+  const overlay = document.getElementById('overlay');
+  
+  if (floatingOpen) {
+    btn.classList.add('open');
+    panel.classList.add('show');
+    overlay.classList.add('show');
+  } else {
+    btn.classList.remove('open');
+    panel.classList.remove('show');
+    if (!currentModal) {
+      overlay.classList.remove('show');
+    }
+  }
+}
+
+function closeFloating() {
+  floatingOpen = false;
+  const btn = document.getElementById('floating-btn');
+  const panel = document.getElementById('floating-panel');
+  btn.classList.remove('open');
+  panel.classList.remove('show');
+  if (!currentModal) {
+    document.getElementById('overlay').classList.remove('show');
+  }
+}
+
+function quickEntry(type) {
+  closeFloating();
+  if (type === 'stroke120' || type === 'firstAid') {
+    openModal(type);
+  } else if (type === 'fullCycle') {
+    openModal('fullCycle');
+  } else if (type === 'riskSelfTest') {
+    openModal('riskSelfTest');
+  }
+}
+
+/* ============ 初始化 ============ */
+
+function init() {
+  // 设置日期
+  const now = new Date();
+  const dateEl = document.getElementById('hero-date');
+  if (dateEl) {
+    dateEl.textContent = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+  }
+
+  // 渲染首页风险列表
+  renderRiskList();
+
+  // 渲染科普模块
+  renderScienceModules();
+
+  // 初始化页面
+  renderActivePage();
+}
+
+// 启动
+document.addEventListener('DOMContentLoaded', init);
+
+// 如果 DOM 已就绪
+if (document.readyState !== 'loading') {
+  init();
+}
+</script>
 </body>
 </html>
